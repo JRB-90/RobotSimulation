@@ -11,7 +11,7 @@ namespace JSim.Core.SceneGraph
     /// A scene manager is used to create scenes, interact with them and clean up
     /// resources after use.
     /// </summary>
-    public interface ISceneManager
+    public interface ISceneManager : IDisposable
     {
     }
 }

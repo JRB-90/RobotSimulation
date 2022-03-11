@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.Core", "JSim.Core\JSim.Core.csproj", "{79A5CE10-46DD-4E2F-B46D-A123A69E22B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.Core", "JSim.Core\JSim.Core.csproj", "{79A5CE10-46DD-4E2F-B46D-A123A69E22B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.BasicBootstrapper", "JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj", "{CEB210FE-98E5-412C-828C-7E6255A7CA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.TestApp", "JSim.TestApp\JSim.TestApp.csproj", "{740FBB7F-E443-4CFB-A75D-0158C070F18F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.Logging", "JSim.Logging\JSim.Logging.csproj", "{FAB135A2-15C7-473F-9601-248E9CD0DCB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{79A5CE10-46DD-4E2F-B46D-A123A69E22B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79A5CE10-46DD-4E2F-B46D-A123A69E22B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79A5CE10-46DD-4E2F-B46D-A123A69E22B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEB210FE-98E5-412C-828C-7E6255A7CA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB210FE-98E5-412C-828C-7E6255A7CA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB210FE-98E5-412C-828C-7E6255A7CA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB210FE-98E5-412C-828C-7E6255A7CA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{740FBB7F-E443-4CFB-A75D-0158C070F18F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740FBB7F-E443-4CFB-A75D-0158C070F18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740FBB7F-E443-4CFB-A75D-0158C070F18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740FBB7F-E443-4CFB-A75D-0158C070F18F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

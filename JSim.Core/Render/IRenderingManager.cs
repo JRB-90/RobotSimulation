@@ -12,7 +12,7 @@ namespace JSim.Core.Render
     /// their specific rendering implementation. This may involve creating and
     /// maintaining GPU contexts/GPU memory management.
     /// </summary>
-    public interface IRenderingManager
+    public interface IRenderingManager : IDisposable
     {
     }
 }

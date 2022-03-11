@@ -10,7 +10,7 @@ namespace JSim.Core
     /// to run a robotic simulation and providing a single point of contact for
     /// external interaction with the application.
     /// </summary>
-    public interface ISimApplication
+    public interface ISimApplication : IDisposable
     {
         /// <summary>
         /// Gets the ISceneManager implementation used in the JSim application,

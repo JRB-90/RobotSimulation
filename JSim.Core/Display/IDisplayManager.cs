@@ -11,7 +11,7 @@ namespace JSim.Core.Display
     /// Display managers are responsible for managing displays and rendering
     /// surfaces used in a simulation application.
     /// </summary>
-    public interface IDisplayManager
+    public interface IDisplayManager : IDisposable
     {
     }
 }

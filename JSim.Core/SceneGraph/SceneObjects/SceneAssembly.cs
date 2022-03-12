@@ -5,10 +5,45 @@
     /// </summary>
     public class SceneAssembly : SceneObjectBase, ISceneAssembly
     {
-        public SceneAssembly(INameRepository nameRepository)
+        readonly ISceneObjectCreator creator;
+
+        public SceneAssembly(
+            INameRepository nameRepository,
+            ISceneObjectCreator creator)
           :
             base(nameRepository)
         {
+            this.creator = creator;
+            children = new List<ISceneObject>();
+        }
+
+        public SceneAssembly(
+            INameRepository nameRepository,
+            ISceneObjectCreator creator,
+            ISceneAssembly? parentAssembly)
+          :
+            base(
+                nameRepository,
+                parentAssembly)
+        {
+            this.creator = creator;
+            children = new List<ISceneObject>();
+        }
+
+        public SceneAssembly(
+            INameRepository nameRepository,
+            ISceneObjectCreator creator,
+            Guid id,
+            string name,
+            ISceneAssembly parentAssembly)
+          :
+            base(
+                nameRepository,
+                id,
+                name,
+                parentAssembly)
+        {
+            this.creator = creator;
             children = new List<ISceneObject>();
         }
 
@@ -17,33 +52,33 @@
             get => children;
         }
 
-        public bool AddChild(ISceneObject child)
+        public ISceneAssembly CreateNewAssembly()
         {
-            if (children.Contains(child))
-            {
-                return false;
-            }
-            else
-            {
-                children.Add(child);
-                // TODO - Fire event
+            ISceneAssembly assembly = creator.CreateSceneAssembly(this);
+            children.Add(assembly);
 
-                return true;
-            }
+            return assembly;
         }
 
-        public bool RemoveChild(ISceneObject child)
+        public ISceneEntity CreateNewEntity()
         {
-            if (!children.Contains(child))
+            ISceneEntity entity = creator.CreateSceneEntity(this);
+            children.Add(entity);
+
+            return entity;
+        }
+
+        public bool RemoveObject(ISceneObject sceneObject)
+        {
+            if (children.Contains(sceneObject))
             {
-                return false;
+                children.Remove(sceneObject);
+
+                return true;
             }
             else
             {
-                children.Remove(child);
-                // TODO - Fire event
-
-                return true;
+                return false;
             }
         }
 

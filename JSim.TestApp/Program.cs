@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.SceneGraph;
 using JSim.Logging;
 using System;
 
@@ -14,7 +15,11 @@ namespace JSim.TestApp
             IWindsorContainer container = BootstrapContainer();
             ISimApplication app = container.Resolve<ISimApplication>();
 
-            
+            ISceneManager sceneManager = app.SceneManager;
+            IScene scene = sceneManager.CurrentScene;
+
+            var assembly1 = scene.Root.CreateNewAssembly();
+            var entity1 = scene.Root.CreateNewEntity();
 
             app.Dispose();
 

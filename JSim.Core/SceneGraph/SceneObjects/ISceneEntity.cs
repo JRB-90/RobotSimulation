@@ -11,6 +11,5 @@
     /// </summary>
     public interface ISceneEntity : ISceneObject
     {
-        ISceneAssembly? ParentAssembly { get; }
     }
 }

@@ -11,7 +11,8 @@
         {
             this.creator = creator;
             Name = "Scene";
-            Root = creator.CreateSceneAssembly();
+            Root = creator.CreateSceneAssembly(null);
+            Root.Name = "RootAssembly";
         }
 
         public string Name { get; set; }

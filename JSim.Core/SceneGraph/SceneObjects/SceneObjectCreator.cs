@@ -27,18 +27,20 @@
 
         /// <summary>
         /// Creates a new instance of a scene assembly.
+        /// <param name="parentAssembly">Parent assembly the object is attached to.</param>
         /// </summary>
-        public ISceneAssembly CreateSceneAssembly()
+        public ISceneAssembly CreateSceneAssembly(ISceneAssembly? parentAssembly)
         {
-            return assemblyFactory.GetSceneAssembly();
+            return assemblyFactory.CreateSceneAssembly(parentAssembly);
         }
 
         /// <summary>
         /// Creates a new instance of a scene entity.
+        /// <param name="parentAssembly">Parent assembly the object is attached to.</param>
         /// </summary>
-        public ISceneEntity CreateSceneEntity()
+        public ISceneEntity CreateSceneEntity(ISceneAssembly parentAssembly)
         {
-            return entityFactory.GetSceneEntity();
+            return entityFactory.CreateSceneEntity(parentAssembly);
         }
     }
 }

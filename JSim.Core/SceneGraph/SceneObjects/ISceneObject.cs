@@ -14,6 +14,12 @@
         /// <summary>
         /// Unique name for the object.
         /// </summary>
-        string Name { get; }
+        string Name { get; set; }
+
+        /// <summary>
+        /// Parent scene assembly that this object is attached to.
+        /// Null if it is the root node.
+        /// </summary>
+        ISceneAssembly? ParentAssembly { get; }
     }
 }

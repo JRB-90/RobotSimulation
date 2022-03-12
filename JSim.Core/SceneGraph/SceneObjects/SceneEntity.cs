@@ -5,19 +5,28 @@
     /// </summary>
     public class SceneEntity : SceneObjectBase, ISceneEntity
     {
-        public SceneEntity(INameRepository nameRepository)
+        public SceneEntity(
+            INameRepository nameRepository,
+            ISceneAssembly parentAssembly)
           :
-            base(nameRepository)
+            base(
+                nameRepository,
+                parentAssembly)
         {
-            ParentAssembly = null;
         }
 
-        public ISceneAssembly? ParentAssembly
+        public SceneEntity(
+            INameRepository nameRepository,
+            Guid id,
+            string name,
+            ISceneAssembly parentAssembly)
+          :
+            base(
+                nameRepository,
+                id,
+                name,
+                parentAssembly)
         {
-            get => parentAssembly;
-            set => parentAssembly = value;
         }
-
-        private ISceneAssembly? parentAssembly;
     }
 }

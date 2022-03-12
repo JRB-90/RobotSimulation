@@ -9,6 +9,10 @@
     {
         bool IsUniqueName(string name);
 
-        string GenerateUniqueName();
+        string GenerateUniqueName(bool addAfterCreation);
+
+        bool AddName(string name);
+
+        bool RemoveName(string name);
     }
 }

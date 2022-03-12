@@ -9,11 +9,16 @@
 
         public NameRepository()
         {
-            index = 1;
+            index = 0;
             names = new List<string>();
         }
 
-        public string GenerateUniqueName()
+        public bool IsUniqueName(string name)
+        {
+            return !names.Contains(name);
+        }
+
+        public string GenerateUniqueName(bool addAfterCreation)
         {
             string generatedName;
             do
@@ -22,14 +27,40 @@
                 index++;
             } while (!IsUniqueName(generatedName));
 
-            names.Add(generatedName);
+            if (addAfterCreation)
+            {
+                names.Add(generatedName);
+            }
 
             return generatedName;
         }
 
-        public bool IsUniqueName(string name)
+        public bool AddName(string name)
         {
-            return !names.Contains(name);
+            if (names.Contains(name))
+            {
+                return false;
+            }
+            else
+            {
+                names.Add(name);
+
+                return true;
+            }
+        }
+
+        public bool RemoveName(string name)
+        {
+            if (names.Contains(name))
+            {
+                names.Remove(name);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private int index;

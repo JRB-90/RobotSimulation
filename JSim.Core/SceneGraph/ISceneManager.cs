@@ -8,12 +8,6 @@
     public interface ISceneManager : IDisposable
     {
         /// <summary>
-        /// Gets the scene object creator that is used to create all objects
-        /// in the scene graph.
-        /// </summary>
-        ISceneObjectCreator SceneObjectCreator { get; }
-
-        /// <summary>
         /// Gets the current scene.
         /// </summary>
         IScene CurrentScene { get; }

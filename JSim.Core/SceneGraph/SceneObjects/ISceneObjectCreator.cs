@@ -8,13 +8,15 @@
         /// <summary>
         /// Creates a new SceneAssembly.
         /// </summary>
+        /// <param name="parentAssembly">Parent assembly the object is attached to.</param>
         /// <returns>New SceneAssembly object.</returns>
-        ISceneAssembly CreateSceneAssembly();
+        ISceneAssembly CreateSceneAssembly(ISceneAssembly? parentAssembly);
 
         /// <summary>
         /// Creates a new SceneEntity.
         /// </summary>
+        /// <param name="parentAssembly">Parent assembly the object is attached to.</param>
         /// <returns>New SceneEntity object.</returns>
-        ISceneEntity CreateSceneEntity();
+        ISceneEntity CreateSceneEntity(ISceneAssembly parentAssembly);
     }
 }

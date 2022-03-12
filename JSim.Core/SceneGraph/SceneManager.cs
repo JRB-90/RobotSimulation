@@ -10,17 +10,13 @@
 
         public SceneManager(
             ILogger logger,
-            ISceneFactory sceneFactory,
-            ISceneObjectCreator sceneObjectCreator)
+            ISceneFactory sceneFactory)
         {
             this.logger = logger;
             this.sceneFactory = sceneFactory;
-            SceneObjectCreator = sceneObjectCreator;
             CurrentScene = sceneFactory.GetScene();
             logger.Log("SceneManager initialised", LogLevel.Debug);
         }
-
-        public ISceneObjectCreator SceneObjectCreator { get; }
 
         public IScene CurrentScene { get; private set; }
 

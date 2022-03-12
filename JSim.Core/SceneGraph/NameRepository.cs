@@ -19,6 +19,7 @@
             do
             {
                 generatedName = $"{UniqueNameBase}{index}";
+                index++;
             } while (!IsUniqueName(generatedName));
 
             names.Add(generatedName);
@@ -28,7 +29,7 @@
 
         public bool IsUniqueName(string name)
         {
-            return names.Contains(name);
+            return !names.Contains(name);
         }
 
         private int index;

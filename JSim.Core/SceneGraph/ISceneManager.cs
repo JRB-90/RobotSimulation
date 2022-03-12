@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JSim.Core.SceneGraph
+﻿namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Interface to define the behavior of all scene managers.
@@ -13,5 +7,15 @@ namespace JSim.Core.SceneGraph
     /// </summary>
     public interface ISceneManager : IDisposable
     {
+        /// <summary>
+        /// Gets the scene object creator that is used to create all objects
+        /// in the scene graph.
+        /// </summary>
+        ISceneObjectCreator SceneObjectCreator { get; }
+
+        /// <summary>
+        /// Gets the current scene.
+        /// </summary>
+        IScene CurrentScene { get; }
     }
 }

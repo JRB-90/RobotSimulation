@@ -14,7 +14,7 @@ namespace JSim.TestApp
             IWindsorContainer container = BootstrapContainer();
             ISimApplication app = container.Resolve<ISimApplication>();
 
-            // TODO - Test some basic functionality
+            
 
             app.Dispose();
 
@@ -28,7 +28,7 @@ namespace JSim.TestApp
             container.Install(
                 new BasicApplicationInstaller(),
                 Log4NetInstaller.FromEmbedded("log4netconsole.config"),
-                new DummySceneManagerInstaller(),
+                new BasicSceneManagerInstaller(),
                 new DummyRenderingManagerInstaller(),
                 new DummyDisplayManagerInstaller()
             );

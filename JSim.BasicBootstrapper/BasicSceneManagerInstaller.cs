@@ -15,7 +15,12 @@ namespace JSim.BasicBootstrapper
         {
             container.Register(
                 Component.For<INameRepository>()
+                .Named("NameRepository")
                 .ImplementedBy<NameRepository>()
+                .LifestyleTransient()
+            );
+            container.Register(
+                Component.For<INameRepositoryFactory>().AsFactory()
             );
 
             container.Register(
@@ -40,7 +45,12 @@ namespace JSim.BasicBootstrapper
 
             container.Register(
                 Component.For<ISceneObjectCreator>()
+                .Named("SceneObjectCreator")
                 .ImplementedBy<SceneObjectCreator>()
+                .LifestyleTransient()
+            );
+            container.Register(
+                Component.For<ISceneObjectCreatorFactory>().AsFactory()
             );
 
             container.Register(
@@ -54,8 +64,17 @@ namespace JSim.BasicBootstrapper
             );
 
             container.Register(
+                Component.For<ISceneIOHandler>()
+                .Named("SceneIOHandler")
+                .ImplementedBy<XmlSceneIOHandler>()
+                .LifestyleSingleton()
+            );
+
+            container.Register(
                 Component.For<ISceneManager>()
+                .Named("SceneManager")
                 .ImplementedBy<SceneManager>()
+                .LifestyleSingleton()
             );
         }
     }

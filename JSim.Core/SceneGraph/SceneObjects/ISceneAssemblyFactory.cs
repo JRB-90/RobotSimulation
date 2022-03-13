@@ -8,18 +8,28 @@
         /// <summary>
         /// Instantiates a new instance of a ISceneAssembly.
         /// </summary>
+        /// <param name="nameRepository">Name repository for the scene.</param>
+        /// <param name="creator">Scene object creator to use for creating children in the assembly.</param>
         /// <param name="parentAssembly">Parent assembly the object is attached to.</param>
         /// <returns>Instantiated scene implementation.</returns>
-        ISceneAssembly CreateSceneAssembly(ISceneAssembly? parentAssembly);
+        ISceneAssembly CreateSceneAssembly(
+            INameRepository nameRepository,
+            ISceneObjectCreator creator,
+            ISceneAssembly? parentAssembly
+        );
 
         /// <summary>
         /// Instantiates a new instance of a ISceneAssembly.
         /// </summary>
+        /// <param name="nameRepository">Name repository for the scene.</param>
+        /// <param name="creator">Scene object creator to use for creating children in the assembly.</param>
         /// <param name="id">Unique id of the object.</param>
         /// <param name="name">Unique name of the object.</param>
         /// <param name="parentAssembly">Parent assembly the object is attached to.</param>
         /// <returns>Instantiated scene implementation.</returns>
         ISceneAssembly CreateSceneAssembly(
+            INameRepository nameRepository,
+            ISceneObjectCreator creator,
             Guid id,
             string name,
             ISceneAssembly? parentAssembly

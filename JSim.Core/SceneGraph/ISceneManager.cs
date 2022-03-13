@@ -11,5 +11,22 @@
         /// Gets the current scene.
         /// </summary>
         IScene CurrentScene { get; }
+
+        /// <summary>
+        /// Removes the current scene and sets it to a blank scene.
+        /// </summary>
+        void NewScene();
+
+        /// <summary>
+        /// Saves the current scene to disk.
+        /// </summary>
+        /// <param name="path">Path to save the file to.</param>
+        void SaveScene(string path);
+
+        /// <summary>
+        /// Loads a new scene from disk.
+        /// </summary>
+        /// <param name="path">Path to the file to load from.</param>
+        void LoadScene(string path);
     }
 }

@@ -62,9 +62,27 @@ namespace JSim.Core.SceneGraph
             return assembly;
         }
 
+        public ISceneAssembly CreateNewAssembly(string name)
+        {
+            ISceneAssembly assembly = creator.CreateSceneAssembly(this);
+            assembly.Name = name;
+            children.Add(assembly);
+
+            return assembly;
+        }
+
         public ISceneEntity CreateNewEntity()
         {
             ISceneEntity entity = creator.CreateSceneEntity(this);
+            children.Add(entity);
+
+            return entity;
+        }
+
+        public ISceneEntity CreateNewEntity(string name)
+        {
+            ISceneEntity entity = creator.CreateSceneEntity(this);
+            entity.Name = name;
             children.Add(entity);
 
             return entity;

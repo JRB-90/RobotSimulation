@@ -8,15 +8,18 @@
         readonly ILogger logger;
         readonly ISceneAssemblyFactory assemblyFactory;
         readonly ISceneEntityFactory entityFactory;
+        readonly INameRepository nameRepository;
 
         public SceneObjectCreator(
             ILogger logger,
             ISceneAssemblyFactory assemblyFactory,
-            ISceneEntityFactory entityFactory)
+            ISceneEntityFactory entityFactory,
+            INameRepositoryFactory nameRepositoryFactory)
         {
             this.logger = logger;
             this.assemblyFactory = assemblyFactory;
             this.entityFactory = entityFactory;
+            nameRepository = nameRepositoryFactory.CreateNameRepository();
             logger.Log("SceneObjectCreator initialised", LogLevel.Debug);
         }
 
@@ -31,7 +34,12 @@
         /// </summary>
         public ISceneAssembly CreateSceneAssembly(ISceneAssembly? parentAssembly)
         {
-            return assemblyFactory.CreateSceneAssembly(parentAssembly);
+            return 
+                assemblyFactory.CreateSceneAssembly(
+                    nameRepository,
+                    this,
+                    parentAssembly
+                );
         }
 
         /// <summary>
@@ -40,7 +48,11 @@
         /// </summary>
         public ISceneEntity CreateSceneEntity(ISceneAssembly parentAssembly)
         {
-            return entityFactory.CreateSceneEntity(parentAssembly);
+            return 
+                entityFactory.CreateSceneEntity(
+                    nameRepository,
+                    parentAssembly
+                );
         }
     }
 }

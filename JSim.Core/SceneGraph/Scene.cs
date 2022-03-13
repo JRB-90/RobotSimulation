@@ -9,9 +9,9 @@ namespace JSim.Core.SceneGraph
     {
         readonly ISceneObjectCreator creator;
 
-        public Scene(ISceneObjectCreator creator)
+        public Scene(ISceneObjectCreatorFactory creatorFactory)
         {
-            this.creator = creator;
+            creator = creatorFactory.CreateSceneObjectCreator();
             Name = "Scene";
             Root = creator.CreateSceneAssembly(null);
             Root.Name = "RootAssembly";
@@ -20,6 +20,10 @@ namespace JSim.Core.SceneGraph
         public string Name { get; set; }
 
         public ISceneAssembly Root { get; }
+
+        public void Dispose()
+        {
+        }
 
         public IEnumerator<ISceneObject> GetEnumerator()
         {

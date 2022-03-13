@@ -5,7 +5,7 @@
     /// A scene represents an entire scene graph and provides various
     /// functionality for interacting with it, such as iterators etc.
     /// </summary>
-    public interface IScene : IEnumerable<ISceneObject>
+    public interface IScene : IEnumerable<ISceneObject>, IDisposable
     {
         /// <summary>
         /// Name of the scene.

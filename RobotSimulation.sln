@@ -5,11 +5,19 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.Core", "JSim.Core\JSim.Core.csproj", "{79A5CE10-46DD-4E2F-B46D-A123A69E22B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.BasicBootstrapper", "JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj", "{CEB210FE-98E5-412C-828C-7E6255A7CA64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.BasicBootstrapper", "JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj", "{CEB210FE-98E5-412C-828C-7E6255A7CA64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.TestApp", "JSim.TestApp\JSim.TestApp.csproj", "{740FBB7F-E443-4CFB-A75D-0158C070F18F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.TestApp", "JSim.TestApp\JSim.TestApp.csproj", "{740FBB7F-E443-4CFB-A75D-0158C070F18F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.Logging", "JSim.Logging\JSim.Logging.csproj", "{FAB135A2-15C7-473F-9601-248E9CD0DCB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.Logging", "JSim.Logging\JSim.Logging.csproj", "{FAB135A2-15C7-473F-9601-248E9CD0DCB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{A4A5D608-3652-44D9-ADF2-36F0AD715975}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{40D2DA6B-01AA-4108-87DA-9BF56E2FD394}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F801380C-23B9-4D89-B3CD-09612AF681A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SceneGraphTests", "SceneGraphTests\SceneGraphTests.csproj", "{F8288393-C60B-4AE3-A885-7380D92EFFFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,20 @@ Global
 		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAB135A2-15C7-473F-9601-248E9CD0DCB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8288393-C60B-4AE3-A885-7380D92EFFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8288393-C60B-4AE3-A885-7380D92EFFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8288393-C60B-4AE3-A885-7380D92EFFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8288393-C60B-4AE3-A885-7380D92EFFFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79A5CE10-46DD-4E2F-B46D-A123A69E22B7} = {40D2DA6B-01AA-4108-87DA-9BF56E2FD394}
+		{CEB210FE-98E5-412C-828C-7E6255A7CA64} = {40D2DA6B-01AA-4108-87DA-9BF56E2FD394}
+		{740FBB7F-E443-4CFB-A75D-0158C070F18F} = {A4A5D608-3652-44D9-ADF2-36F0AD715975}
+		{FAB135A2-15C7-473F-9601-248E9CD0DCB1} = {40D2DA6B-01AA-4108-87DA-9BF56E2FD394}
+		{F8288393-C60B-4AE3-A885-7380D92EFFFF} = {F801380C-23B9-4D89-B3CD-09612AF681A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A960BEE-BEE1-470B-A49B-99CE2343B084}

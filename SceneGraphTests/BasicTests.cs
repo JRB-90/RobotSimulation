@@ -93,6 +93,44 @@ namespace SceneGraphTests
             app.Dispose();
         }
 
+        [Fact]
+        public void CanRenameObjects()
+        {
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+
+            ISceneManager sceneManager = app.SceneManager;
+            IScene scene = sceneManager.CurrentScene;
+
+            scene.Name = "SceneTest";
+            scene.Name.Should().Be("SceneTest");
+
+            var assembly1 = scene.Root.CreateNewAssembly();
+            var assembly2 = scene.Root.CreateNewAssembly();
+            var assembly3 = assembly2.CreateNewAssembly();
+
+            var entity1 = scene.Root.CreateNewEntity();
+            var entity2 = scene.Root.CreateNewEntity();
+            var entity3 = assembly3.CreateNewEntity();
+            var entity4 = assembly3.CreateNewEntity();
+
+            assembly1.Name = "TestAssembly1";
+            assembly1.Name.Should().Be("TestAssembly1");
+
+            entity1.Name = "TestEntity1";
+            entity1.Name.Should().Be("TestEntity1");
+
+            string assembly2OriginalName = assembly2.Name;
+            assembly2.Name = assembly1.Name;
+            assembly2.Name.Should().NotBe(assembly1.Name);
+            assembly2.Name.Should().Be(assembly2OriginalName);
+
+            string entity2OriginalName = entity2.Name;
+            entity2.Name = entity1.Name;
+            entity2.Name.Should().NotBe(entity1.Name);
+            entity2.Name.Should().Be(entity2OriginalName);
+        }
+
         private void CheckSceneAssemblyIsValid(ISceneAssembly assembly)
         {
             assembly.Should().NotBeNull();

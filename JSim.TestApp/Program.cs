@@ -19,7 +19,26 @@ namespace JSim.TestApp
             IScene scene = sceneManager.CurrentScene;
 
             var assembly1 = scene.Root.CreateNewAssembly();
+            var assembly2 = scene.Root.CreateNewAssembly();
+            var assembly3 = scene.Root.CreateNewAssembly();
             var entity1 = scene.Root.CreateNewEntity();
+            var entity2 = scene.Root.CreateNewEntity();
+
+            var entity3 = assembly2.CreateNewEntity();
+            var entity4 = assembly2.CreateNewEntity();
+
+            var entity5 = assembly3.CreateNewEntity();
+            var assembly4 = assembly3.CreateNewAssembly();
+            var assembly5 = assembly3.CreateNewAssembly();
+
+            var entity6 = assembly4.CreateNewEntity();
+            var entity7 = assembly4.CreateNewEntity();
+
+            var sceneObjectList = new List<ISceneObject>();
+            foreach (var sceneObject in scene)
+            {
+                sceneObjectList.Add(sceneObject);
+            }
 
             app.Dispose();
 

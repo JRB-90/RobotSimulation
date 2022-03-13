@@ -5,7 +5,7 @@
     /// Scene assemblies can contain a group of child objects as a method
     /// of supporting a scene tree.
     /// </summary>
-    public interface ISceneAssembly : ISceneObject
+    public interface ISceneAssembly : ISceneObject, IEnumerable<ISceneObject>
     {
         IReadOnlyCollection<ISceneObject> Children { get; }
 

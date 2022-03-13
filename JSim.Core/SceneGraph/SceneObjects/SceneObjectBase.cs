@@ -82,7 +82,7 @@
 
         public override string ToString()
         {
-            return Name;
+            return $"{GetType().Name}:{Name}";
         }
 
         private string name;

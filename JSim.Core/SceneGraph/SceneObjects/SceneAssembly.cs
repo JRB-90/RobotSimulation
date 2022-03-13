@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using System.Collections;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Standard implementation of a Scene assembly.
@@ -80,6 +82,37 @@
             {
                 return false;
             }
+        }
+
+        public IEnumerator<ISceneObject> GetEnumerator()
+        {
+            foreach (ISceneObject sceneObject in IterateAssembly(this))
+            {
+                yield return sceneObject;
+            }
+        }
+
+        private IEnumerable<ISceneObject> IterateAssembly(ISceneAssembly sceneAssembly)
+        {
+            foreach (ISceneAssembly assembly in sceneAssembly.Children.OfType<ISceneAssembly>())
+            {
+                foreach (ISceneObject sceneObject in IterateAssembly(assembly))
+                {
+                    yield return sceneObject;
+                }
+
+                yield return assembly;
+            }
+
+            foreach (ISceneEntity entity in sceneAssembly.Children.OfType<ISceneEntity>())
+            {
+                yield return entity;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         private List<ISceneObject> children;

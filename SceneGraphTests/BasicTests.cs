@@ -5,7 +5,9 @@ using JSim.BasicBootstrapper;
 using JSim.Core;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -13,6 +15,8 @@ namespace SceneGraphTests
 {
     public class BasicTests
     {
+        const string SceneFileName = "TestScene.jsc";
+
         [Fact]
         public void CanResolveContainer()
         {
@@ -129,6 +133,66 @@ namespace SceneGraphTests
             entity2.Name = entity1.Name;
             entity2.Name.Should().NotBe(entity1.Name);
             entity2.Name.Should().Be(entity2OriginalName);
+
+            app.Dispose();
+        }
+
+        [Fact]
+        public void CanIterateScene()
+        {
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+
+            PopulateTestScene(app.SceneManager.CurrentScene);
+            app.SceneManager.CurrentScene.Count().Should().Be(12);
+
+            app.Dispose();
+        }
+
+        [Fact]
+        public void CanNewScene()
+        {
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+
+            PopulateTestScene(app.SceneManager.CurrentScene);
+            app.SceneManager.CurrentScene.Count().Should().Be(12);
+
+            app.SceneManager.NewScene();
+            app.SceneManager.CurrentScene.Count().Should().Be(0);
+
+            app.Dispose();
+        }
+
+        [Fact]
+        public void CanSaveLoadScene()
+        {
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+
+            PopulateTestScene(app.SceneManager.CurrentScene);
+
+            var sceneObjsPre =
+                app.SceneManager.CurrentScene
+                .Select(o => o.Name);
+
+            string path = Path.GetTempPath() + SceneFileName;
+            app.SceneManager.SaveScene(path);
+            app.SceneManager.NewScene();
+            app.SceneManager.LoadScene(path);
+
+            var sceneObjsPost =
+                app.SceneManager.CurrentScene
+                .Select(o => o.Name);
+
+            sceneObjsPost.Count().Should().Be(sceneObjsPre.Count());
+
+            foreach (var sceneObj in sceneObjsPre)
+            {
+                sceneObjsPost.Contains(sceneObj).Should().BeTrue();
+            }
+
+            app.Dispose();
         }
 
         private void CheckSceneAssemblyIsValid(ISceneAssembly assembly)
@@ -159,6 +223,25 @@ namespace SceneGraphTests
             );
 
             return container;
+        }
+
+        private void PopulateTestScene(IScene scene)
+        {
+            var assembly1 = scene.Root.CreateNewAssembly("Assembly1");
+            var assembly2 = scene.Root.CreateNewAssembly("Assembly2");
+            var assembly3 = scene.Root.CreateNewAssembly("Assembly3");
+            var entity1 = scene.Root.CreateNewEntity("Entity1");
+            var entity2 = scene.Root.CreateNewEntity("Entity2");
+
+            var entity3 = assembly2.CreateNewEntity("Entity3");
+            var entity4 = assembly2.CreateNewEntity("Entity4");
+
+            var entity5 = assembly3.CreateNewEntity("Entity5");
+            var assembly4 = assembly3.CreateNewAssembly("Assembly4");
+            var assembly5 = assembly3.CreateNewAssembly("Assembly5");
+
+            var entity6 = assembly4.CreateNewEntity("Entity6");
+            var entity7 = assembly4.CreateNewEntity("Entity7");
         }
     }
 }

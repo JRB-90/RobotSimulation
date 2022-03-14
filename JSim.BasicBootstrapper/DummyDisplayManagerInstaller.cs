@@ -5,13 +5,11 @@ using JSim.Core.Display;
 
 namespace JSim.BasicBootstrapper
 {
+    /// <summary>
+    /// Installs a dummy display manager to a windsor container.
+    /// </summary>
     public class DummyDisplayManagerInstaller : IWindsorInstaller
     {
-        /// <summary>
-        /// Installs a dummy display manager to a windsor container.
-        /// </summary>
-        /// <param name="container">Container to install to.</param>
-        /// <param name="store">Configuration setting storage object.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(

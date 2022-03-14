@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JSim.Core.SceneGraph
+﻿namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Interface to define the behavior of all scene managers.
@@ -13,5 +7,26 @@ namespace JSim.Core.SceneGraph
     /// </summary>
     public interface ISceneManager : IDisposable
     {
+        /// <summary>
+        /// Gets the current scene.
+        /// </summary>
+        IScene CurrentScene { get; }
+
+        /// <summary>
+        /// Removes the current scene and sets it to a blank scene.
+        /// </summary>
+        void NewScene();
+
+        /// <summary>
+        /// Saves the current scene to disk.
+        /// </summary>
+        /// <param name="path">Path to save the file to.</param>
+        void SaveScene(string path);
+
+        /// <summary>
+        /// Loads a new scene from disk.
+        /// </summary>
+        /// <param name="path">Path to the file to load from.</param>
+        void LoadScene(string path);
     }
 }

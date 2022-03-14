@@ -88,6 +88,20 @@ namespace JSim.Core.SceneGraph
             return entity;
         }
 
+        public bool AttachObject(ISceneObject sceneObject)
+        {
+            if (Children.Contains(sceneObject))
+            {
+                return false;
+            }
+            else
+            {
+                children.Add(sceneObject);
+
+                return true;
+            }
+        }
+
         public bool RemoveObject(ISceneObject sceneObject)
         {
             if (children.Contains(sceneObject))

@@ -150,6 +150,45 @@ namespace SceneGraphTests
         }
 
         [Fact]
+        public void CanManipulateScene()
+        {
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+            IScene scene = app.SceneManager.CurrentScene;
+
+            var assembly1 = scene.Root.CreateNewAssembly();
+            var assembly2 = scene.Root.CreateNewAssembly();
+            var assembly3 = scene.Root.CreateNewAssembly();
+            var entity1 = scene.Root.CreateNewEntity();
+            var entity2 = scene.Root.CreateNewEntity();
+
+            var entity3 = assembly2.CreateNewEntity();
+            var entity4 = assembly2.CreateNewEntity();
+
+            var entity5 = assembly3.CreateNewEntity();
+            var assembly4 = assembly3.CreateNewAssembly();
+            var assembly5 = assembly3.CreateNewAssembly();
+
+            var entity6 = assembly4.CreateNewEntity();
+            var entity7 = assembly4.CreateNewEntity();
+
+            app.SceneManager.CurrentScene.Count().Should().Be(12);
+
+            assembly2.MoveAssembly(assembly1).Should().BeTrue();
+            entity1.MoveAssembly(assembly5).Should().BeTrue();
+
+            scene.Root.Children.Should().NotContain((ISceneObject)assembly2);
+            assembly2.ParentAssembly.Should().BeSameAs(assembly1);
+            assembly1.Children.Should().Contain((ISceneObject)assembly2);
+
+            scene.Root.Children.Should().NotContain(entity1);
+            entity1.ParentAssembly.Should().BeSameAs(assembly5);
+            assembly5.Children.Should().Contain(entity1);
+
+            app.Dispose();
+        }
+
+        [Fact]
         public void CanNewScene()
         {
             IWindsorContainer container = BootstrapContainer();

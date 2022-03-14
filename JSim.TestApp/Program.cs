@@ -34,22 +34,8 @@ namespace JSim.TestApp
             var entity6 = assembly4.CreateNewEntity();
             var entity7 = assembly4.CreateNewEntity();
 
-            var objectListPre = new List<ISceneObject>();
-            foreach (var sceneObject in app.SceneManager.CurrentScene)
-            {
-                objectListPre.Add(sceneObject);
-            }
-
-            string path = @"C:\Development\Test\scene.jsc";
-            sceneManager.SaveScene(path);
-            sceneManager.NewScene();
-            sceneManager.LoadScene(path);
-
-            var objectListPost = new List<ISceneObject>();
-            foreach (var sceneObject in app.SceneManager.CurrentScene)
-            {
-                objectListPost.Add(sceneObject);
-            }
+            assembly2.MoveAssembly(assembly1);
+            entity1.MoveAssembly(assembly5);
 
             app.Dispose();
 

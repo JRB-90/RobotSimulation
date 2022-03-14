@@ -36,6 +36,13 @@
         ISceneEntity CreateNewEntity(string name);
 
         /// <summary>
+        /// Attaches a scene object to this assemblies children.
+        /// </summary>
+        /// <param name="sceneObject">Scene object to attach to this assembly.</param>
+        /// <returns>Returns true if successful.</returns>
+        bool AttachObject(ISceneObject sceneObject);
+
+        /// <summary>
         /// Removes a scene object from this assemblies children.
         /// </summary>
         /// <param name="sceneObject">Scene object to remove from this assembly.</param>

@@ -21,5 +21,12 @@
         /// Null if it is the root node.
         /// </summary>
         ISceneAssembly? ParentAssembly { get; }
+
+        /// <summary>
+        /// Moves the scene object to a new assembly.
+        /// </summary>
+        /// <param name="newAssembly">New assembly to attach this acene object to.</param>
+        /// <returns>True if move was successful.</returns>
+        bool MoveAssembly(ISceneAssembly newAssembly);
     }
 }

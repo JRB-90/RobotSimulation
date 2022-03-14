@@ -73,10 +73,34 @@
         public ISceneAssembly? ParentAssembly
         {
             get => parentAssembly;
-            set
+            private set
             {
                 parentAssembly = value;
                 // TODO - Check for null then recalculate world position
+            }
+        }
+
+        public bool MoveAssembly(ISceneAssembly newParent)
+        {
+            if (ParentAssembly == null)
+            {
+                return false;
+            }
+
+            if (!ParentAssembly.RemoveObject(this))
+            {
+                return false;
+            }
+
+            if (newParent.AttachObject(this))
+            {
+                ParentAssembly = newParent;
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

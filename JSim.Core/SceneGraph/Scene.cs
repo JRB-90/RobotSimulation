@@ -33,6 +33,26 @@ namespace JSim.Core.SceneGraph
             }
         }
 
+        public bool TryFindByID(Guid id, out ISceneObject? sceneObject)
+        {
+            sceneObject =
+                this.
+                Where(o => o.ID == id)
+                .FirstOrDefault();
+
+            return sceneObject != null;
+        }
+
+        public bool TryFindByName(string name, out ISceneObject? sceneObject)
+        {
+            sceneObject =
+                this.
+                Where(o => o.Name == name)
+                .FirstOrDefault();
+
+            return sceneObject != null;
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

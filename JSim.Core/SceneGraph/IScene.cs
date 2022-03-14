@@ -16,5 +16,21 @@
         /// Root assembly, representing the top level for the scene graph.
         /// </summary>
         ISceneAssembly Root { get; }
+
+        /// <summary>
+        /// Attempts to find an object in the scene by its ID.
+        /// </summary>
+        /// <param name="id">ID of the scene object.</param>
+        /// <param name="sceneObject">Found object. Null if not found.</param>
+        /// <returns>True if object found.</returns>
+        bool TryFindByID(Guid id, out ISceneObject? sceneObject);
+
+        /// <summary>
+        /// Attempts to find an object in the scene by its Name.
+        /// </summary>
+        /// <param name="name">NAme of the scene object.</param>
+        /// <param name="sceneObject">Found object. Null if not found.</param>
+        /// <returns>True if object found.</returns>
+        bool TryFindByName(string name, out ISceneObject? sceneObject);
     }
 }

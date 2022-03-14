@@ -34,8 +34,8 @@ namespace JSim.TestApp
             var entity6 = assembly4.CreateNewEntity();
             var entity7 = assembly4.CreateNewEntity();
 
-            assembly2.MoveAssembly(assembly1);
-            entity1.MoveAssembly(assembly5);
+            var canFindA1 = scene.TryFindByID(assembly1.ID, out ISceneObject? foundAssembly);
+            var canFindE1 = scene.TryFindByName(entity1.Name, out ISceneObject? foundEntity);
 
             app.Dispose();
 

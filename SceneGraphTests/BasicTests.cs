@@ -185,6 +185,14 @@ namespace SceneGraphTests
             entity1.ParentAssembly.Should().BeSameAs(assembly5);
             assembly5.Children.Should().Contain(entity1);
 
+            scene.TryFindByID(assembly1.ID, out ISceneObject? foundAssembly).Should().BeTrue();
+            foundAssembly.Should().NotBeNull();
+            foundAssembly.Should().BeSameAs(assembly1);
+
+            scene.TryFindByName(entity1.Name, out ISceneObject? foundEntity).Should().BeTrue();
+            foundEntity.Should().NotBeNull();
+            foundEntity.Should().BeSameAs(entity1);
+
             app.Dispose();
         }
 

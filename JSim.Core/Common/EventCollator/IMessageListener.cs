@@ -12,7 +12,7 @@
     /// Class must implement this interface for each type of message they want to subscribe to.
     /// </summary>
     /// <typeparam name="T">Type of message to subscribe to.</typeparam>
-    public interface IMessageHandler<T> where T : class
+    public interface IMessageHandler<T> : IMessageHandler where T : class
     {
         void Handle(T message);
     }

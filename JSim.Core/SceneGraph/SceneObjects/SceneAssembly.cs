@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JSim.Core.Common;
+using System.Collections;
 
 namespace JSim.Core.SceneGraph
 {
@@ -8,44 +9,55 @@ namespace JSim.Core.SceneGraph
     public class SceneAssembly : SceneObjectBase, ISceneAssembly
     {
         readonly ISceneObjectCreator creator;
+        readonly IMessageCollator collator;
 
         public SceneAssembly(
             INameRepository nameRepository,
-            ISceneObjectCreator creator)
+            ISceneObjectCreator creator,
+            IMessageCollator collator)
           :
-            base(nameRepository)
+            base(
+                nameRepository,
+                collator)
         {
             this.creator = creator;
+            this.collator = collator;
             children = new List<ISceneObject>();
         }
 
         public SceneAssembly(
             INameRepository nameRepository,
             ISceneObjectCreator creator,
+            IMessageCollator collator,
             ISceneAssembly? parentAssembly)
           :
             base(
                 nameRepository,
+                collator,
                 parentAssembly)
         {
             this.creator = creator;
+            this.collator = collator;
             children = new List<ISceneObject>();
         }
 
         public SceneAssembly(
             INameRepository nameRepository,
             ISceneObjectCreator creator,
+            IMessageCollator collator,
             Guid id,
             string name,
             ISceneAssembly parentAssembly)
           :
             base(
                 nameRepository,
+                collator,
                 id,
                 name,
                 parentAssembly)
         {
             this.creator = creator;
+            this.collator = collator;
             children = new List<ISceneObject>();
         }
 
@@ -58,6 +70,7 @@ namespace JSim.Core.SceneGraph
         {
             ISceneAssembly assembly = creator.CreateSceneAssembly(this);
             children.Add(assembly);
+            collator.Publish(new SceneObjectModified(this));
 
             return assembly;
         }
@@ -67,6 +80,7 @@ namespace JSim.Core.SceneGraph
             ISceneAssembly assembly = creator.CreateSceneAssembly(this);
             assembly.Name = name;
             children.Add(assembly);
+            collator.Publish(new SceneObjectModified(this));
 
             return assembly;
         }
@@ -75,6 +89,7 @@ namespace JSim.Core.SceneGraph
         {
             ISceneEntity entity = creator.CreateSceneEntity(this);
             children.Add(entity);
+            collator.Publish(new SceneObjectModified(this));
 
             return entity;
         }
@@ -84,6 +99,7 @@ namespace JSim.Core.SceneGraph
             ISceneEntity entity = creator.CreateSceneEntity(this);
             entity.Name = name;
             children.Add(entity);
+            collator.Publish(new SceneObjectModified(this));
 
             return entity;
         }
@@ -97,6 +113,7 @@ namespace JSim.Core.SceneGraph
             else
             {
                 children.Add(sceneObject);
+                collator.Publish(new SceneObjectModified(this));
 
                 return true;
             }
@@ -107,6 +124,7 @@ namespace JSim.Core.SceneGraph
             if (children.Contains(sceneObject))
             {
                 children.Remove(sceneObject);
+                collator.Publish(new SceneObjectModified(this));
 
                 return true;
             }

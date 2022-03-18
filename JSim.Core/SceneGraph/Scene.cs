@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JSim.Core.Common;
+using System.Collections;
 
 namespace JSim.Core.SceneGraph
 {
@@ -7,11 +8,19 @@ namespace JSim.Core.SceneGraph
     /// </summary>
     public class Scene : IScene
     {
+        readonly ILogger logger;
         readonly ISceneObjectCreator creator;
+        readonly IMessageCollator collator;
 
-        public Scene(ISceneObjectCreatorFactory creatorFactory)
+        public Scene(
+            ILogger logger,
+            ISceneObjectCreatorFactory creatorFactory,
+            IMessageCollator collator)
         {
+            this.logger = logger;
             creator = creatorFactory.CreateSceneObjectCreator();
+            this.collator = collator;
+            collator.Subscribe(this);
             Name = "Scene";
             Root = creator.CreateSceneAssembly(null);
             Root.Name = "RootAssembly";
@@ -56,6 +65,11 @@ namespace JSim.Core.SceneGraph
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Handle(SceneObjectModified message)
+        {
+            logger.Log($"Object modified: {message.SceneObject.Name}", LogLevel.Debug);
         }
     }
 }

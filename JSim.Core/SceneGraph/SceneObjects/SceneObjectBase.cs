@@ -70,7 +70,7 @@ namespace JSim.Core.SceneGraph
                     nameRepository.AddName(value);
                     nameRepository.RemoveName(name);
                     name = value;
-                    collator.Publish(new SceneObjectModified(this));
+                    RaiseSceneObjectChangedEvent();
                 }
             }
         }
@@ -85,9 +85,12 @@ namespace JSim.Core.SceneGraph
             private set
             {
                 parentAssembly = value;
+                RaiseSceneObjectChangedEvent();
                 // TODO - Check for null then recalculate world position
             }
         }
+
+        public event SceneObjectModifiedEventHandler? SceneObjectModified;
 
         public bool MoveAssembly(ISceneAssembly newParent)
         {
@@ -104,6 +107,7 @@ namespace JSim.Core.SceneGraph
             if (newParent.AttachObject(this))
             {
                 ParentAssembly = newParent;
+                RaiseSceneObjectChangedEvent();
 
                 return true;
             }
@@ -116,6 +120,12 @@ namespace JSim.Core.SceneGraph
         public override string ToString()
         {
             return $"{GetType().Name}:{Name}";
+        }
+
+        protected void RaiseSceneObjectChangedEvent()
+        {
+            collator.Publish(new SceneObjectModified(this));
+            SceneObjectModified?.Invoke(this, new SceneObjectModifiedEventArgs(this));
         }
 
         protected IMessageCollator collator;

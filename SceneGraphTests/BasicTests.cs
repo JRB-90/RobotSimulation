@@ -38,7 +38,7 @@ namespace SceneGraphTests
             ISceneManager sceneManager = app.SceneManager;
             IScene scene = sceneManager.CurrentScene;
 
-            using var monitoredScene1 = scene.Monitor();
+            var monitoredScene1 = scene.Monitor();
 
             var assembly1 = scene.Root.CreateNewAssembly();
             monitoredScene1.Should()
@@ -54,7 +54,7 @@ namespace SceneGraphTests
             var assembly3 = scene.Root.CreateNewAssembly();
             var entity1 = scene.Root.CreateNewEntity();
 
-            using var monitoredScene2 = scene.Monitor();
+            var monitoredScene2 = scene.Monitor();
             var entity2 = scene.Root.CreateNewEntity();
             monitoredScene2.Should()
                 .Raise(nameof(scene.SceneObjectModified))
@@ -74,7 +74,7 @@ namespace SceneGraphTests
 
             var entity6 = assembly4.CreateNewEntity();
 
-            using var monitoredScene3 = scene.Monitor();
+            var monitoredScene3 = scene.Monitor();
             var entity7 = assembly4.CreateNewEntity();
             monitoredScene3.Should()
                .Raise(nameof(scene.SceneObjectModified))
@@ -137,8 +137,10 @@ namespace SceneGraphTests
             ISceneManager sceneManager = app.SceneManager;
             IScene scene = sceneManager.CurrentScene;
 
+            var sceneMonitor = scene.Monitor();
             scene.Name = "SceneTest";
             scene.Name.Should().Be("SceneTest");
+            sceneMonitor.Should().Raise(nameof(scene.NameChanged));
 
             var assembly1 = scene.Root.CreateNewAssembly();
             var assembly2 = scene.Root.CreateNewAssembly();
@@ -149,11 +151,15 @@ namespace SceneGraphTests
             var entity3 = assembly3.CreateNewEntity();
             var entity4 = assembly3.CreateNewEntity();
 
+            var assembly1Monitor = assembly1.Monitor();
             assembly1.Name = "TestAssembly1";
             assembly1.Name.Should().Be("TestAssembly1");
+            assembly1Monitor.Should().Raise(nameof(assembly1.SceneObjectModified));
 
+            var entity1Monitor = entity1.Monitor();
             entity1.Name = "TestEntity1";
             entity1.Name.Should().Be("TestEntity1");
+            entity1Monitor.Should().Raise(nameof(entity1.SceneObjectModified));
 
             string assembly2OriginalName = assembly2.Name;
             assembly2.Name = assembly1.Name;

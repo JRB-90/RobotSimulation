@@ -21,14 +21,24 @@ namespace JSim.Core.SceneGraph
             creator = creatorFactory.CreateSceneObjectCreator();
             this.collator = collator;
             collator.Subscribe(this);
-            Name = "Scene";
+            name = "Scene";
             Root = creator.CreateSceneAssembly(null);
             Root.Name = "RootAssembly";
         }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                NameChanged?.Invoke(this, new SceneNameChangedEventArgs(name));
+            }
+        }
 
         public ISceneAssembly Root { get; }
+
+        public event SceneNameChangedEventHandler? NameChanged;
 
         public event SceneObjectModifiedEventHandler? SceneObjectModified;
 
@@ -82,5 +92,7 @@ namespace JSim.Core.SceneGraph
             logger.Log($"Scene structure changed at: {message.RootAssembly.Name}", LogLevel.Debug);
             SceneStructureChanged?.Invoke(this, new SceneStructureChangedEventArgs(message.RootAssembly));
         }
+
+        private string name;
     }
 }

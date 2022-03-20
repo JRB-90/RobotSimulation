@@ -23,6 +23,11 @@
         ISceneAssembly? ParentAssembly { get; }
 
         /// <summary>
+        /// Event fired when this scene object has been modified.
+        /// </summary>
+        event SceneObjectModifiedEventHandler SceneObjectModified;
+
+        /// <summary>
         /// Moves the scene object to a new assembly.
         /// </summary>
         /// <param name="newAssembly">New assembly to attach this acene object to.</param>

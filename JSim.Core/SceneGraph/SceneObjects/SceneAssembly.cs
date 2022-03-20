@@ -69,7 +69,7 @@ namespace JSim.Core.SceneGraph
         {
             ISceneAssembly assembly = creator.CreateSceneAssembly(this);
             children.Add(assembly);
-            collator.Publish(new SceneObjectModified(this));
+            RaiseSceneObjectChangedEvent();
             collator.Publish(new SceneStructureChanged(this));
 
             return assembly;
@@ -80,7 +80,7 @@ namespace JSim.Core.SceneGraph
             ISceneAssembly assembly = creator.CreateSceneAssembly(this);
             assembly.Name = name;
             children.Add(assembly);
-            collator.Publish(new SceneObjectModified(this));
+            RaiseSceneObjectChangedEvent();
             collator.Publish(new SceneStructureChanged(this));
 
             return assembly;
@@ -90,7 +90,7 @@ namespace JSim.Core.SceneGraph
         {
             ISceneEntity entity = creator.CreateSceneEntity(this);
             children.Add(entity);
-            collator.Publish(new SceneObjectModified(this));
+            RaiseSceneObjectChangedEvent();
             collator.Publish(new SceneStructureChanged(this));
 
             return entity;
@@ -101,7 +101,7 @@ namespace JSim.Core.SceneGraph
             ISceneEntity entity = creator.CreateSceneEntity(this);
             entity.Name = name;
             children.Add(entity);
-            collator.Publish(new SceneObjectModified(this));
+            RaiseSceneObjectChangedEvent();
             collator.Publish(new SceneStructureChanged(this));
 
             return entity;
@@ -116,7 +116,7 @@ namespace JSim.Core.SceneGraph
             else
             {
                 children.Add(sceneObject);
-                collator.Publish(new SceneObjectModified(this));
+                RaiseSceneObjectChangedEvent();
                 collator.Publish(new SceneStructureChanged(this));
 
                 return true;
@@ -128,7 +128,7 @@ namespace JSim.Core.SceneGraph
             if (children.Contains(sceneObject))
             {
                 children.Remove(sceneObject);
-                collator.Publish(new SceneObjectModified(this));
+                RaiseSceneObjectChangedEvent();
                 collator.Publish(new SceneStructureChanged(this));
 
                 return true;

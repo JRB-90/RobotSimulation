@@ -18,7 +18,7 @@ namespace JSim.Logging
         public static Log4NetInstaller FromPath(string loggingConfigFilePath)
         {
             var xmlString = File.ReadAllText(loggingConfigFilePath);
-            XmlDocument xmlDocument = new XmlDocument();
+            var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(xmlString);
 
             if (xmlDocument == null)
@@ -39,15 +39,20 @@ namespace JSim.Logging
             var resourceName = "JSim.Logging." + loggingConfigFileName;
             var xmlString = "";
 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (Stream? stream = assembly.GetManifestResourceStream(resourceName))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                if (stream == null)
+                {
+                    throw new ArgumentException($"Cannot find resource stream: {resourceName}");
+                }
+
+                using (var reader = new StreamReader(stream))
                 {
                     xmlString = reader.ReadToEnd();
                 }
             }
 
-            XmlDocument xmlDocument = new XmlDocument();
+            var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(xmlString);
 
             if (xmlDocument == null)

@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Common;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Abstract base class for all standard scene object implementations.
@@ -7,9 +9,12 @@
     {
         readonly INameRepository nameRepository;
 
-        public SceneObjectBase(INameRepository nameRepository)
+        public SceneObjectBase(
+            INameRepository nameRepository,
+            IMessageCollator collator)
         {
             this.nameRepository = nameRepository;
+            this.collator = collator;
             ID = Guid.NewGuid();
             name = nameRepository.GenerateUniqueName(true);
             parentAssembly = null;
@@ -17,9 +22,11 @@
 
         public SceneObjectBase(
             INameRepository nameRepository,
+            IMessageCollator collator,
             ISceneAssembly? parentAssembly)
         {
             this.nameRepository = nameRepository;
+            this.collator = collator;
             ID = Guid.NewGuid();
             name = nameRepository.GenerateUniqueName(true);
             this.parentAssembly = parentAssembly;
@@ -27,6 +34,7 @@
 
         public SceneObjectBase(
             INameRepository nameRepository,
+            IMessageCollator collator,
             Guid id,
             string name,
             ISceneAssembly? parentAssembly)
@@ -37,6 +45,7 @@
             }
 
             this.nameRepository = nameRepository;
+            this.collator = collator;
             ID = id;
             this.name = name;
             this.parentAssembly = parentAssembly;
@@ -61,7 +70,7 @@
                     nameRepository.AddName(value);
                     nameRepository.RemoveName(name);
                     name = value;
-                    // TODO - Raise event
+                    collator.Publish(new SceneObjectModified(this));
                 }
             }
         }
@@ -87,7 +96,7 @@
                 return false;
             }
 
-            if (!ParentAssembly.RemoveObject(this))
+            if (!ParentAssembly.DetachObject(this))
             {
                 return false;
             }
@@ -108,6 +117,8 @@
         {
             return $"{GetType().Name}:{Name}";
         }
+
+        protected IMessageCollator collator;
 
         private string name;
         private ISceneAssembly? parentAssembly;

@@ -13,6 +13,11 @@
         IScene CurrentScene { get; }
 
         /// <summary>
+        /// Event fired when the current scene has changed.
+        /// </summary>
+        event CurrentSceneChangedEventHandler CurrentSceneChanged;
+
+        /// <summary>
         /// Removes the current scene and sets it to a blank scene.
         /// </summary>
         void NewScene();

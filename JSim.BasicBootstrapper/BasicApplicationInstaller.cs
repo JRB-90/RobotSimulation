@@ -2,6 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using JSim.Core;
+using JSim.Core.Common;
 
 namespace JSim.BasicBootstrapper
 {
@@ -17,6 +18,11 @@ namespace JSim.BasicBootstrapper
         /// <param name="store">Configuration setting storage object.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Register(
+                Component.For<IMessageCollator>()
+                .ImplementedBy<MessageCollator>()
+            );
+
             container.Register(
                 Component.For<ISimApplication>()
                 .ImplementedBy<SimApplication>()

@@ -17,11 +17,21 @@
             this.logger = logger;
             this.sceneFactory = sceneFactory;
             this.sceneIOHandler = sceneIOHandler;
-            CurrentScene = sceneFactory.GetScene();
+            currentScene = sceneFactory.GetScene();
             logger.Log("SceneManager initialised", LogLevel.Debug);
         }
 
-        public IScene CurrentScene { get; private set; }
+        public IScene CurrentScene
+        {
+            get => currentScene;
+            set
+            {
+                currentScene = value;
+                CurrentSceneChanged?.Invoke(this, new CurrentSceneChangedEventArgs(value));
+            }
+        }
+
+        public event CurrentSceneChangedEventHandler? CurrentSceneChanged;
 
         public void Dispose()
         {
@@ -50,5 +60,7 @@
             CurrentScene = newScene;
             logger.Log("SceneManager loaded scene", LogLevel.Debug);
         }
+
+        private IScene currentScene;
     }
 }

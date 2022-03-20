@@ -43,10 +43,10 @@
         bool AttachObject(ISceneObject sceneObject);
 
         /// <summary>
-        /// Removes a scene object from this assemblies children.
+        /// Detaches a scene object from this assemblies children.
         /// </summary>
         /// <param name="sceneObject">Scene object to remove from this assembly.</param>
         /// <returns>Returns true if successfully removed.</returns>
-        bool RemoveObject(ISceneObject sceneObject);
+        bool DetachObject(ISceneObject sceneObject);
     }
 }

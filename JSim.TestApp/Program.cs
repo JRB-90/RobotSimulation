@@ -16,7 +16,11 @@ namespace JSim.TestApp
             ISimApplication app = container.Resolve<ISimApplication>();
 
             ISceneManager sceneManager = app.SceneManager;
+            sceneManager.CurrentSceneChanged += SceneManager_CurrentSceneChanged;
+
             IScene scene = sceneManager.CurrentScene;
+            scene.SceneObjectModified += Scene_SceneObjectModified;
+            scene.SceneStructureChanged += Scene_SceneStructureChanged;
 
             var assembly1 = scene.Root.CreateNewAssembly();
             var assembly2 = scene.Root.CreateNewAssembly();
@@ -37,14 +41,28 @@ namespace JSim.TestApp
             var canFindA1 = scene.TryFindByID(assembly1.ID, out ISceneObject? foundAssembly);
             var canFindE1 = scene.TryFindByName(entity1.Name, out ISceneObject? foundEntity);
 
+            sceneManager.NewScene();
+
             app.Dispose();
 
             Console.Read();
         }
 
+        private static void SceneManager_CurrentSceneChanged(object sender, CurrentSceneChangedEventArgs e)
+        {
+        }
+
+        private static void Scene_SceneStructureChanged(object sender, SceneStructureChangedEventArgs e)
+        {
+        }
+
+        private static void Scene_SceneObjectModified(object sender, SceneObjectModifiedEventArgs e)
+        {
+        }
+
         private static IWindsorContainer BootstrapContainer()
         {
-            WindsorContainer container = new WindsorContainer();
+            var container = new WindsorContainer();
             container.AddFacility<TypedFactoryFacility>();
             container.Install(
                 new BasicApplicationInstaller(),

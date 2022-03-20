@@ -38,11 +38,32 @@ namespace SceneGraphTests
             ISceneManager sceneManager = app.SceneManager;
             IScene scene = sceneManager.CurrentScene;
 
+            using var monitoredScene1 = scene.Monitor();
+
             var assembly1 = scene.Root.CreateNewAssembly();
+            monitoredScene1.Should()
+                .Raise(nameof(scene.SceneObjectModified))
+                .WithSender(scene)
+                .WithArgs<SceneObjectModifiedEventArgs>(e => e.SceneObject == scene.Root);
+            monitoredScene1.Should()
+                .Raise(nameof(scene.SceneStructureChanged))
+                .WithSender(scene)
+                .WithArgs<SceneStructureChangedEventArgs>(e => e.RootAssembly == scene.Root);
+
             var assembly2 = scene.Root.CreateNewAssembly();
             var assembly3 = scene.Root.CreateNewAssembly();
             var entity1 = scene.Root.CreateNewEntity();
+
+            using var monitoredScene2 = scene.Monitor();
             var entity2 = scene.Root.CreateNewEntity();
+            monitoredScene2.Should()
+                .Raise(nameof(scene.SceneObjectModified))
+                .WithSender(scene)
+                .WithArgs<SceneObjectModifiedEventArgs>(e => e.SceneObject == scene.Root);
+            monitoredScene2.Should()
+                .Raise(nameof(scene.SceneStructureChanged))
+                .WithSender(scene)
+                .WithArgs<SceneStructureChangedEventArgs>(e => e.RootAssembly == scene.Root);
 
             var entity3 = assembly2.CreateNewEntity();
             var entity4 = assembly2.CreateNewEntity();
@@ -52,7 +73,17 @@ namespace SceneGraphTests
             var assembly5 = assembly3.CreateNewAssembly();
 
             var entity6 = assembly4.CreateNewEntity();
+
+            using var monitoredScene3 = scene.Monitor();
             var entity7 = assembly4.CreateNewEntity();
+            monitoredScene3.Should()
+               .Raise(nameof(scene.SceneObjectModified))
+               .WithSender(scene)
+               .WithArgs<SceneObjectModifiedEventArgs>(e => e.SceneObject == assembly4);
+            monitoredScene3.Should()
+                .Raise(nameof(scene.SceneStructureChanged))
+                .WithSender(scene)
+                .WithArgs<SceneStructureChangedEventArgs>(e => e.RootAssembly == assembly4);
 
             CheckSceneAssemblyIsValid(assembly1);
             CheckSceneAssemblyIsValid(assembly2);
@@ -205,7 +236,10 @@ namespace SceneGraphTests
             PopulateTestScene(app.SceneManager.CurrentScene);
             app.SceneManager.CurrentScene.Count().Should().Be(12);
 
+            using var monitoredSceneManager = app.SceneManager.Monitor();
             app.SceneManager.NewScene();
+
+            monitoredSceneManager.Should().Raise("CurrentSceneChanged");
             app.SceneManager.CurrentScene.Count().Should().Be(0);
 
             app.Dispose();
@@ -223,10 +257,15 @@ namespace SceneGraphTests
                 app.SceneManager.CurrentScene
                 .Select(o => o.Name);
 
+            using var monitoredSceneManager = app.SceneManager.Monitor();
+
             string path = Path.GetTempPath() + SceneFileName;
             app.SceneManager.SaveScene(path);
             app.SceneManager.NewScene();
+            monitoredSceneManager.Should().Raise("CurrentSceneChanged");
+
             app.SceneManager.LoadScene(path);
+            monitoredSceneManager.Should().Raise("CurrentSceneChanged");
 
             var sceneObjsPost =
                 app.SceneManager.CurrentScene

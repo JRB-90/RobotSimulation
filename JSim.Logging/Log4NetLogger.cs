@@ -11,8 +11,6 @@ namespace JSim.Logging
     /// </summary>
     public class Log4NetLogger : ILogger
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         /// <summary>
         /// Constructs a new log4net logging implementation.
         /// </summary>
@@ -24,7 +22,7 @@ namespace JSim.Logging
                 throw new ArgumentException("Cannot find a valid root node in XML config");
             }
 
-            var log4netNode = (XmlElement)xmlDocument.DocumentElement.SelectSingleNode("log4net");
+            var log4netNode = (XmlElement?)xmlDocument.DocumentElement.SelectSingleNode("log4net");
 
             if (log4netNode == null)
             {
@@ -80,5 +78,24 @@ namespace JSim.Logging
                     break;
             }
         }
+
+        static Log4NetLogger()
+        {
+            var methodBase = MethodBase.GetCurrentMethod();
+            if (methodBase == null)
+            {
+                throw new InvalidOperationException("Could not get the current method base info");
+            }
+
+            var declType = methodBase.DeclaringType;
+            if (declType == null)
+            {
+                throw new InvalidOperationException("Could not get the declaring type");
+            }
+
+            log = LogManager.GetLogger(declType);
+        }
+
+        private static readonly ILog log;
     }
 }

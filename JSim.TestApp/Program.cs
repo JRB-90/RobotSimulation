@@ -44,7 +44,7 @@ namespace JSim.TestApp
 
         private static IWindsorContainer BootstrapContainer()
         {
-            WindsorContainer container = new WindsorContainer();
+            var container = new WindsorContainer();
             container.AddFacility<TypedFactoryFacility>();
             container.Install(
                 new BasicApplicationInstaller(),

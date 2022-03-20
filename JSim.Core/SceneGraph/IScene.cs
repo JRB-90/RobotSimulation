@@ -24,6 +24,16 @@ namespace JSim.Core.SceneGraph
         ISceneAssembly Root { get; }
 
         /// <summary>
+        /// Event fired when a scene object in the scene has been modified.
+        /// </summary>
+        event SceneObjectModifiedEventHandler SceneObjectModified;
+
+        /// <summary>
+        /// Event fired when the structure of the scene graph has changed.
+        /// </summary>
+        event SceneStructureChangedEventHandler SceneStructureChanged;
+
+        /// <summary>
         /// Attempts to find an object in the scene by its ID.
         /// </summary>
         /// <param name="id">ID of the scene object.</param>

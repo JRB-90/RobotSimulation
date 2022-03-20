@@ -30,6 +30,10 @@ namespace JSim.Core.SceneGraph
 
         public ISceneAssembly Root { get; }
 
+        public event SceneObjectModifiedEventHandler? SceneObjectModified;
+
+        public event SceneStructureChangedEventHandler? SceneStructureChanged;
+
         public void Dispose()
         {
         }
@@ -70,11 +74,13 @@ namespace JSim.Core.SceneGraph
         public void Handle(SceneObjectModified message)
         {
             logger.Log($"Object modified: {message.SceneObject.Name}", LogLevel.Debug);
+            SceneObjectModified?.Invoke(this, new SceneObjectModifiedEventArgs(message.SceneObject));
         }
 
         public void Handle(SceneStructureChanged message)
         {
             logger.Log($"Scene structure changed at: {message.RootAssembly.Name}", LogLevel.Debug);
+            SceneStructureChanged?.Invoke(this, new SceneStructureChangedEventArgs(message.RootAssembly));
         }
     }
 }

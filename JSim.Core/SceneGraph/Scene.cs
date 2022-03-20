@@ -71,5 +71,10 @@ namespace JSim.Core.SceneGraph
         {
             logger.Log($"Object modified: {message.SceneObject.Name}", LogLevel.Debug);
         }
+
+        public void Handle(SceneStructureChanged message)
+        {
+            logger.Log($"Scene structure changed at: {message.RootAssembly.Name}", LogLevel.Debug);
+        }
     }
 }

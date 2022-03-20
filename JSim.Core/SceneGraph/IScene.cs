@@ -7,7 +7,11 @@ namespace JSim.Core.SceneGraph
     /// A scene represents an entire scene graph and provides various
     /// functionality for interacting with it, such as iterators etc.
     /// </summary>
-    public interface IScene : IEnumerable<ISceneObject>, IMessageHandler<SceneObjectModified>, IDisposable
+    public interface IScene : 
+        IEnumerable<ISceneObject>, 
+        IMessageHandler<SceneObjectModified>, 
+        IMessageHandler<SceneStructureChanged>,
+        IDisposable
     {
         /// <summary>
         /// Name of the scene.

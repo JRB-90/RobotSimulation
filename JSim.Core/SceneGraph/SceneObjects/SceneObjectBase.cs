@@ -96,7 +96,7 @@ namespace JSim.Core.SceneGraph
                 return false;
             }
 
-            if (!ParentAssembly.RemoveObject(this))
+            if (!ParentAssembly.DetachObject(this))
             {
                 return false;
             }

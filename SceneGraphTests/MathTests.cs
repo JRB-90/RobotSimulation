@@ -84,6 +84,7 @@ namespace SceneGraphTests
         {
             Rotation3D rotation = new Rotation3D();
             FixedRotation3D fixedRotation = new FixedRotation3D();
+            AxisAngleRotation3D axisAngleRotation3D = new AxisAngleRotation3D();
         }
 
         [Fact]
@@ -118,6 +119,12 @@ namespace SceneGraphTests
             r3.Rx.Should().Be(1.0);
             r3.Ry.Should().Be(2.0);
             r3.Rz.Should().Be(3.0);
+
+            AxisAngleRotation3D r4 = new AxisAngleRotation3D(new Vector3D(1.0, 2.0, 3.0), -4.0);
+            r4.Axis.X.Should().BeApproximately(1.0, double.Epsilon);
+            r4.Axis.Y.Should().BeApproximately(2.0, double.Epsilon);
+            r4.Axis.Z.Should().BeApproximately(3.0, double.Epsilon);
+            r4.Angle.Should().BeApproximately(-4.0, double.Epsilon);
         }
 
         [Fact]
@@ -144,6 +151,13 @@ namespace SceneGraphTests
             r5.Rx.Should().BeApproximately(0.0, 0.00001);
             r5.Ry.Should().BeApproximately(0.0, 0.00001);
             r5.Rz.Should().BeApproximately(0.0, 0.00001);
+
+            AxisAngleRotation3D r6 = new AxisAngleRotation3D(new Vector3D(30.0, 20.0, 10.0), -45.0);
+            AxisAngleRotation3D r7 = new AxisAngleRotation3D(Rotation3D.Identity * r6 * r6.Inverse);
+            r7.Axis.X.Should().BeApproximately(1.0, 0.0001);
+            r7.Axis.Y.Should().BeApproximately(0.0, 0.0001);
+            r7.Axis.Z.Should().BeApproximately(0.0, 0.0001);
+            r7.Angle.Should().BeApproximately(0.0, 0.0001);
         }
 
         [Fact]

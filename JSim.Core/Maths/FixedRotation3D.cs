@@ -17,13 +17,13 @@ namespace JSim.Core.Maths
 
         public FixedRotation3D(Matrix<double> rotationMatrix)
         {
-            matrix = rotationMatrix;
+            matrix = rotationMatrix.Clone();
             ExtractValuesFromMatrix();
         }
 
         public FixedRotation3D(Rotation3D rotation)
         {
-            matrix = rotation.Matrix;
+            matrix = rotation.Matrix.Clone();
             ExtractValuesFromMatrix();
         }
 

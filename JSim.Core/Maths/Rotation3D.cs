@@ -7,8 +7,6 @@ namespace JSim.Core.Maths
     /// </summary>
     public class Rotation3D
     {
-        readonly Matrix<double> matrix;
-
         public Rotation3D()
         {
             matrix = Matrix<double>.Build.DenseIdentity(3);
@@ -33,5 +31,17 @@ namespace JSim.Core.Maths
         public Matrix<double> Matrix => matrix;
 
         public static Rotation3D Identity => new Rotation3D();
+
+        public Rotation3D Inverse =>
+           new Rotation3D(matrix.Inverse());
+
+        public static Rotation3D operator *(
+            Rotation3D left,
+            Rotation3D right)
+        {
+            return new Rotation3D(left.Matrix * right.Matrix);
+        }
+
+        protected Matrix<double> matrix;
     }
 }

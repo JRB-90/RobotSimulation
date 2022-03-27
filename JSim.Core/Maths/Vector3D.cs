@@ -137,7 +137,7 @@ namespace JSim.Core.Maths
 
         public override string ToString()
         {
-            return $"X: {X:F3}, Y: {Y:F3}, Z: {Z:F3}";
+            return $"X {X:F3}, Y {Y:F3}, Z {Z:F3}";
         }
     }
 }

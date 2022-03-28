@@ -1,4 +1,5 @@
 ﻿using JSim.Core.Common;
+using JSim.Core.Maths;
 
 namespace JSim.Core.SceneGraph
 {
@@ -18,6 +19,8 @@ namespace JSim.Core.SceneGraph
             ID = Guid.NewGuid();
             name = nameRepository.GenerateUniqueName(true);
             parentAssembly = null;
+            worldFrame = new Transform3D();
+            localFrame = new Transform3D();
         }
 
         public SceneObjectBase(
@@ -30,6 +33,8 @@ namespace JSim.Core.SceneGraph
             ID = Guid.NewGuid();
             name = nameRepository.GenerateUniqueName(true);
             this.parentAssembly = parentAssembly;
+            worldFrame = parentAssembly == null ? new Transform3D() : parentAssembly.WorldFrame;
+            localFrame = new Transform3D();
         }
 
         public SceneObjectBase(
@@ -49,6 +54,8 @@ namespace JSim.Core.SceneGraph
             ID = id;
             this.name = name;
             this.parentAssembly = parentAssembly;
+            worldFrame = parentAssembly == null ? new Transform3D() : parentAssembly.WorldFrame;
+            localFrame = new Transform3D();
             nameRepository.AddName(name);
         }
 
@@ -85,13 +92,81 @@ namespace JSim.Core.SceneGraph
             private set
             {
                 parentAssembly = value;
+
+                if (parentAssembly != null)
+                {
+                    LocalFrame = new Transform3D(localFrame);
+                }
+                else
+                {
+                    WorldFrame = new Transform3D();
+                }
+
                 RaiseSceneObjectChangedEvent();
-                // TODO - Check for null then recalculate world position
             }
         }
 
+        /// <summary>
+        /// The position of the object in world coordinates.
+        /// </summary>
+        public Transform3D WorldFrame
+        {
+            get => worldFrame;
+            set
+            {
+                worldFrame = value;
+
+                if (parentAssembly != null)
+                {
+                    localFrame = 
+                        Transform3D.RelativeTransform(
+                            parentAssembly.WorldFrame, 
+                            worldFrame
+                        );
+                }
+                else
+                {
+                    localFrame = worldFrame;
+                }
+
+                RaiseSceneObjectChangedEvent();
+            }
+        }
+
+        /// <summary>
+        /// The position of the object in local coordinates, i.e. relative
+        /// to it's parent assembly.
+        /// </summary>
+        public Transform3D LocalFrame
+        {
+            get => localFrame;
+            set
+            {
+                localFrame = value;
+
+                if (parentAssembly != null)
+                {
+                    worldFrame = parentAssembly.WorldFrame * localFrame;
+                }
+                else
+                {
+                    worldFrame = localFrame;
+                }
+
+                RaiseSceneObjectChangedEvent();
+            }
+        }
+
+        /// <summary>
+        /// Event fired when this scene object has been modified.
+        /// </summary>
         public event SceneObjectModifiedEventHandler? SceneObjectModified;
 
+        /// <summary>
+        /// Moves the scene object to a new assembly.
+        /// </summary>
+        /// <param name="newAssembly">New assembly to attach this acene object to.</param>
+        /// <returns>True if move was successful.</returns>
         public bool MoveAssembly(ISceneAssembly newParent)
         {
             if (ParentAssembly == null)
@@ -122,6 +197,9 @@ namespace JSim.Core.SceneGraph
             return $"{GetType().Name}:{Name}";
         }
 
+        /// <summary>
+        /// Raises a SceneObjectModified event for this object.
+        /// </summary>
         protected void RaiseSceneObjectChangedEvent()
         {
             collator.Publish(new SceneObjectModified(this));
@@ -132,5 +210,7 @@ namespace JSim.Core.SceneGraph
 
         private string name;
         private ISceneAssembly? parentAssembly;
+        private Transform3D worldFrame;
+        private Transform3D localFrame;
     }
 }

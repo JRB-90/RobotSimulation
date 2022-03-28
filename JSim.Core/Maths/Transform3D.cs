@@ -110,6 +110,13 @@ namespace JSim.Core.Maths
         public static Transform3D Identity =>
             new Transform3D();
 
+        public static Transform3D RelativeTransform(
+            Transform3D from,
+            Transform3D to)
+        {
+            return from.Inverse * to;
+        }
+
         public static Transform3D operator *(
             Transform3D left,
             Vector3D right)

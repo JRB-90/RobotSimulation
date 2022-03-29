@@ -38,7 +38,12 @@ namespace JSim.Core.SceneGraph
         /// <summary>
         /// Event fired when this scene object has been modified.
         /// </summary>
-        event SceneObjectModifiedEventHandler SceneObjectModified;
+        event SceneObjectModifiedEventHandler? SceneObjectModified;
+
+        /// <summary>
+        /// Event fired when this scene object has moved.
+        /// </summary>
+        event SceneObjectMovedEventHandler? SceneObjectMoved;
 
         /// <summary>
         /// Moves the scene object to a new assembly.

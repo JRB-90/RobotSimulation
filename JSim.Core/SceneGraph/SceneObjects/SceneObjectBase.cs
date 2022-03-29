@@ -33,8 +33,17 @@ namespace JSim.Core.SceneGraph
             ID = Guid.NewGuid();
             name = nameRepository.GenerateUniqueName(true);
             this.parentAssembly = parentAssembly;
-            worldFrame = parentAssembly == null ? new Transform3D() : parentAssembly.WorldFrame;
-            localFrame = new Transform3D();
+            localFrame = Transform3D.Identity;
+
+            if (parentAssembly != null)
+            {
+                worldFrame = parentAssembly.WorldFrame;
+                parentAssembly.SceneObjectMoved += OnParentAssemblyMoved;
+            }
+            else
+            {
+                worldFrame = Transform3D.Identity;
+            }
         }
 
         public SceneObjectBase(
@@ -54,9 +63,18 @@ namespace JSim.Core.SceneGraph
             ID = id;
             this.name = name;
             this.parentAssembly = parentAssembly;
-            worldFrame = parentAssembly == null ? new Transform3D() : parentAssembly.WorldFrame;
-            localFrame = new Transform3D();
+            localFrame = Transform3D.Identity;
             nameRepository.AddName(name);
+
+            if (parentAssembly != null)
+            {
+                worldFrame = parentAssembly.WorldFrame;
+                parentAssembly.SceneObjectMoved += OnParentAssemblyMoved;
+            }
+            else
+            {
+                worldFrame = Transform3D.Identity;
+            }
         }
 
         /// <summary>
@@ -96,10 +114,11 @@ namespace JSim.Core.SceneGraph
                 if (parentAssembly != null)
                 {
                     LocalFrame = new Transform3D(localFrame);
+                    parentAssembly.SceneObjectMoved += OnParentAssemblyMoved;
                 }
                 else
                 {
-                    WorldFrame = new Transform3D();
+                    WorldFrame = Transform3D.Identity;
                 }
 
                 RaiseSceneObjectChangedEvent();
@@ -129,6 +148,7 @@ namespace JSim.Core.SceneGraph
                     localFrame = worldFrame;
                 }
 
+                RaiseSceneObjectMovedEvent();
                 RaiseSceneObjectChangedEvent();
             }
         }
@@ -153,6 +173,7 @@ namespace JSim.Core.SceneGraph
                     worldFrame = localFrame;
                 }
 
+                RaiseSceneObjectMovedEvent();
                 RaiseSceneObjectChangedEvent();
             }
         }
@@ -161,6 +182,11 @@ namespace JSim.Core.SceneGraph
         /// Event fired when this scene object has been modified.
         /// </summary>
         public event SceneObjectModifiedEventHandler? SceneObjectModified;
+
+        /// <summary>
+        /// Event fired when this scene object has moved.
+        /// </summary>
+        public event SceneObjectMovedEventHandler? SceneObjectMoved;
 
         /// <summary>
         /// Moves the scene object to a new assembly.
@@ -204,6 +230,20 @@ namespace JSim.Core.SceneGraph
         {
             collator.Publish(new SceneObjectModified(this));
             SceneObjectModified?.Invoke(this, new SceneObjectModifiedEventArgs(this));
+        }
+
+        /// <summary>
+        /// Raises a SceneObjectMoved event for this object.
+        /// </summary>
+        protected void RaiseSceneObjectMovedEvent()
+        {
+            collator.Publish(new SceneObjectMoved(this));
+            SceneObjectMoved?.Invoke(this, new SceneObjectMovedEventArgs(this));
+        }
+
+        private void OnParentAssemblyMoved(object sender, SceneObjectMovedEventArgs e)
+        {
+            LocalFrame = LocalFrame;
         }
 
         protected IMessageCollator collator;

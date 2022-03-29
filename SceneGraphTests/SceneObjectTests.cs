@@ -3,6 +3,7 @@ using Castle.Windsor;
 using FluentAssertions;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.Maths;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 using System;
@@ -13,7 +14,7 @@ using Xunit;
 
 namespace SceneGraphTests
 {
-    public class BasicTests
+    public class SceneObjectTests
     {
         const string SceneFileName = "TestScene.jsc";
 
@@ -234,6 +235,55 @@ namespace SceneGraphTests
         }
 
         [Fact]
+        public void DoSceneObjectPositionsUpdate()
+        {
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+            IScene scene = app.SceneManager.CurrentScene;
+
+            var assembly1 = scene.Root.CreateNewAssembly();
+            var entity1 = scene.Root.CreateNewEntity();
+
+            CheckTransformsEquivalent(assembly1.LocalFrame, Transform3D.Identity);
+            CheckTransformsEquivalent(assembly1.WorldFrame, Transform3D.Identity);
+            CheckTransformsEquivalent(entity1.LocalFrame, Transform3D.Identity);
+            CheckTransformsEquivalent(entity1.WorldFrame, Transform3D.Identity);
+
+            assembly1.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
+            CheckTransformsEquivalent(assembly1.LocalFrame, assembly1.WorldFrame);
+
+            var assembly1_1 = assembly1.CreateNewAssembly();
+            var entity1_1 = assembly1.CreateNewEntity();
+
+            CheckTransformsEquivalent(assembly1_1.WorldFrame, assembly1.WorldFrame);
+            CheckTransformsEquivalent(assembly1_1.LocalFrame, Transform3D.Identity);
+            CheckTransformsEquivalent(entity1_1.WorldFrame, assembly1.WorldFrame);
+            CheckTransformsEquivalent(entity1_1.LocalFrame, Transform3D.Identity);
+
+            assembly1_1.LocalFrame = new Transform3D(10, 20, 30, 40, 50, 60);
+            CheckTransformsEquivalent(assembly1_1.WorldFrame, assembly1.WorldFrame * assembly1_1.LocalFrame);
+            entity1_1.LocalFrame = new Transform3D(-4, -5, -6, -1, -2, -3);
+            CheckTransformsEquivalent(entity1_1.WorldFrame, assembly1.WorldFrame * entity1_1.LocalFrame);
+
+            assembly1.LocalFrame = new Transform3D(15, 10, 5, -12, 18, -30);
+            CheckTransformsEquivalent(assembly1.WorldFrame, assembly1.LocalFrame);
+            CheckTransformsEquivalent(assembly1_1.WorldFrame, assembly1.WorldFrame * assembly1_1.LocalFrame);
+            CheckTransformsEquivalent(entity1_1.WorldFrame, assembly1.WorldFrame * entity1_1.LocalFrame);
+
+            assembly1.WorldFrame = new Transform3D(12, 13, 14, 15, 16, 17);
+            CheckTransformsEquivalent(assembly1.WorldFrame, assembly1.LocalFrame);
+            CheckTransformsEquivalent(assembly1_1.WorldFrame, assembly1.WorldFrame * assembly1_1.LocalFrame);
+            CheckTransformsEquivalent(entity1_1.WorldFrame, assembly1.WorldFrame * entity1_1.LocalFrame);
+
+            assembly1_1.WorldFrame = new Transform3D(5, -6, 7, -8, 9, -10);
+            CheckTransformsEquivalent(assembly1_1.WorldFrame, assembly1.WorldFrame * assembly1_1.LocalFrame);
+            entity1_1.WorldFrame = new Transform3D(15, -3, 80, 45, -30, 12);
+            CheckTransformsEquivalent(entity1_1.WorldFrame, assembly1.WorldFrame * entity1_1.LocalFrame);
+
+            app.Dispose();
+        }
+
+        [Fact]
         public void CanNewScene()
         {
             IWindsorContainer container = BootstrapContainer();
@@ -334,6 +384,16 @@ namespace SceneGraphTests
 
             var entity6 = assembly4.CreateNewEntity("Entity6");
             var entity7 = assembly4.CreateNewEntity("Entity7");
+        }
+
+        private void CheckTransformsEquivalent(Transform3D t1, Transform3D t2)
+        {
+            t1.Translation.X.Should().BeApproximately(t2.Translation.X, 0.0001);
+            t1.Translation.X.Should().BeApproximately(t2.Translation.X, 0.0001);
+            t1.Translation.X.Should().BeApproximately(t2.Translation.X, 0.0001);
+            t1.Rotation.AsFixed().Rx.Should().BeApproximately(t2.Rotation.AsFixed().Rx, 0.0001);
+            t1.Rotation.AsFixed().Ry.Should().BeApproximately(t2.Rotation.AsFixed().Ry, 0.0001);
+            t1.Rotation.AsFixed().Rz.Should().BeApproximately(t2.Rotation.AsFixed().Rz, 0.0001);
         }
     }
 }

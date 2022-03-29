@@ -60,6 +60,27 @@ namespace JSim.Core.Maths
             matrix.SetSubMatrix(0, 0, rotation.Matrix);
         }
 
+        public Transform3D(
+            double x,
+            double y,
+            double z,
+            double rx,
+            double ry,
+            double rz)
+        {
+            matrix = Matrix<double>.Build.DenseIdentity(4);
+
+            matrix[0, 3] = x;
+            matrix[1, 3] = y;
+            matrix[2, 3] = z;
+
+            matrix.SetSubMatrix(
+                0,
+                0,
+                new FixedRotation3D(rx, ry, rz).Matrix
+            );
+        }
+
         public Vector3D Translation
         {
             get
@@ -109,6 +130,13 @@ namespace JSim.Core.Maths
 
         public static Transform3D Identity =>
             new Transform3D();
+
+        public static Transform3D RelativeTransform(
+            Transform3D from,
+            Transform3D to)
+        {
+            return from.Inverse * to;
+        }
 
         public static Transform3D operator *(
             Transform3D left,

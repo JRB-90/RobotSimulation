@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Maths;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Interface defining the behaviour off all objects that reside in
@@ -23,9 +25,25 @@
         ISceneAssembly? ParentAssembly { get; }
 
         /// <summary>
+        /// The position of the object in world coordinates.
+        /// </summary>
+        Transform3D WorldFrame { get; set; }
+
+        /// <summary>
+        /// The position of the object in local coordinates, i.e. relative
+        /// to it's parent assembly.
+        /// </summary>
+        Transform3D LocalFrame { get; set; }
+
+        /// <summary>
         /// Event fired when this scene object has been modified.
         /// </summary>
-        event SceneObjectModifiedEventHandler SceneObjectModified;
+        event SceneObjectModifiedEventHandler? SceneObjectModified;
+
+        /// <summary>
+        /// Event fired when this scene object has moved.
+        /// </summary>
+        event SceneObjectMovedEventHandler? SceneObjectMoved;
 
         /// <summary>
         /// Moves the scene object to a new assembly.

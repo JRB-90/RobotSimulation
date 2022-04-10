@@ -24,6 +24,11 @@ namespace JSim.Core.SceneGraph
         ISceneAssembly Root { get; }
 
         /// <summary>
+        /// Gets the selection manager for the scene.
+        /// </summary>
+        ISelectionManager SelectionManager { get; }
+
+        /// <summary>
         /// Event fired when the name of the scene has changed.
         /// </summary>
         event SceneNameChangedEventHandler NameChanged;

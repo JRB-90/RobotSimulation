@@ -14,10 +14,12 @@ namespace JSim.Core.SceneGraph
 
         public Scene(
             ILogger logger,
+            ISelectionManager selectionManager,
             ISceneObjectCreatorFactory creatorFactory,
             IMessageCollator collator)
         {
             this.logger = logger;
+            SelectionManager = selectionManager;
             creator = creatorFactory.CreateSceneObjectCreator();
             this.collator = collator;
             collator.Subscribe(this);
@@ -37,6 +39,8 @@ namespace JSim.Core.SceneGraph
         }
 
         public ISceneAssembly Root { get; }
+
+        public ISelectionManager SelectionManager { get; }
 
         public event SceneNameChangedEventHandler? NameChanged;
 

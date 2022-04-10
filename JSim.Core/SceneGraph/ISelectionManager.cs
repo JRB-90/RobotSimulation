@@ -1,6 +1,4 @@
-﻿using JSim.Core.SceneGraph.Events;
-
-namespace JSim.Core.SceneGraph
+﻿namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Selection managers monitor which scene objects in a scene

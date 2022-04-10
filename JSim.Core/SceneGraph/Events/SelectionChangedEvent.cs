@@ -1,4 +1,4 @@
-﻿namespace JSim.Core.SceneGraph.Events
+﻿namespace JSim.Core.SceneGraph
 {
     public delegate void SelectionChangedEventHandler(object sender, SelectionChangedEventArgs e);
 

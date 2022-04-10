@@ -21,6 +21,7 @@ namespace JSim.Core.SceneGraph
             parentAssembly = null;
             worldFrame = new Transform3D();
             localFrame = new Transform3D();
+            isSelected = false;
         }
 
         public SceneObjectBase(
@@ -44,6 +45,8 @@ namespace JSim.Core.SceneGraph
             {
                 worldFrame = Transform3D.Identity;
             }
+
+            isSelected = false;
         }
 
         public SceneObjectBase(
@@ -75,6 +78,8 @@ namespace JSim.Core.SceneGraph
             {
                 worldFrame = Transform3D.Identity;
             }
+
+            isSelected = false;
         }
 
         /// <summary>
@@ -179,6 +184,19 @@ namespace JSim.Core.SceneGraph
         }
 
         /// <summary>
+        /// Tracks the selection state of the scene object.
+        /// </summary>
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                SelectionChanged?.Invoke(this, new SceneObjectSelectionChangedEventArgs(isSelected));
+            }
+        }
+
+        /// <summary>
         /// Event fired when this scene object has been modified.
         /// </summary>
         public event SceneObjectModifiedEventHandler? SceneObjectModified;
@@ -187,6 +205,11 @@ namespace JSim.Core.SceneGraph
         /// Event fired when this scene object has moved.
         /// </summary>
         public event SceneObjectMovedEventHandler? SceneObjectMoved;
+
+        /// <summary>
+        /// Event fired when the selection state of this object has changed.
+        /// </summary>
+        public event SceneObjectSelectionChangedEventHandler? SelectionChanged;
 
         /// <summary>
         /// Moves the scene object to a new assembly.
@@ -252,5 +275,6 @@ namespace JSim.Core.SceneGraph
         private ISceneAssembly? parentAssembly;
         private Transform3D worldFrame;
         private Transform3D localFrame;
+        private bool isSelected;
     }
 }

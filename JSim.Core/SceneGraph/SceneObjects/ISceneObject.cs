@@ -36,6 +36,11 @@ namespace JSim.Core.SceneGraph
         Transform3D LocalFrame { get; set; }
 
         /// <summary>
+        /// Tracks the selection state of the scene object.
+        /// </summary>
+        bool IsSelected { get; set; }
+
+        /// <summary>
         /// Event fired when this scene object has been modified.
         /// </summary>
         event SceneObjectModifiedEventHandler? SceneObjectModified;
@@ -44,6 +49,11 @@ namespace JSim.Core.SceneGraph
         /// Event fired when this scene object has moved.
         /// </summary>
         event SceneObjectMovedEventHandler? SceneObjectMoved;
+
+        /// <summary>
+        /// Event fired when the selection state of this object has changed.
+        /// </summary>
+        event SceneObjectSelectionChangedEventHandler? SelectionChanged;
 
         /// <summary>
         /// Moves the scene object to a new assembly.

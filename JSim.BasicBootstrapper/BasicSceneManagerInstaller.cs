@@ -24,6 +24,13 @@ namespace JSim.BasicBootstrapper
             );
 
             container.Register(
+                Component.For<ISelectionManager>()
+                .Named("SelectionManager")
+                .ImplementedBy<SelectionManager>()
+                .LifestyleTransient()
+            );
+
+            container.Register(
                 Component.For<ISceneAssembly>()
                 .Named("SceneAssembly")
                 .ImplementedBy<SceneAssembly>()

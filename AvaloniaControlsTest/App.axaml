@@ -1,0 +1,13 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:jsim="clr-namespace:JSim.Avalonia;assembly=JSim.Avalonia"
+             x:Class="AvaloniaControlsTest.App">
+    <Application.DataTemplates>
+		<jsim:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme Mode="Light"/>
+		<StyleInclude Source="avares://JSim.Avalonia/Styles/JSimStyles.axaml"/>
+    </Application.Styles>
+</Application>

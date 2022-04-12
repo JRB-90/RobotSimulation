@@ -6,5 +6,5 @@
         </Border>
     </Design.PreviewWith>
 
-    <!-- Add Styles Here -->
+    <StyleInclude Source="/Styles/JSimTextBox.axaml"/>
 </Styles>

@@ -1,4 +1,5 @@
-﻿using JSim.Core.Maths;
+﻿using JSim.Avalonia.Events;
+using JSim.Core.Maths;
 
 namespace JSim.Avalonia.Models
 {
@@ -15,7 +16,7 @@ namespace JSim.Avalonia.Models
             set
             {
                 transform = value;
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
 
@@ -30,7 +31,7 @@ namespace JSim.Avalonia.Models
                         transform.Translation.Y,
                         transform.Translation.Z
                     );
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
 
@@ -45,7 +46,7 @@ namespace JSim.Avalonia.Models
                         value,
                         transform.Translation.Z
                     );
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
 
@@ -60,7 +61,7 @@ namespace JSim.Avalonia.Models
                         transform.Translation.Y,
                         value
                     );
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
 
@@ -75,7 +76,7 @@ namespace JSim.Avalonia.Models
                         transform.Rotation.AsFixed().Ry,
                         transform.Rotation.AsFixed().Rz
                     );
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
 
@@ -90,7 +91,7 @@ namespace JSim.Avalonia.Models
                         value,
                         transform.Rotation.AsFixed().Rz
                     );
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
         public double Rz
@@ -104,11 +105,11 @@ namespace JSim.Avalonia.Models
                         transform.Rotation.AsFixed().Ry,
                         value
                     );
-                TransformModified?.Invoke(this, EventArgs.Empty);
+                TransformModified?.Invoke(this, new TransformModifiedEventArgs(Transform));
             }
         }
 
-        public event EventHandler? TransformModified;
+        public event TransformModifiedEventHandler? TransformModified;
 
         private Transform3D transform;
     }

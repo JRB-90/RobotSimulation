@@ -1,3 +1,4 @@
+using JSim.Avalonia.Events;
 using JSim.Avalonia.Models;
 using JSim.Avalonia.ViewModels;
 using JSim.Core.Maths;
@@ -21,9 +22,9 @@ namespace AvaloniaControlsTest.ViewModels
 
         public Transform3DViewModel TransformVM { get; }
 
-        private void TransformModel_TransformModified(object? sender, System.EventArgs e)
+        private void TransformModel_TransformModified(object sender, TransformModifiedEventArgs e)
         {
-            if (transformModel.Transform.Translation.X == 55.0)
+            if (e.Transform.Translation.X == 55.0)
             {
                 transformModel.Transform =
                     new Transform3D(

@@ -1,0 +1,39 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="clr-namespace:JSim.Avalonia.Controls;assembly=JSim.Avalonia">
+	
+    <Design.PreviewWith>
+        <Border Padding="20">
+			<StackPanel>
+				<controls:Transform3DBox
+					Width="200"/>
+			</StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+	<Style Selector="Border.DofLabelXAxis">
+		<Setter Property="IsHitTestVisible" Value="False"/>
+		<Setter Property="Background" Value="Red"/>
+	</Style>
+	<Style Selector="Border.DofLabelYAxis">
+		<Setter Property="IsHitTestVisible" Value="False"/>
+		<Setter Property="Background" Value="Green"/>
+	</Style>
+	<Style Selector="Border.DofLabelZAxis">
+		<Setter Property="IsHitTestVisible" Value="False"/>
+		<Setter Property="Background" Value="Blue"/>
+	</Style>
+
+	<Style Selector="TextBlock.DofLabel">
+		<Setter Property="FontSize" Value="10"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+
+	<Style Selector="controls|JSimTextBox.DofTextBox">
+		<Setter Property="FontSize" Value="10"/>
+		<Setter Property="Margin" Value="2, 0, 2, 2"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+</Styles>

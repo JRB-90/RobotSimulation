@@ -19,11 +19,13 @@
 		<conv:DoubleToTruncatedStringConverter x:Key="dTruncStr"/>
 	</Window.Resources>
 
-    <controls:JSimTextBox
-		HorizontalAlignment="Center"
-		VerticalAlignment="Center"
-		Width="150"
-		FontSize="20"
-		ValidatedText="{Binding DoubleValue, Converter={StaticResource dTruncStr}}"/>
+	<StackPanel
+		Orientation="Vertical"
+		VerticalAlignment="Center">
 
+		<ContentControl
+			Margin="10"
+			Width="200"
+			Content="{Binding TransformVM}"/>
+	</StackPanel>
 </Window>

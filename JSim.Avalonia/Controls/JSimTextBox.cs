@@ -31,7 +31,7 @@ namespace JSim.Avalonia.Controls
                 SetValue(ValidatedTextProperty, value);
                 if (ValidatedText == null)
                 {
-                    ValidatedText = oldValue;
+                    SetValue(ValidatedTextProperty, oldValue);
                 }
             }
         }

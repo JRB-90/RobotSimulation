@@ -5,35 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:JSim.Avalonia.Controls;assembly=JSim.Avalonia"
         xmlns:conv="clr-namespace:JSim.Avalonia.Converters;assembly=JSim.Avalonia"
+		xmlns:design="clr-namespace:AvaloniaControlsTest.Design;assembly=AvaloniaControlsTest"
 		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+		d:DataContext="{x:Static design:DesignData.MainWindowVM}"
         x:Class="AvaloniaControlsTest.Views.MainWindow"
 		Width="400" Height="400"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaControlsTest">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<ScrollViewer>
+		<StackPanel
+			Orientation="Vertical"
+			VerticalAlignment="Center">
 
-	<Window.Resources>
-		<conv:DoubleToTruncatedStringConverter x:Key="dTruncStr"/>
-	</Window.Resources>
-
-	<StackPanel
-		Orientation="Vertical"
-		VerticalAlignment="Center"
-		HorizontalAlignment="Center">
-
-		<ContentControl
-			Margin="10"
-			Width="200"
-			HorizontalAlignment="Center"
-			Content="{Binding TransformVM}"/>
-		
-		<controls:JSimTextBox
-			Classes="EditBlock"
-			Margin="10"
-			HorizontalAlignment="Center"
-			Text="This is test text"/>
-	</StackPanel>
+			<ContentControl
+				HorizontalAlignment="Left"
+				Content="{Binding SceneTreeVM}"/>
+		</StackPanel>
+	</ScrollViewer>
 </Window>

@@ -22,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj" />
     <ProjectReference Include="..\JSim.Core\JSim.Core.csproj" />
+    <ProjectReference Include="..\JSim.Logging\JSim.Logging.csproj" />
   </ItemGroup>
 
 </Project>

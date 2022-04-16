@@ -5,8 +5,6 @@ namespace JSim.Avalonia.Models
 {
     internal class SceneAssemblyModel : SceneObjectModelBase
     {
-        readonly ISceneAssembly assembly;
-
         public SceneAssemblyModel(ISceneAssembly assembly)
           :
             base(
@@ -14,28 +12,30 @@ namespace JSim.Avalonia.Models
                 "Group"
             )
         {
-            this.assembly = assembly;
+            Assembly = assembly;
             assembly.SceneObjectModified += OnAssemblyModified;
         }
+
+        public ISceneAssembly Assembly { get; }
 
         public IReadOnlyCollection<SceneObjectModelBase> Children =>
             FormChildren();
 
         public void AddAssembly()
         {
-            assembly.CreateNewAssembly();
+            Assembly.CreateNewAssembly();
         }
 
         public void AddEntity()
         {
-            assembly.CreateNewEntity();
+            Assembly.CreateNewEntity();
         }
 
         private IReadOnlyCollection<SceneObjectModelBase> FormChildren()
         {
             var children = new List<SceneObjectModelBase>();
 
-            foreach (var sceneObject in assembly.Children)
+            foreach (var sceneObject in Assembly.Children)
             {
                 if (sceneObject is ISceneAssembly assembly)
                 {

@@ -4,8 +4,6 @@ namespace JSim.Avalonia.Models
 {
     internal class SceneEntityModel : SceneObjectModelBase
     {
-        readonly ISceneEntity entity;
-
         public SceneEntityModel(ISceneEntity entity)
           :
             base(
@@ -13,7 +11,9 @@ namespace JSim.Avalonia.Models
                 "VectorSquare"
             )
         {
-            this.entity = entity;
+            Entity = entity;
         }
+
+        public ISceneEntity Entity { get; }
     }
 }

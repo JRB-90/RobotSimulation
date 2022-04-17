@@ -1,0 +1,29 @@
+<ContentControl xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			    xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+		        xmlns:templates="clr-namespace:JSim.Avalonia.Templates;assembly=JSim.Avalonia"
+				xmlns:design="clr-namespace:JSim.Avalonia.Design;assembly=JSim.Avalonia"
+                mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="50"
+                x:Class="JSim.Avalonia.Templates.SceneObjectTreeItemLabel">
+	
+	<ContentControl.Styles>
+		<Style Selector="templates|SceneObjectTreeItemLabel">
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Grid
+						ColumnDefinitions="Auto, *">
+						<icons:MaterialIcon
+							Grid.Column="0"
+							Kind="{TemplateBinding Icon}"/>
+						<TextBlock
+							Grid.Column="1"
+							Classes="TreeViewItemText"
+							Text="{TemplateBinding ObjectName}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+	</ContentControl.Styles>
+</ContentControl>

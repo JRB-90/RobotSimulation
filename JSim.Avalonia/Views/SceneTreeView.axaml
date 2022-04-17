@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+			 xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:models="clr-namespace:JSim.Avalonia.Models;assembly=JSim.Avalonia"
+			 xmlns:controls="clr-namespace:JSim.Avalonia.Controls;assembly=JSim.Avalonia"
+			 xmlns:templates="clr-namespace:JSim.Avalonia.Templates;assembly=JSim.Avalonia"
+			 xmlns:design="clr-namespace:JSim.Avalonia.Design;assembly=JSim.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+			 d:DataContext="{x:Static design:DesignData.SceneTreeVM}"
+             x:Class="JSim.Avalonia.Views.SceneTreeView">
+
+	<TreeView
+		x:Name="SceneTree"
+		Classes="MaterialDesignExpandCollapseToggleStyle"
+		SelectionMode="Multiple"
+		Items="{Binding SceneModels}">
+
+		<i:Interaction.Behaviors>
+			<ia:EventTriggerBehavior
+				EventName="SelectionChanged">
+				<ia:InvokeCommandAction
+					Command="{Binding SceneObjectSelectionChanged}"
+					PassEventArgsToCommand="True"/>
+			</ia:EventTriggerBehavior>
+		</i:Interaction.Behaviors>
+
+		<TreeView.DataTemplates>
+			<TreeDataTemplate
+				DataType="models:SceneModel"
+				ItemsSource="{Binding Children}">
+				<Grid
+					ContextMenu="{StaticResource SceneContextMenu}"
+					ColumnDefinitions="Auto, *">
+					<icons:MaterialIcon
+						Grid.Column="0"
+						Kind="{Binding IconName}"/>
+					<controls:JSimTextBox
+						Grid.Column="1"
+						Classes="EditBlock"
+						ContextMenu="{StaticResource SceneContextMenu}"
+						Text="{Binding SceneName}"/>
+				</Grid>
+			</TreeDataTemplate>
+			
+			<TreeDataTemplate
+				DataType="models:SceneAssemblyModel"
+				ItemsSource="{Binding Children}">
+				<templates:SceneObjectTreeItemLabel
+					ContextMenu="{StaticResource SceneAssemblyContextMenu}"
+					Icon="{Binding IconName}"
+					ObjectName="{Binding Name}">
+					<i:Interaction.Behaviors>
+						<ia:EventTriggerBehavior
+							EventName="PointerPressed">
+							<ia:InvokeCommandAction
+								Command="{Binding DataContext.SceneObjectPointerPressed, ElementName=SceneTree}"
+								PassEventArgsToCommand="True"/>
+						</ia:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
+				</templates:SceneObjectTreeItemLabel>
+			</TreeDataTemplate>
+		
+			<DataTemplate
+				DataType="models:SceneEntityModel">
+				<templates:SceneObjectTreeItemLabel
+					ContextMenu="{StaticResource SceneObjectContextMenu}"
+					Icon="{Binding IconName}"
+					ObjectName="{Binding Name}">
+					<i:Interaction.Behaviors>
+						<ia:EventTriggerBehavior
+							EventName="PointerPressed">
+							<ia:InvokeCommandAction
+								Command="{Binding DataContext.SceneObjectPointerPressed, ElementName=SceneTree}"
+								PassEventArgsToCommand="True"/>
+						</ia:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
+				</templates:SceneObjectTreeItemLabel>
+			</DataTemplate>
+
+			<DataTemplate
+				DataType="models:SceneObjectModelBase">
+				<templates:SceneObjectTreeItemLabel
+					ContextMenu="{StaticResource SceneObjectContextMenu}"
+					Icon="{Binding IconName}"
+					ObjectName="{Binding Name}">
+					<i:Interaction.Behaviors>
+						<ia:EventTriggerBehavior
+							EventName="PointerPressed">
+							<ia:InvokeCommandAction
+								Command="{Binding DataContext.SceneObjectPointerPressed, ElementName=SceneTree}"
+								PassEventArgsToCommand="True"/>
+						</ia:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
+				</templates:SceneObjectTreeItemLabel>
+			</DataTemplate>
+		</TreeView.DataTemplates>
+	</TreeView>
+</UserControl>

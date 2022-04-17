@@ -1,0 +1,14 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Design.PreviewWith>
+		<Border Padding="20"/>
+	</Design.PreviewWith>
+	
+    <StyleInclude Source="/Styles/JSimTextBox.axaml"/>
+	<StyleInclude Source="/Styles/Transform3D.axaml"/>
+	<StyleInclude Source="/Styles/SceneTree.axaml"/>
+	<StyleInclude Source="/Styles/SceneObject.axaml"/>
+	<StyleInclude Source="/Styles/MainMenu.axaml"/>
+	<StyleInclude Source="/Styles/ExtendedMenuItem.axaml"/>
+</Styles>

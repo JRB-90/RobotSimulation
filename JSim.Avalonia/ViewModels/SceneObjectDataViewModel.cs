@@ -1,67 +1,62 @@
 ﻿using JSim.Avalonia.Models;
-using JSim.Core.SceneGraph;
 using ReactiveUI;
+using System.ComponentModel;
 
 namespace JSim.Avalonia.ViewModels
 {
     internal class SceneObjectDataViewModel : ViewModelBase, ISceneObjectTypeDataVM
     {
-        readonly ISceneObject sceneObject;
+        readonly SceneObjectModel sceneObject;
 
-        public SceneObjectDataViewModel(ISceneObject sceneObject)
+        public SceneObjectDataViewModel(SceneObjectModel sceneObject)
         {
             this.sceneObject = sceneObject;
-            sceneObject.SceneObjectModified += OnSceneObjectModified;
-            sceneObject.SceneObjectMoved += OnSceneObjectMoved;
-
-            worldFrame = new TransformModel(sceneObject.WorldFrame);
-            worldFrame.TransformModified += OnWorldFrameModified;
-            WorldTransform = new Transform3DViewModel(worldFrame);
-
-            localFrame = new TransformModel(sceneObject.LocalFrame);
-            localFrame.TransformModified += OnLocalFrameModified;
-            LocalTransform = new Transform3DViewModel(localFrame);
+            this.sceneObject.PropertyChanged += OnSceneObjectModelPropertyChanged;
+            worldTransform = new Transform3DViewModel(this.sceneObject.WorldTransform);
+            localTransform = new Transform3DViewModel(this.sceneObject.LocalTransform);
         }
 
         public string Name
         {
             get => sceneObject.Name;
-            set => sceneObject.Name = value;
+            set => sceneObject.SceneObject.Name = value;
         }
 
         public string ID =>
-            sceneObject.ID.ToString();
+            sceneObject.ID;
 
-        public Transform3DViewModel WorldTransform { get; }
-
-        public Transform3DViewModel LocalTransform { get; }
-
-        private void OnSceneObjectModified(object sender, SceneObjectModifiedEventArgs e)
+        public Transform3DViewModel WorldTransform
         {
-            this.RaisePropertyChanged(nameof(Name));
+            get => worldTransform;
+            set => this.RaiseAndSetIfChanged(ref worldTransform, value, nameof(WorldTransform));
         }
 
-        private void OnSceneObjectMoved(object sender, SceneObjectMovedEventArgs e)
+        public Transform3DViewModel LocalTransform
         {
-            
+            get => localTransform;
+            set => this.RaiseAndSetIfChanged(ref localTransform, value, nameof(LocalTransform));
         }
 
-        private void OnLocalFrameModified(object sender, Events.TransformModifiedEventArgs e)
+        private void OnSceneObjectModelPropertyChanged(
+            object? sender, 
+            PropertyChangedEventArgs e)
         {
-            
+            if (e.PropertyName == nameof(SceneObjectModel.WorldTransform))
+            {
+                WorldTransform.Transform = sceneObject.WorldTransform;
+                this.RaisePropertyChanged(nameof(WorldTransform));
+                this.RaisePropertyChanged(nameof(LocalTransform));
+            }
+
+            if (e.PropertyName == nameof(SceneObjectModel.LocalTransform))
+            {
+                LocalTransform.Transform = sceneObject.LocalTransform;
+                this.RaisePropertyChanged(nameof(WorldTransform));
+                this.RaisePropertyChanged(nameof(LocalTransform));
+            }
         }
 
-        private void OnWorldFrameModified(object sender, Events.TransformModifiedEventArgs e)
-        {
-            
-        }
-
-        private void RefreshTransformViews()
-        {
-
-        }
-
-        private TransformModel worldFrame;
-        private TransformModel localFrame;
+        private Transform3DViewModel worldTransform;
+        private Transform3DViewModel localTransform;
     }
 }

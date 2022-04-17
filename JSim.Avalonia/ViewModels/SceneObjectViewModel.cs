@@ -1,4 +1,5 @@
-﻿using JSim.Core.SceneGraph;
+﻿using JSim.Avalonia.Models;
+using JSim.Core.SceneGraph;
 using ReactiveUI;
 
 namespace JSim.Avalonia.ViewModels
@@ -36,7 +37,9 @@ namespace JSim.Avalonia.ViewModels
                     {
                         SceneObjectBaseDataVM =
                             new SceneObjectDataViewModel(
-                                sceneManager.CurrentScene.SelectionManager.SelectedObject
+                                new SceneObjectModel(
+                                    sceneManager.CurrentScene.SelectionManager.SelectedObject
+                                )
                             );
                         SceneObjectTypeDataVM =
                             SelectObjectTypeVM(

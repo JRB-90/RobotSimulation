@@ -66,15 +66,19 @@ namespace JSim.Avalonia.Design
             TransformModel = new TransformModel(Transform);
             Transform3DVM = new Transform3DViewModel(TransformModel);
 
+            SceneObjectModel = new SceneObjectModel(entity5);
+            SceneEntityModel = new SceneEntityModel(entity5);
+            SceneAssemblyModel = new SceneAssemblyModel(assembly4);
+
             SceneTreeVM =
                 new SceneTreeViewModel(
                     app.SceneManager,
                     inputManager,
                     dialogManager
                 );
-
+            
             SceneObjectVM = new SceneObjectViewModel(app.SceneManager);
-            SceneObjectDataVM = new SceneObjectDataViewModel(entity5);
+            SceneObjectDataVM = new SceneObjectDataViewModel(SceneObjectModel);
             SceneAssemblyDataVM = new SceneAssemblyDataViewModel(assembly4);
             SceneEntityDataVM = new SceneEntityDataViewModel(entity5);
 
@@ -86,6 +90,12 @@ namespace JSim.Avalonia.Design
         public static TransformModel TransformModel { get; }
 
         public static Transform3DViewModel Transform3DVM { get; }
+
+        public static SceneObjectModel SceneObjectModel { get; }
+
+        public static SceneEntityModel SceneEntityModel { get; }
+
+        public static SceneAssemblyModel SceneAssemblyModel { get; }
 
         public static SceneTreeViewModel SceneTreeVM { get; }
 

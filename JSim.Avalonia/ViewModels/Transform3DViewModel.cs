@@ -7,11 +7,20 @@ namespace JSim.Avalonia.ViewModels
     {
         public Transform3DViewModel(TransformModel transform)
         {
-            Transform = transform;
+            this.transform = transform;
             Transform.TransformModified += OnTransformModified;
         }
 
-        public TransformModel Transform { get; }
+        public TransformModel Transform
+        {
+            get => transform;
+            set
+            {
+                transform = value;
+                transform.TransformModified += OnTransformModified;
+                RefreshValues();
+            }
+        }
 
         public double X
         {
@@ -64,5 +73,7 @@ namespace JSim.Avalonia.ViewModels
         {
             RefreshValues();
         }
+
+        private TransformModel transform;
     }
 }

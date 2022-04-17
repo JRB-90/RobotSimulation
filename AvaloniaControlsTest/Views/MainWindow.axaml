@@ -14,22 +14,30 @@
         Title="AvaloniaControlsTest">
 
 	<Grid
-		ColumnDefinitions="*, *">
+		RowDefinitions="Auto, *">
 		
-		<ScrollViewer
-			Grid.Column="0"
-			HorizontalScrollBarVisibility="Auto"
-			VerticalScrollBarVisibility="Auto">
-			<ContentControl
-				Content="{Binding SceneTreeVM}"/>
-		</ScrollViewer> 
+		<ContentControl
+			Content="{Binding MainMenuVM}"/>
+		
+		<Grid
+			Grid.Row="1"
+			ColumnDefinitions="*, *">
 
-		<ScrollViewer
-			Grid.Column="1"
-			HorizontalScrollBarVisibility="Auto"
-			VerticalScrollBarVisibility="Auto">
-			<ContentControl
-				Content="{Binding SceneObjectVM}"/>
-		</ScrollViewer>
+			<ScrollViewer
+				Grid.Column="0"
+				HorizontalScrollBarVisibility="Auto"
+				VerticalScrollBarVisibility="Auto">
+				<ContentControl
+					Content="{Binding SceneTreeVM}"/>
+			</ScrollViewer>
+
+			<ScrollViewer
+				Grid.Column="1"
+				HorizontalScrollBarVisibility="Auto"
+				VerticalScrollBarVisibility="Auto">
+				<ContentControl
+					Content="{Binding SceneObjectVM}"/>
+			</ScrollViewer>
+		</Grid>
 	</Grid>
 </Window>

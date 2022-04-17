@@ -9,4 +9,6 @@
 	<StyleInclude Source="/Styles/Transform3D.axaml"/>
 	<StyleInclude Source="/Styles/SceneTree.axaml"/>
 	<StyleInclude Source="/Styles/SceneObject.axaml"/>
+	<StyleInclude Source="/Styles/MainMenu.axaml"/>
+	<StyleInclude Source="/Styles/ExtendedMenuItem.axaml"/>
 </Styles>

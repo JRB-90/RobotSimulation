@@ -82,6 +82,12 @@ namespace JSim.Avalonia.Design
             SceneAssemblyDataVM = new SceneAssemblyDataViewModel(assembly4);
             SceneEntityDataVM = new SceneEntityDataViewModel(entity5);
 
+            MainMenuVM =
+                new MainMenuViewModel(
+                    app,
+                    dialogManager
+                );
+
             app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(assembly4);
         }
 
@@ -106,6 +112,8 @@ namespace JSim.Avalonia.Design
         public static SceneAssemblyDataViewModel SceneAssemblyDataVM { get; }
 
         public static SceneEntityDataViewModel SceneEntityDataVM { get; }
+
+        public static MainMenuViewModel MainMenuVM { get; }
 
         private static ISimApplication app;
     }

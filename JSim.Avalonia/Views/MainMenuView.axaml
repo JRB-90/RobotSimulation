@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:JSim.Avalonia.Controls;assembly=JSim.Avalonia"
+			 xmlns:material="clr-namespace:Material.Styles;assembly=Material.Styles"
+			 xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:design="clr-namespace:JSim.Avalonia.Design;assembly=JSim.Avalonia"
+			 d:DataContext="{x:Static design:DesignData.SceneAssemblyDataVM}"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+             x:Class="JSim.Avalonia.Views.MainMenuView">
+	<Menu
+		VerticalAlignment="Top">
+		<controls:ExtendedMenuItem
+			Width="48"
+			Header="_File">
+			<MenuItem.Header>
+				<TextBlock
+					Text="File"/>
+			</MenuItem.Header>
+
+			<controls:ExtendedMenuItem
+				Header="_New Scene"
+				Command="{Binding NewScene}">
+				<MenuItem.Icon>
+					<icons:MaterialIcon Kind="Reload"/>
+				</MenuItem.Icon>
+			</controls:ExtendedMenuItem>
+
+			<controls:ExtendedMenuItem
+				Header="_Load Scene"
+				Command="{Binding LoadScene}">
+				<MenuItem.Icon>
+					<icons:MaterialIcon Kind="FileUpload"/>
+				</MenuItem.Icon>
+			</controls:ExtendedMenuItem>
+
+			<controls:ExtendedMenuItem
+				Header="_Save Scene"
+				Command="{Binding SaveScene}">
+				<MenuItem.Icon>
+					<icons:MaterialIcon Kind="FileDownload"/>
+				</MenuItem.Icon>
+			</controls:ExtendedMenuItem>
+
+			<Separator/>
+
+			<controls:ExtendedMenuItem
+				Header="_Exit"
+				Command="{Binding Exit}">
+				<MenuItem.Icon>
+					<icons:MaterialIcon Kind="ExitToApp"/>
+				</MenuItem.Icon>
+			</controls:ExtendedMenuItem>
+		</controls:ExtendedMenuItem>
+	</Menu>
+</UserControl>

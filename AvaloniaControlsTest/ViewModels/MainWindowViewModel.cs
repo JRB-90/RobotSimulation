@@ -76,6 +76,12 @@ namespace AvaloniaControlsTest.ViewModels
 
             SceneObjectVM = new SceneObjectViewModel(app.SceneManager);
 
+            MainMenuVM = 
+                new MainMenuViewModel(
+                    app,
+                    dialogManager
+                );
+
             app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(assembly4);
         }
 
@@ -84,6 +90,8 @@ namespace AvaloniaControlsTest.ViewModels
         public SceneTreeViewModel SceneTreeVM { get; }
 
         public SceneObjectViewModel SceneObjectVM { get; }
+
+        public MainMenuViewModel MainMenuVM { get; }
 
         private void TransformModel_TransformModified(object sender, TransformModifiedEventArgs e)
         {

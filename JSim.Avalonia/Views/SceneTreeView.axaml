@@ -7,6 +7,7 @@
 			 xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:models="clr-namespace:JSim.Avalonia.Models;assembly=JSim.Avalonia"
 			 xmlns:controls="clr-namespace:JSim.Avalonia.Controls;assembly=JSim.Avalonia"
+			 xmlns:templates="clr-namespace:JSim.Avalonia.Templates;assembly=JSim.Avalonia"
 			 xmlns:design="clr-namespace:JSim.Avalonia.Design;assembly=JSim.Avalonia"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
 			 d:DataContext="{x:Static design:DesignData.SceneTreeVM}"
@@ -17,6 +18,15 @@
 		Classes="MaterialDesignExpandCollapseToggleStyle"
 		SelectionMode="Multiple"
 		Items="{Binding SceneModels}">
+
+		<i:Interaction.Behaviors>
+			<ia:EventTriggerBehavior
+				EventName="SelectionChanged">
+				<ia:InvokeCommandAction
+					Command="{Binding SceneObjectSelectionChanged}"
+					PassEventArgsToCommand="True"/>
+			</ia:EventTriggerBehavior>
+		</i:Interaction.Behaviors>
 
 		<TreeView.DataTemplates>
 			<TreeDataTemplate
@@ -39,10 +49,10 @@
 			<TreeDataTemplate
 				DataType="models:SceneAssemblyModel"
 				ItemsSource="{Binding Children}">
-				<Grid
+				<templates:SceneObjectTreeItemLabel
 					ContextMenu="{StaticResource SceneAssemblyContextMenu}"
-					ColumnDefinitions="Auto, *">
-
+					Icon="{Binding IconName}"
+					ObjectName="{Binding Name}">
 					<i:Interaction.Behaviors>
 						<ia:EventTriggerBehavior
 							EventName="PointerPressed">
@@ -51,24 +61,15 @@
 								PassEventArgsToCommand="True"/>
 						</ia:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
-					
-					<icons:MaterialIcon
-						Grid.Column="0"
-						Kind="{Binding IconName}"/>
-					<TextBlock
-						Grid.Column="1"
-						Classes="TreeViewItemText"
-						Text="{Binding Name}"/>
-				</Grid>
+				</templates:SceneObjectTreeItemLabel>
 			</TreeDataTemplate>
 		
-
 			<DataTemplate
 				DataType="models:SceneEntityModel">
-				<Grid
+				<templates:SceneObjectTreeItemLabel
 					ContextMenu="{StaticResource SceneObjectContextMenu}"
-					ColumnDefinitions="Auto, *">
-
+					Icon="{Binding IconName}"
+					ObjectName="{Binding Name}">
 					<i:Interaction.Behaviors>
 						<ia:EventTriggerBehavior
 							EventName="PointerPressed">
@@ -77,23 +78,15 @@
 								PassEventArgsToCommand="True"/>
 						</ia:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
-					
-					<icons:MaterialIcon
-						Grid.Column="0"
-						Kind="{Binding IconName}"/>
-					<TextBlock
-						Grid.Column="1"
-						Classes="TreeViewItemText"
-						Text="{Binding Name}"/>
-				</Grid>
+				</templates:SceneObjectTreeItemLabel>
 			</DataTemplate>
 
 			<DataTemplate
 				DataType="models:SceneObjectModelBase">
-				<Grid
+				<templates:SceneObjectTreeItemLabel
 					ContextMenu="{StaticResource SceneObjectContextMenu}"
-					ColumnDefinitions="Auto, *">
-
+					Icon="{Binding IconName}"
+					ObjectName="{Binding Name}">
 					<i:Interaction.Behaviors>
 						<ia:EventTriggerBehavior
 							EventName="PointerPressed">
@@ -102,15 +95,7 @@
 								PassEventArgsToCommand="True"/>
 						</ia:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
-					
-					<icons:MaterialIcon
-						Grid.Column="0"
-						Kind="{Binding IconName}"/>
-					<TextBlock
-						Grid.Column="1"
-						Classes="TreeViewItemText"
-						Text="{Binding Name}"/>
-				</Grid>
+				</templates:SceneObjectTreeItemLabel>
 			</DataTemplate>
 		</TreeView.DataTemplates>
 	</TreeView>

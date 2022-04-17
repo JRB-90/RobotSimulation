@@ -39,6 +39,47 @@ namespace JSim.Avalonia.ViewModels
             private set => this.RaiseAndSetIfChanged(ref sceneModels, value, nameof(SceneModels));
         }
 
+        public void SceneObjectSelectionChanged(global::Avalonia.Controls.SelectionChangedEventArgs e)
+        {
+            if (e.Source is TreeView tree &&
+                tree.SelectedItems != null)
+            {
+                if (tree.SelectedItems.Count == 0)
+                {
+                    sceneManager.CurrentScene.SelectionManager.ResetSelection();
+                }
+                else if (tree.SelectedItems.Count == 1)
+                {
+                    if (tree.SelectedItems[0] is SceneObjectModelBase sceneObject)
+                    {
+                        sceneManager.CurrentScene.SelectionManager.SetSingleSelection(
+                            sceneObject.SceneObject
+                        );
+                    }
+                    else
+                    {
+                        sceneManager.CurrentScene.SelectionManager.ResetSelection();
+                    }
+                }
+                else
+                {
+                    var selectedSceneObjects = new List<ISceneObject>();
+
+                    foreach (var item in tree.SelectedItems)
+                    {
+                        if (tree.SelectedItems[0] is SceneObjectModelBase sceneObject)
+                        {
+                            selectedSceneObjects.Add(sceneObject.SceneObject);
+                        }
+                    }
+
+                    sceneManager.CurrentScene.SelectionManager.SetMultiSelection(
+                        selectedSceneObjects
+                    );
+                }
+            }
+        }
+
         public void SceneObjectPointerPressed(PointerPressedEventArgs e)
         {
             if (IsLeftClicked(e) &&

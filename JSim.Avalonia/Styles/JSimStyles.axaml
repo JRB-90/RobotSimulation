@@ -8,4 +8,5 @@
     <StyleInclude Source="/Styles/JSimTextBox.axaml"/>
 	<StyleInclude Source="/Styles/Transform3D.axaml"/>
 	<StyleInclude Source="/Styles/SceneTree.axaml"/>
+	<StyleInclude Source="/Styles/SceneObject.axaml"/>
 </Styles>

@@ -5,30 +5,30 @@ namespace JSim.Avalonia.Models
 {
     internal abstract class SceneObjectModelBase : ReactiveObject
     {
-        readonly ISceneObject sceneObject;
-
         public SceneObjectModelBase(
             ISceneObject sceneObject,
             string iconName)
         {
-            this.sceneObject = sceneObject;
+            SceneObject = sceneObject;
             IconName = iconName;
             sceneObject.SceneObjectModified += OnSceneObjectModified;
         }
 
+        public ISceneObject SceneObject { get; }
+
         public string IconName { get; }
 
         public string Name =>
-            sceneObject.Name;
+            SceneObject.Name;
 
         public void Remove()
         {
-            sceneObject.ParentAssembly?.DetachObject(sceneObject);
+            SceneObject.ParentAssembly?.DetachObject(SceneObject);
         }
 
         public void Move(ISceneAssembly assembly)
         {
-            sceneObject.MoveAssembly(assembly);
+            SceneObject.MoveAssembly(assembly);
         }
 
         private void OnSceneObjectModified(object sender, SceneObjectModifiedEventArgs e)

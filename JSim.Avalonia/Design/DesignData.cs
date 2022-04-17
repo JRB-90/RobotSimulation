@@ -45,17 +45,17 @@ namespace JSim.Avalonia.Design
             var entity6 = assembly4.CreateNewEntity("Entity6");
             var entity7 = assembly4.CreateNewEntity("Entity7");
 
-            assembly2.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
-            assembly2.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
+            assembly3.WorldFrame = new Transform3D(10, 20, 30, 40, 50, 60);
 
-            entity1.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
-            entity1.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
+            assembly4.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
+            assembly4.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
+
+            entity5.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
+            entity5.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
 
             var window = new Window();
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);
-
-            app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(assembly2);
 
             Transform =
                 new Transform3D(
@@ -72,6 +72,13 @@ namespace JSim.Avalonia.Design
                     inputManager,
                     dialogManager
                 );
+
+            SceneObjectVM = new SceneObjectViewModel(app.SceneManager);
+            SceneObjectDataVM = new SceneObjectDataViewModel(entity5);
+            SceneAssemblyDataVM = new SceneAssemblyDataViewModel(assembly4);
+            SceneEntityDataVM = new SceneEntityDataViewModel(entity5);
+
+            app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(assembly4);
         }
 
         public static Transform3D Transform { get; }
@@ -81,6 +88,14 @@ namespace JSim.Avalonia.Design
         public static Transform3DViewModel Transform3DVM { get; }
 
         public static SceneTreeViewModel SceneTreeVM { get; }
+
+        public static SceneObjectViewModel SceneObjectVM { get; }
+
+        public static SceneObjectDataViewModel SceneObjectDataVM { get; }
+
+        public static SceneAssemblyDataViewModel SceneAssemblyDataVM { get; }
+
+        public static SceneEntityDataViewModel SceneEntityDataVM { get; }
 
         private static ISimApplication app;
     }

@@ -28,6 +28,7 @@
 		<Setter Property="FontSize" Value="10"/>
 		<Setter Property="HorizontalAlignment" Value="Left"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Margin" Value="5, 2, 2, 2"/>
 	</Style>
 
 	<Style Selector="controls|JSimTextBox.DofTextBox">

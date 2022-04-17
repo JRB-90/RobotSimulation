@@ -13,14 +13,23 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaControlsTest">
 
-	<ScrollViewer>
-		<StackPanel
-			Orientation="Vertical"
-			VerticalAlignment="Center">
-
+	<Grid
+		ColumnDefinitions="*, *">
+		
+		<ScrollViewer
+			Grid.Column="0"
+			HorizontalScrollBarVisibility="Auto"
+			VerticalScrollBarVisibility="Auto">
 			<ContentControl
-				HorizontalAlignment="Left"
 				Content="{Binding SceneTreeVM}"/>
-		</StackPanel>
-	</ScrollViewer>
+		</ScrollViewer> 
+
+		<ScrollViewer
+			Grid.Column="1"
+			HorizontalScrollBarVisibility="Auto"
+			VerticalScrollBarVisibility="Auto">
+			<ContentControl
+				Content="{Binding SceneObjectVM}"/>
+		</ScrollViewer>
+	</Grid>
 </Window>

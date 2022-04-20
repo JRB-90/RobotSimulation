@@ -1,7 +1,8 @@
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
 using System;
+using System.Collections.Generic;
 
 namespace AvaloniaOpenTK
 {
@@ -17,6 +18,7 @@ namespace AvaloniaOpenTK
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
+                .UseOpenTK(new List<GlVersion> { new GlVersion(GlProfileType.OpenGL, 3, 0, true) })
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();

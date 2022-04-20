@@ -3,6 +3,7 @@
         xmlns:vm="using:AvaloniaOpenTK.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:AvaloniaOpenTK.CustomControls;assembly=AvaloniaOpenTK"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="AvaloniaOpenTK.Views.MainWindow"
 		Width="600" Height="400"
@@ -14,6 +15,6 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <controls:OpenTKControl/>
 
 </Window>

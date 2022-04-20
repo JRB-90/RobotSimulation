@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System.Diagnostics;
 
-namespace AvaloniaOpenTK.CustomControls
+namespace JSim.Avalonia.Controls
 {
     public class OpenTKControl : OpenTKGlControl
     {

@@ -16,12 +16,13 @@ namespace JSim.Avalonia.Controls
         {
         }
 
-        public static readonly StyledProperty<IBrush?> ClearColorProperty =
-            AvaloniaProperty.Register<OpenTKControl, IBrush?>(
-                nameof(ClearColor)
+        public static readonly StyledProperty<IBrush> ClearColorProperty =
+            AvaloniaProperty.Register<OpenTKControl, IBrush>(
+                nameof(ClearColor),
+                Brushes.Black
             );
 
-        public IBrush? ClearColor
+        public IBrush ClearColor
         {
             get { return GetValue(ClearColorProperty); }
             set { SetValue(ClearColorProperty, value); }
@@ -31,27 +32,20 @@ namespace JSim.Avalonia.Controls
         {
             GL.Viewport(0, 0, (int)Bounds.Width, (int)Bounds.Height);
 
-            if (ClearColor == null)
+            if (ClearColor is ISolidColorBrush solidColorBrush)
             {
-                GL.ClearColor(Color4.Black);
+                GL.ClearColor(
+                    new Color4(
+                        solidColorBrush.Color.R,
+                        solidColorBrush.Color.G,
+                        solidColorBrush.Color.B,
+                        solidColorBrush.Color.A
+                    )
+                );
             }
             else
             {
-                if (ClearColor is ISolidColorBrush solidColorBrush)
-                {
-                    GL.ClearColor(
-                        new Color4(
-                            solidColorBrush.Color.R,
-                            solidColorBrush.Color.G,
-                            solidColorBrush.Color.B,
-                            solidColorBrush.Color.A
-                        )
-                    );
-                }
-                else
-                {
-                    GL.ClearColor(Color4.Black);
-                }
+                GL.ClearColor(Color4.Black);
             }
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

@@ -1,9 +1,10 @@
-﻿using Avalonia.OpenGL;
+﻿using Avalonia;
+using Avalonia.Media;
+using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using System.Diagnostics;
 
 namespace JSim.Avalonia.Controls
 {
@@ -15,13 +16,44 @@ namespace JSim.Avalonia.Controls
         {
         }
 
+        public static readonly StyledProperty<IBrush?> ClearColorProperty =
+            AvaloniaProperty.Register<OpenTKControl, IBrush?>(
+                nameof(ClearColor)
+            );
+
+        public IBrush? ClearColor
+        {
+            get { return GetValue(ClearColorProperty); }
+            set { SetValue(ClearColorProperty, value); }
+        }
+
         protected override void OnOpenGlRender(GlInterface gl, int fb)
         {
             GL.Viewport(0, 0, (int)Bounds.Width, (int)Bounds.Height);
 
-            var hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
-            var c = Color4.FromHsv(new Vector4(hue, 0.75f, 0.75f, 1));
-            GL.ClearColor(c);
+            if (ClearColor == null)
+            {
+                GL.ClearColor(Color4.Black);
+            }
+            else
+            {
+                if (ClearColor is ISolidColorBrush solidColorBrush)
+                {
+                    GL.ClearColor(
+                        new Color4(
+                            solidColorBrush.Color.R,
+                            solidColorBrush.Color.G,
+                            solidColorBrush.Color.B,
+                            solidColorBrush.Color.A
+                        )
+                    );
+                }
+                else
+                {
+                    GL.ClearColor(Color4.Black);
+                }
+            }
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.LoadIdentity();
             GL.Begin(PrimitiveType.Triangles);
@@ -37,7 +69,5 @@ namespace JSim.Avalonia.Controls
 
             GL.End();
         }
-
-        private static readonly Stopwatch _stopwatch = Stopwatch.StartNew();
     }
 }

@@ -3,7 +3,7 @@
 namespace JSim.Core.Maths
 {
     /// <summary>
-    /// Represents a cartesian vector.
+    /// Represents a 3 dimensional certesian vector.
     /// </summary>
     public class Vector3D
     {
@@ -21,7 +21,7 @@ namespace JSim.Core.Maths
                 throw new ArgumentException("Vector must be of size 3");
             }
 
-            this.vector = vector;
+            this.vector = vector.Clone();
         }
 
         public Vector3D(Vector3D vector)
@@ -86,6 +86,13 @@ namespace JSim.Core.Maths
         public static Vector3D Origin =>
             new Vector3D();
 
+        public void Normalize()
+        {
+            X = X / Length;
+            Y = Y / Length;
+            Z = Z / Length;
+        }
+
         public Vector3D Cross(Vector3D right)
         {
             Vector<double> result = Vector<double>.Build.Dense(3);
@@ -113,6 +120,46 @@ namespace JSim.Core.Maths
             Vector3D right)
         {
             return new Vector3D(left.vector - right.vector);
+        }
+
+        public static Vector3D operator *(
+            Vector3D left,
+            double right)
+        {
+            Vector<double> v =
+                Vector<double>.Build.DenseOfArray(
+                    new double[]
+                    {
+                        left.X,
+                        left.Y,
+                        left.Z,
+                        1.0
+                    }
+                );
+
+            var result = v * right;
+
+            return new Vector3D(result.SubVector(0, 3));
+        }
+
+        public static Vector3D operator *(
+            double left,
+            Vector3D right)
+        {
+            Vector<double> v =
+                Vector<double>.Build.DenseOfArray(
+                    new double[]
+                    {
+                        right.X,
+                        right.Y,
+                        right.Z,
+                        1.0
+                    }
+                );
+
+            var result = left * v;
+
+            return new Vector3D(result.SubVector(0, 3));
         }
 
         public static Vector3D operator *(

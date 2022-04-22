@@ -122,6 +122,15 @@ namespace JSim.Core.Maths
             }
         }
 
+        public Vector3D I =>
+            new Vector3D(Rotation.Matrix.Column(0));
+
+        public Vector3D J =>
+            new Vector3D(Rotation.Matrix.Column(1));
+
+        public Vector3D K =>
+            new Vector3D(Rotation.Matrix.Column(2));
+
         public Matrix<double> Matrix =>
             matrix;
 

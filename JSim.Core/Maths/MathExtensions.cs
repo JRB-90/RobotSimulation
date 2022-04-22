@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.Maths
+﻿using MathNet.Numerics.LinearAlgebra;
+
+namespace JSim.Core.Maths
 {
     public static class MathExtensions
     {
@@ -25,6 +27,16 @@
         public static AxisAngleRotation3D AsAxisAngle(this Rotation3D rotation)
         {
             return new AxisAngleRotation3D(rotation);
+        }
+
+        public static Matrix<double> ToHomogeneousMat(this Vector3D translation)
+        {
+            return new Transform3D(translation).Matrix;
+        }
+
+        public static Transform3D ToHomogeneousTransform(this Vector3D translation)
+        {
+            return new Transform3D(translation);
         }
     }
 }

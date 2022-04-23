@@ -10,12 +10,14 @@ namespace JSim.Core.SceneGraph
         public SceneEntity(
             INameRepository nameRepository,
             IMessageCollator collator,
-            ISceneAssembly parentAssembly)
+            ISceneAssembly parentAssembly,
+            string nameRoot = "Entity")
           :
             base(
                 nameRepository,
                 collator,
-                parentAssembly)
+                parentAssembly,
+                nameRoot)
         {
         }
 

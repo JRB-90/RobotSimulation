@@ -1,15 +1,12 @@
-﻿namespace JSim.Core.SceneGraph
+﻿namespace JSim.Core.Common
 {
     /// <summary>
     /// Standard implementation of a name repository.
     /// </summary>
     public class NameRepository : INameRepository
     {
-        const string UniqueNameBase = "SceneObject_";
-
         public NameRepository()
         {
-            index = 0;
             names = new List<string>();
         }
 
@@ -18,12 +15,16 @@
             return !names.Contains(name);
         }
 
-        public string GenerateUniqueName(bool addAfterCreation)
+        public string GenerateUniqueName(
+            string nameRoot = "Object",
+            bool addAfterCreation = true)
         {
+            int index = 1;
             string generatedName;
+
             do
             {
-                generatedName = $"{UniqueNameBase}{index}";
+                generatedName = $"{nameRoot}{index}";
                 index++;
             } while (!IsUniqueName(generatedName));
 
@@ -63,7 +64,6 @@
             }
         }
 
-        private int index;
         private List<string> names;
     }
 }

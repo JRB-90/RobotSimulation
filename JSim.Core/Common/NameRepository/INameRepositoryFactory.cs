@@ -1,4 +1,4 @@
-﻿namespace JSim.Core.SceneGraph
+﻿namespace JSim.Core.Common
 {
     public interface INameRepositoryFactory
     {

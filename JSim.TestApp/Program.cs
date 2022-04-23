@@ -24,7 +24,7 @@ namespace JSim.TestApp
 
             IGeometryCreator creator = container.Resolve<IGeometryCreator>();
             IGeometry geo1 = creator.CreateGeometry(null);
-            IGeometry geo2 = geo1.CreateChildGeometry("Geo2");
+            IGeometry geo2 = geo1.CreateChildGeometry();
 
             app.Dispose();
 

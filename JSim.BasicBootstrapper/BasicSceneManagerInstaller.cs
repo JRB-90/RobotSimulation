@@ -14,17 +14,6 @@ namespace JSim.BasicBootstrapper
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<INameRepository>()
-                .Named("NameRepository")
-                .ImplementedBy<NameRepository>()
-                .LifestyleTransient()
-            );
-            container.Register(
-                Component.For<INameRepositoryFactory>()
-                .AsFactory()
-            );
-
-            container.Register(
                 Component.For<ISelectionManager>()
                 .Named("SelectionManager")
                 .ImplementedBy<SelectionManager>()

@@ -1,4 +1,5 @@
-﻿using JSim.Core.Maths;
+﻿using JSim.Core.Common;
+using JSim.Core.Maths;
 using JSim.Core.SceneGraph;
 
 namespace JSim.Core.Render
@@ -17,7 +18,7 @@ namespace JSim.Core.Render
         {
             this.nameRepository = nameRepository;
             this.creator = creator;
-            name = nameRepository.GenerateUniqueName(true);
+            name = nameRepository.GenerateUniqueName("Geometry");
             ID = Guid.NewGuid();
             isVisible = true;
             isHighlighted = false;
@@ -42,7 +43,7 @@ namespace JSim.Core.Render
             this.creator = creator;
             this.parentGeometry = parentGeometry;
 
-            name = nameRepository.GenerateUniqueName(true);
+            name = nameRepository.GenerateUniqueName("Geometry");
             ID = Guid.NewGuid();
             isVisible = true;
             isHighlighted = false;

@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Common;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Standard implementation of a scene object creator.

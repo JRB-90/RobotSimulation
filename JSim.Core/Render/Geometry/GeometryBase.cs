@@ -9,11 +9,14 @@ namespace JSim.Core.Render
     public abstract class GeometryBase : IGeometry
     {
         readonly INameRepository nameRepository;
+        readonly IGeometryCreator creator;
 
         public GeometryBase(
-            INameRepository nameRepository)
+            INameRepository nameRepository,
+            IGeometryCreator creator)
         {
             this.nameRepository = nameRepository;
+            this.creator = creator;
             name = nameRepository.GenerateUniqueName(true);
             ID = Guid.NewGuid();
             isVisible = true;
@@ -32,6 +35,40 @@ namespace JSim.Core.Render
 
         public GeometryBase(
             INameRepository nameRepository,
+            IGeometryCreator creator,
+            IGeometry? parentGeometry)
+        {
+            this.nameRepository = nameRepository;
+            this.creator = creator;
+            this.parentGeometry = parentGeometry;
+
+            name = nameRepository.GenerateUniqueName(true);
+            ID = Guid.NewGuid();
+            isVisible = true;
+            isHighlighted = false;
+            isSelectable = true;
+            isSelected = false;
+            children = new List<IGeometry>();
+            localFrame = Transform3D.Identity;
+            vertices = new List<Vertex>();
+            indices = new List<uint>();
+            material = new Material();
+            geometryType = GeometryType.Solid;
+            
+            if (parentGeometry != null)
+            {
+                worldFrame = parentGeometry.WorldFrame;
+                parentGeometry.GeometryModified += OnParentGeometryModified;
+            }
+            else
+            {
+                worldFrame = Transform3D.Identity;
+            }
+        }
+
+        public GeometryBase(
+            INameRepository nameRepository,
+            IGeometryCreator creator,
             Guid id,
             string name,
             bool isVisible,
@@ -51,6 +88,7 @@ namespace JSim.Core.Render
             }
 
             this.nameRepository = nameRepository;
+            this.creator = creator;
             this.name = name;
             this.isVisible = isVisible;
             this.isHighlighted = isHighlighted;
@@ -310,6 +348,25 @@ namespace JSim.Core.Render
             {
                 return false;
             }
+        }
+
+        public IGeometry CreateChildGeometry()
+        {
+            IGeometry geometry = creator.CreateGeometry(this);
+            children.Add(geometry);
+            FireGeometryModifiedEvent();
+
+            return geometry;
+        }
+
+        public IGeometry CreateChildGeometry(string name)
+        {
+            IGeometry geometry = creator.CreateGeometry(this);
+            geometry.Name = name;
+            children.Add(geometry);
+            FireGeometryModifiedEvent();
+
+            return geometry;
         }
 
         public override string ToString()

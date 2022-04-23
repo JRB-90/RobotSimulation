@@ -8,9 +8,26 @@ namespace JSim.Core.Render
 
         public DummyGeometry(
             ILogger logger,
-            INameRepository nameRepository)
+            INameRepository nameRepository,
+            IGeometryCreator creator)
           :
-            base(nameRepository)
+            base(
+                nameRepository, 
+                creator)
+        {
+            this.logger = logger;
+        }
+
+        public DummyGeometry(
+            ILogger logger,
+            INameRepository nameRepository,
+            IGeometryCreator creator,
+            IGeometry? parentGeometry)
+          :
+            base(
+                nameRepository,
+                creator,
+                parentGeometry)
         {
             this.logger = logger;
         }

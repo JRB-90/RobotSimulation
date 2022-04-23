@@ -123,5 +123,18 @@ namespace JSim.Core.Render
         /// <param name="geometry">Geometry to remove from this node.</param>
         /// <returns>Returns true if successfully removed.</returns>
         bool DetachGeometry(IGeometry geometry);
+
+        /// <summary>
+        /// Creates a new geometry object childed to this node.
+        /// </summary>
+        /// <returns>Newly instantiated geometry object.</returns>
+        IGeometry CreateChildGeometry();
+
+        /// <summary>
+        /// Creates a new geometry object childed to this node.
+        /// </summary>
+        /// <param name="name">Name to assign the geometry object. Must be unique to tree.</param>
+        /// <returns>Newly instantiated geometry object.</returns>
+        IGeometry CreateChildGeometry(string name);
     }
 }

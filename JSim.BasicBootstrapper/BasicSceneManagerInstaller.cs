@@ -20,7 +20,8 @@ namespace JSim.BasicBootstrapper
                 .LifestyleTransient()
             );
             container.Register(
-                Component.For<INameRepositoryFactory>().AsFactory()
+                Component.For<INameRepositoryFactory>()
+                .AsFactory()
             );
 
             container.Register(
@@ -37,7 +38,8 @@ namespace JSim.BasicBootstrapper
                 .LifestyleTransient()
             );
             container.Register(
-                Component.For<ISceneAssemblyFactory>().AsFactory()
+                Component.For<ISceneAssemblyFactory>()
+                .AsFactory()
             );
 
             container.Register(
@@ -47,7 +49,8 @@ namespace JSim.BasicBootstrapper
                 .LifestyleTransient()
             );
             container.Register(
-                Component.For<ISceneEntityFactory>().AsFactory()
+                Component.For<ISceneEntityFactory>()
+                .AsFactory()
             );
 
             container.Register(
@@ -57,7 +60,8 @@ namespace JSim.BasicBootstrapper
                 .LifestyleTransient()
             );
             container.Register(
-                Component.For<ISceneObjectCreatorFactory>().AsFactory()
+                Component.For<ISceneObjectCreatorFactory>()
+                .AsFactory()
             );
 
             container.Register(
@@ -67,7 +71,8 @@ namespace JSim.BasicBootstrapper
                 .LifestyleTransient()
             );
             container.Register(
-                Component.For<ISceneFactory>().AsFactory()
+                Component.For<ISceneFactory>()
+                .AsFactory()
             );
 
             container.Register(

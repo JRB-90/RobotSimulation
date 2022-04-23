@@ -53,7 +53,7 @@ namespace JSim.Core.SceneGraph
         /// <summary>
         /// Event fired when the selection state of this object has changed.
         /// </summary>
-        event SceneObjectSelectionChangedEventHandler? SelectionChanged;
+        event SelectionStateChangedEventHandler? SelectionStateChanged;
 
         /// <summary>
         /// Moves the scene object to a new assembly.

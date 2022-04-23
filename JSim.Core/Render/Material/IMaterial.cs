@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JSim.Core.Render
 {
-    internal interface IMaterial
+    public interface IMaterial
     {
     }
 }

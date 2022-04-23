@@ -192,7 +192,7 @@ namespace JSim.Core.SceneGraph
             set
             {
                 isSelected = value;
-                SelectionChanged?.Invoke(this, new SceneObjectSelectionChangedEventArgs(isSelected));
+                SelectionStateChanged?.Invoke(this, new SelectionStateChangedEventArgs(isSelected));
             }
         }
 
@@ -209,7 +209,7 @@ namespace JSim.Core.SceneGraph
         /// <summary>
         /// Event fired when the selection state of this object has changed.
         /// </summary>
-        public event SceneObjectSelectionChangedEventHandler? SelectionChanged;
+        public event SelectionStateChangedEventHandler? SelectionStateChanged;
 
         /// <summary>
         /// Moves the scene object to a new assembly.

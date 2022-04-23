@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 using System;
@@ -22,26 +23,8 @@ namespace JSim.TestApp
             scene.SceneObjectModified += Scene_SceneObjectModified;
             scene.SceneStructureChanged += Scene_SceneStructureChanged;
 
-            var assembly1 = scene.Root.CreateNewAssembly();
-            var assembly2 = scene.Root.CreateNewAssembly();
-            var assembly3 = scene.Root.CreateNewAssembly();
-            var entity1 = scene.Root.CreateNewEntity();
-            var entity2 = scene.Root.CreateNewEntity();
-
-            var entity3 = assembly2.CreateNewEntity();
-            var entity4 = assembly2.CreateNewEntity();
-
-            var entity5 = assembly3.CreateNewEntity();
-            var assembly4 = assembly3.CreateNewAssembly();
-            var assembly5 = assembly3.CreateNewAssembly();
-
-            var entity6 = assembly4.CreateNewEntity();
-            var entity7 = assembly4.CreateNewEntity();
-
-            var canFindA1 = scene.TryFindByID(assembly1.ID, out ISceneObject? foundAssembly);
-            var canFindE1 = scene.TryFindByName(entity1.Name, out ISceneObject? foundEntity);
-
-            sceneManager.NewScene();
+            IGeometryCreator creator = container.Resolve<IGeometryCreator>();
+            IGeometry geo1 = creator.CreateGeometry(null);
 
             app.Dispose();
 

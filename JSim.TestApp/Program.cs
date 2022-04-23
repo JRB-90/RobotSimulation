@@ -22,9 +22,9 @@ namespace JSim.TestApp
             scene.SceneObjectModified += Scene_SceneObjectModified;
             scene.SceneStructureChanged += Scene_SceneStructureChanged;
 
-            IGeometryCreator creator = container.Resolve<IGeometryCreator>();
-            IGeometry geo1 = creator.CreateGeometry(null);
-            IGeometry geo2 = geo1.CreateChildGeometry();
+            ISceneEntity entity1 = scene.Root.CreateNewEntity();
+            ISceneEntity entity2 = scene.Root.CreateNewEntity();
+            ISceneEntity entity3 = scene.Root.CreateNewEntity();
 
             app.Dispose();
 

@@ -14,6 +14,13 @@ namespace JSim.BasicBootstrapper
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
+                Component.For<IGeometryContainer>()
+                .Named("GeometryContainer")
+                .ImplementedBy<GeometryContainer>()
+                .LifestyleTransient()
+             );
+
+            container.Register(
                 Component.For<IGeometry>()
                 .Named("DummyGeometry")
                 .ImplementedBy<DummyGeometry>()

@@ -1,24 +1,15 @@
-﻿using JSim.Core.Display;
-using JSim.Core.SceneGraph;
-
-namespace JSim.Core.Render
+﻿namespace JSim.Core.Render
 {
     /// <summary>
     /// Interface to define the behaviour of all rendering managers.
-    /// Rendering managers are responsible for rendering scene graphs using
-    /// their specific rendering implementation. This may involve creating and
-    /// maintaining GPU contexts/GPU memory management.
+    /// Rendering managers are responsible for tracking rendering configurations
+    /// and controlling access to the implementation specific rendering code.
     /// </summary>
     public interface IRenderingManager : IDisposable
     {
         /// <summary>
-        /// Renders a scene to the given surface.
+        /// Rendering engine configured for this application.
         /// </summary>
-        /// <param name="surface">Renderable surface to draw onto.</param>
-        /// <param name="scene">Scene graph to render.</param>
-        void Render(
-            IRenderingSurface surface,
-            IScene scene
-        );
+        IRenderingEngine RenderingEngine { get; }
     }
 }

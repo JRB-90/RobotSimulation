@@ -40,9 +40,11 @@ namespace JSim.Core
             logger.Log("Sim applicaiton disposed", LogLevel.Debug);
         }
 
-        private void OnRenderRequested(object sender, SurfaceRequiresRenderEventArgs e)
+        private void OnRenderRequested(
+            object sender, 
+            SurfaceRequiresRenderEventArgs e)
         {
-            RenderingManager.Render(
+            RenderingManager.RenderingEngine.Render(
                 e.Surface,
                 SceneManager.CurrentScene
             );

@@ -11,7 +11,7 @@ namespace JSim.Core.Render
     /// Contains the position, vertex normal and texture coordinate of the vertex.
     /// By using this class to store vertex data, it can be easily serialised.
     /// </remarks>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Vertex
     {
         private VertData3D position;

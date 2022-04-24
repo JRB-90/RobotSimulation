@@ -24,8 +24,8 @@ namespace JSim.OpenTK
 
             container.Register(
                 Component.For<IGeometry>()
-                .Named("DummyGeometry")
-                .ImplementedBy<DummyGeometry>()
+                .Named("OpenTKGeometry")
+                .ImplementedBy<OpenTKGeometry>()
                 .LifestyleTransient()
             );
             container.Register(

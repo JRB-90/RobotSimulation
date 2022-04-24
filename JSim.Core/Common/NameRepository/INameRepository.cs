@@ -1,4 +1,4 @@
-﻿namespace JSim.Core.SceneGraph
+﻿namespace JSim.Core.Common
 {
     /// <summary>
     /// Interface to define behaviour of scene graph name repositories,
@@ -9,7 +9,10 @@
     {
         bool IsUniqueName(string name);
 
-        string GenerateUniqueName(bool addAfterCreation);
+        string GenerateUniqueName(
+            string nameRoot = "Object",
+            bool addAfterCreation = true
+        );
 
         bool AddName(string name);
 

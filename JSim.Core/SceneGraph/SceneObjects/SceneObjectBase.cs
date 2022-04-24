@@ -12,12 +12,13 @@ namespace JSim.Core.SceneGraph
 
         public SceneObjectBase(
             INameRepository nameRepository,
-            IMessageCollator collator)
+            IMessageCollator collator,
+            string nameRoot = "SceneObject")
         {
             this.nameRepository = nameRepository;
             this.collator = collator;
             ID = Guid.NewGuid();
-            name = nameRepository.GenerateUniqueName(true);
+            name = nameRepository.GenerateUniqueName(nameRoot);
             parentAssembly = null;
             worldFrame = new Transform3D();
             localFrame = new Transform3D();
@@ -27,12 +28,13 @@ namespace JSim.Core.SceneGraph
         public SceneObjectBase(
             INameRepository nameRepository,
             IMessageCollator collator,
-            ISceneAssembly? parentAssembly)
+            ISceneAssembly? parentAssembly,
+            string nameRoot = "SceneObject")
         {
             this.nameRepository = nameRepository;
             this.collator = collator;
             ID = Guid.NewGuid();
-            name = nameRepository.GenerateUniqueName(true);
+            name = nameRepository.GenerateUniqueName(nameRoot);
             this.parentAssembly = parentAssembly;
             localFrame = Transform3D.Identity;
 
@@ -192,7 +194,7 @@ namespace JSim.Core.SceneGraph
             set
             {
                 isSelected = value;
-                SelectionChanged?.Invoke(this, new SceneObjectSelectionChangedEventArgs(isSelected));
+                SelectionStateChanged?.Invoke(this, new SelectionStateChangedEventArgs(isSelected));
             }
         }
 
@@ -209,7 +211,7 @@ namespace JSim.Core.SceneGraph
         /// <summary>
         /// Event fired when the selection state of this object has changed.
         /// </summary>
-        public event SceneObjectSelectionChangedEventHandler? SelectionChanged;
+        public event SelectionStateChangedEventHandler? SelectionStateChanged;
 
         /// <summary>
         /// Moves the scene object to a new assembly.

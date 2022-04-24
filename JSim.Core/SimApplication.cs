@@ -21,6 +21,8 @@ namespace JSim.Core
             SceneManager = sceneManager;
             DisplayManager = displayManager;
             RenderingManager = renderingManager;
+
+            DisplayManager.SurfaceRequiresRender += OnRenderRequested;
             logger.Log("Sim applicaiton created", LogLevel.Debug);
         }
 
@@ -36,6 +38,14 @@ namespace JSim.Core
             RenderingManager.Dispose();
             DisplayManager.Dispose();
             logger.Log("Sim applicaiton disposed", LogLevel.Debug);
+        }
+
+        private void OnRenderRequested(object sender, SurfaceRequiresRenderEventArgs e)
+        {
+            RenderingManager.Render(
+                e.Surface,
+                SceneManager.CurrentScene
+            );
         }
     }
 }

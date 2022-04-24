@@ -1,4 +1,5 @@
 ﻿using JSim.Core.Common;
+using JSim.Core.Render;
 
 namespace JSim.Core.SceneGraph
 {
@@ -10,18 +11,23 @@ namespace JSim.Core.SceneGraph
         public SceneEntity(
             INameRepository nameRepository,
             IMessageCollator collator,
-            ISceneAssembly parentAssembly)
+            IGeometryContainer geometryContainer,
+            ISceneAssembly parentAssembly,
+            string nameRoot = "Entity")
           :
             base(
                 nameRepository,
                 collator,
-                parentAssembly)
+                parentAssembly,
+                nameRoot)
         {
+            GeometryContainer = geometryContainer;
         }
 
         public SceneEntity(
             INameRepository nameRepository,
             IMessageCollator collator,
+            IGeometryContainer geometryContainer,
             Guid id,
             string name,
             ISceneAssembly parentAssembly)
@@ -33,6 +39,9 @@ namespace JSim.Core.SceneGraph
                 name,
                 parentAssembly)
         {
+            GeometryContainer = geometryContainer;
         }
+
+        public IGeometryContainer GeometryContainer { get; }
     }
 }

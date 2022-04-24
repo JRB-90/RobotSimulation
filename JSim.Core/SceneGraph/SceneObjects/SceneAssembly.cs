@@ -13,11 +13,13 @@ namespace JSim.Core.SceneGraph
         public SceneAssembly(
             INameRepository nameRepository,
             ISceneObjectCreator creator,
-            IMessageCollator collator)
+            IMessageCollator collator,
+            string nameRoot = "Assembly")
           :
             base(
                 nameRepository,
-                collator)
+                collator,
+                nameRoot)
         {
             this.creator = creator;
             this.collator = collator;
@@ -28,12 +30,14 @@ namespace JSim.Core.SceneGraph
             INameRepository nameRepository,
             ISceneObjectCreator creator,
             IMessageCollator collator,
-            ISceneAssembly? parentAssembly)
+            ISceneAssembly? parentAssembly,
+            string nameRoot = "Assembly")
           :
             base(
                 nameRepository,
                 collator,
-                parentAssembly)
+                parentAssembly,
+                nameRoot)
         {
             this.creator = creator;
             this.collator = collator;

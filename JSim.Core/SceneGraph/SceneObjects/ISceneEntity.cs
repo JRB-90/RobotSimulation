@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Render;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Interface to define the behaviour of all ISceneEntity objects.
@@ -11,5 +13,10 @@
     /// </summary>
     public interface ISceneEntity : ISceneObject
     {
+        /// <summary>
+        /// Gets the geometry container for this entity, which contains the
+        /// entities geometry tree.
+        /// </summary>
+        IGeometryContainer GeometryContainer { get; }
     }
 }

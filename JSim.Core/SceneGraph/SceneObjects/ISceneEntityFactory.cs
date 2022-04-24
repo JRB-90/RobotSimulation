@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Common;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Interface to define the behaviour of all ISceneEntity factory impementations.

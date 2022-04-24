@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using Castle.Facilities.TypedFactory;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using JSim.Core;
@@ -21,6 +22,17 @@ namespace JSim.BasicBootstrapper
             container.Register(
                 Component.For<IMessageCollator>()
                 .ImplementedBy<MessageCollator>()
+            );
+
+            container.Register(
+                Component.For<INameRepository>()
+                .Named("NameRepository")
+                .ImplementedBy<NameRepository>()
+                .LifestyleTransient()
+            );
+            container.Register(
+                Component.For<INameRepositoryFactory>()
+                .AsFactory()
             );
 
             container.Register(

@@ -13,8 +13,16 @@ namespace JSim.BasicBootstrapper
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
+                Component.For<IRenderingSurface>()
+                .Named("DummyRenderingSurface")
+                .ImplementedBy<DummyRenderingSurface>()
+                .LifestyleTransient()
+            );
+
+            container.Register(
                 Component.For<IDisplayManager>()
-                .ImplementedBy<DummyDisplayManager>()
+                .Named("DisplayManager")
+                .ImplementedBy<DisplayManager>()
             );
         }
     }

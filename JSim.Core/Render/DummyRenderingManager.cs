@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JSim.Core.Display;
+using JSim.Core.SceneGraph;
 
 namespace JSim.Core.Render
 {
@@ -15,6 +16,13 @@ namespace JSim.Core.Render
         public void Dispose()
         {
             logger.Log("Dummy rendering manager disposed", LogLevel.Debug);
+        }
+
+        public void Render(
+            IRenderingSurface surface,
+            IScene scene)
+        {
+            logger.Log("Render called", LogLevel.Debug);
         }
     }
 }

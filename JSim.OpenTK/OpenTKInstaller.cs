@@ -2,15 +2,16 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using JSim.Avalonia.Controls;
 using JSim.Core.Display;
 using JSim.Core.Render;
 
-namespace JSim.BasicBootstrapper
+namespace JSim.OpenTK
 {
     /// <summary>
-    /// Installs a dummy rendering manager to a windsor container.
+    /// Installs an opentk based rendering backend.
     /// </summary>
-    public class DummyRenderingManagerInstaller : IWindsorInstaller
+    public class OpenTKInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -45,8 +46,8 @@ namespace JSim.BasicBootstrapper
 
             container.Register(
                 Component.For<IRenderingEngine>()
-                .Named("DummyRenderingEngine")
-                .ImplementedBy<DummyRenderingEngine>()
+                .Named("OpenTKRenderingEngine")
+                .ImplementedBy<OpenTKRenderingEngine>()
                 .LifestyleSingleton()
             );
 
@@ -60,7 +61,7 @@ namespace JSim.BasicBootstrapper
             container.Register(
                 Component.For<IRenderingSurface>()
                 .Named("DummyRenderingSurface")
-                .ImplementedBy<DummyRenderingSurface>()
+                .ImplementedBy<OpenTKControl>()
                 .LifestyleTransient()
             );
 

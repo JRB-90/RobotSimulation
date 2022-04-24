@@ -22,8 +22,7 @@ namespace JSim.Avalonia.Design
                 new BasicApplicationInstaller(),
                 Log4NetInstaller.FromEmbedded("log4netconsole.config"),
                 new BasicSceneManagerInstaller(),
-                new DummyRenderingManagerInstaller(),
-                new DummyDisplayManagerInstaller()
+                new DummyRenderingManagerInstaller()
             );
 
             app = container.Resolve<ISimApplication>();

@@ -33,6 +33,7 @@
             {
                 surfaces.Add(surface);
                 surface.RenderRequested += OnSurfaceRequestedRender;
+                SurfaceRequiresRender?.Invoke(this, new SurfaceRequiresRenderEventArgs(surface));
 
                 return true;
             }

@@ -1,5 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK;
+using JSim.Core.Render;
+using System.Runtime.InteropServices;
 
 namespace JSim.OpenTK
 {
@@ -30,9 +32,9 @@ namespace JSim.OpenTK
             handle.NumElements = vertices.Length;
             GL.GenBuffers(1, out handle.VboID);
             GL.BindBuffer(BufferTarget.ArrayBuffer, handle.VboID);
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * BlittableValueType.StrideOf(vertices)), vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * Marshal.SizeOf(typeof(Vertex))), vertices, BufferUsageHint.StaticDraw);
             GL.GetBufferParameter(BufferTarget.ArrayBuffer, BufferParameterName.BufferSize, out size);
-            if (vertices.Length * BlittableValueType.StrideOf(vertices) != size)
+            if (vertices.Length * Marshal.SizeOf(typeof(Vertex)) != size)
             {
                 // TODO
                 //Logger.Log("Error: Vertex data not uploaded correctly");

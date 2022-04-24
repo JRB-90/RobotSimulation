@@ -3,19 +3,19 @@ using JSim.Core.SceneGraph;
 
 namespace JSim.Core.Render
 {
-    public class DummyRenderingManager : IRenderingManager
+    public class DummyRenderingEngine : IRenderingEngine
     {
         readonly ILogger logger;
 
-        public DummyRenderingManager(ILogger logger)
+        public DummyRenderingEngine(ILogger logger)
         {
             this.logger = logger;
-            logger.Log("Dummy rendering manager created", LogLevel.Debug);
+            logger.Log("Dummy rendering engine created", LogLevel.Debug);
         }
 
         public void Dispose()
         {
-            logger.Log("Dummy rendering manager disposed", LogLevel.Debug);
+            logger.Log("Dummy rendering engine disposed", LogLevel.Debug);
         }
 
         public void Render(

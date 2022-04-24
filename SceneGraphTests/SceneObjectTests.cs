@@ -360,8 +360,7 @@ namespace SceneGraphTests
                 new BasicApplicationInstaller(),
                 Log4NetInstaller.FromEmbedded("log4netconsole.config"),
                 new BasicSceneManagerInstaller(),
-                new DummyRenderingManagerInstaller(),
-                new DummyDisplayManagerInstaller()
+                new DummyRenderingManagerInstaller()
             );
 
             return container;

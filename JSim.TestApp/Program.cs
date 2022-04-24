@@ -2,7 +2,6 @@
 using Castle.Windsor;
 using JSim.BasicBootstrapper;
 using JSim.Core;
-using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 
@@ -51,8 +50,7 @@ namespace JSim.TestApp
                 new BasicApplicationInstaller(),
                 Log4NetInstaller.FromEmbedded("log4netconsole.config"),
                 new BasicSceneManagerInstaller(),
-                new DummyRenderingManagerInstaller(),
-                new DummyDisplayManagerInstaller()
+                new DummyRenderingManagerInstaller()
             );
 
             return container;

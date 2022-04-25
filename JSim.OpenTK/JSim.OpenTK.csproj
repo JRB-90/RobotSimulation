@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shaders\GLSL\basicFragmentShader.glsl" />
+    <None Remove="Shaders\GLSL\basicVertexShader.glsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Shaders\GLSL\basicFragmentShader.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\basicVertexShader.glsl" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.999-cibuild0016933-beta" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.999-cibuild0016933-beta" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.999-cibuild0016933-beta" />

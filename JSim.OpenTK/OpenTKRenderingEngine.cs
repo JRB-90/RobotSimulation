@@ -12,10 +12,12 @@ namespace JSim.OpenTK
     public class OpenTKRenderingEngine : IRenderingEngine
     {
         readonly ILogger logger;
+        readonly ShaderManager shaderManager;
 
         public OpenTKRenderingEngine(ILogger logger)
         {
             this.logger = logger;
+            shaderManager = new ShaderManager(logger);
         }
 
         public void Dispose()

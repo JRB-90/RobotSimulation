@@ -5,6 +5,12 @@
     /// </summary>
     public class Material : IMaterial
     {
+        public Material()
+        {
+            color = new Color(1.0f, 0.0f, 0.0f, 0.0f);
+            shading = ShadingType.Solid;
+        }
+
         public Color Color
         {
             get => color;

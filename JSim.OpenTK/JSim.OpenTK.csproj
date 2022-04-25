@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JSim.Avalonia\JSim.Avalonia.csproj" />
     <ProjectReference Include="..\JSim.Core\JSim.Core.csproj" />
   </ItemGroup>
 

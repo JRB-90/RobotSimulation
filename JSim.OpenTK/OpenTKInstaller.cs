@@ -2,7 +2,6 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using JSim.Avalonia.Controls;
 using JSim.Core.Display;
 using JSim.Core.Render;
 
@@ -52,6 +51,20 @@ namespace JSim.OpenTK
             );
 
             container.Register(
+                Component.For<ISharedGlContextFactory>()
+                .Named("OpenTKSharedContextFactory")
+                .ImplementedBy<OpenTKSharedContextFactory>()
+                .LifestyleSingleton()
+            );
+
+            container.Register(
+                Component.For<IGlContextManager>()
+                .Named("GlContextManager")
+                .ImplementedBy<GlContextManager>()
+                .LifestyleSingleton()
+            );
+
+            container.Register(
                 Component.For<IRenderingManager>()
                 .Named("RenderingManager")
                 .ImplementedBy<RenderingManager>()
@@ -60,9 +73,16 @@ namespace JSim.OpenTK
 
             container.Register(
                 Component.For<IRenderingSurface>()
-                .Named("DummyRenderingSurface")
+                .Named("OpenTKControl")
                 .ImplementedBy<OpenTKControl>()
                 .LifestyleTransient()
+            );
+
+            container.Register(
+                Component.For<IOpenTKControlFactory>()
+                .Named("OpenTKControlFactory")
+                .ImplementedBy<OpenTKControlFactory>()
+                .LifestyleSingleton()
             );
 
             container.Register(

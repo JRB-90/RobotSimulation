@@ -43,7 +43,7 @@ namespace JSim.OpenTK
 
             SetUniformVec4(
                 "newColor",
-                new Color(255, 255, 0, 0)
+                new Color(255, 0, 0, 0)
                 //material.Diffuse
             );
         }

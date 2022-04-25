@@ -4,16 +4,17 @@ using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using JSim.Core.Display;
 using JSim.Core.Render;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
 
-namespace JSim.Avalonia.Controls
+namespace JSim.OpenTK
 {
     public class OpenTKControl : OpenTKControlBase, IRenderingSurface
     {
-        public OpenTKControl()
+        public OpenTKControl(ISharedGlContextFactory glContextFactory)
           :
-            base(new OpenGlControlSettings() { ContinuouslyRender = false })
+            base(
+                glContextFactory,
+                new OpenGlControlSettings() { ContinuouslyRender = false }
+            )
         {
             camera =
                 new StandardCamera(
@@ -22,6 +23,7 @@ namespace JSim.Avalonia.Controls
                 );
 
             camera.CameraModified += OnCameraModified;
+            EffectiveViewportChanged += OpenTKControl_EffectiveViewportChanged;
         }
 
         public static readonly StyledProperty<IBrush> ClearColorProperty =
@@ -76,52 +78,17 @@ namespace JSim.Avalonia.Controls
 
         private Action? renderCallback;
 
-        private void RenderTest()
-        {
-            GL.Viewport(0, 0, (int)Bounds.Width, (int)Bounds.Height);
-
-            if (ClearColor is ISolidColorBrush solidColorBrush)
-            {
-                GL.ClearColor(
-                    new Color4(
-                        solidColorBrush.Color.R,
-                        solidColorBrush.Color.G,
-                        solidColorBrush.Color.B,
-                        solidColorBrush.Color.A
-                    )
-                );
-            }
-            else
-            {
-                GL.ClearColor(Color4.Black);
-            }
-
-            GL.Clear(
-                ClearBufferMask.ColorBufferBit |
-                ClearBufferMask.DepthBufferBit
-            );
-
-            GL.LoadIdentity();
-            GL.Begin(PrimitiveType.Triangles);
-
-            GL.Color4(Color4.Red);
-            GL.Vertex2(0.0f, 0.5f);
-
-            GL.Color4(Color4.Green);
-            GL.Vertex2(0.58f, -0.5f);
-
-            GL.Color4(Color4.Blue);
-            GL.Vertex2(-0.58f, -0.5f);
-
-            GL.End();
-        }
-
         private void FireRequestRenderEvent()
         {
             RenderRequested?.Invoke(this, new RenderRequestedEventArgs());
         }
 
         private void OnCameraModified(object sender, CameraModifiedEventArgs e)
+        {
+            FireRequestRenderEvent();
+        }
+
+        private void OpenTKControl_EffectiveViewportChanged(object? sender, global::Avalonia.Layout.EffectiveViewportChangedEventArgs e)
         {
             FireRequestRenderEvent();
         }

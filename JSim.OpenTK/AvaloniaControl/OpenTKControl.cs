@@ -90,6 +90,7 @@ namespace JSim.OpenTK
 
         private void OpenTKControl_EffectiveViewportChanged(object? sender, global::Avalonia.Layout.EffectiveViewportChangedEventArgs e)
         {
+            Camera.Update(this);
             FireRequestRenderEvent();
         }
 

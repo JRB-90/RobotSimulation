@@ -15,30 +15,9 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Grid
-		RowDefinitions="*,*"
-		ColumnDefinitions="*,*">
-
-		<ContentControl
+	<ContentControl
 			Grid.Row="0"
 			Grid.Column="0"
-			Content="{Binding GraphicsControl1}"/>
-
-		<ContentControl
-			Grid.Row="0"
-			Grid.Column="1"
-			Content="{Binding GraphicsControl2}"/>
-
-		<ContentControl
-			Grid.Row="1"
-			Grid.Column="0"
-			Content="{Binding GraphicsControl3}"/>
-
-		<ContentControl
-			Grid.Row="1"
-			Grid.Column="1"
-			Content="{Binding GraphicsControl4}"/>
-		
-	</Grid>
+			Content="{Binding GraphicsControl}"/>
 
 </Window>

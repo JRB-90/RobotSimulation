@@ -28,6 +28,44 @@ namespace JSim.Core.Maths
             matrix = rotationMatrix.Clone();
         }
 
+        public Rotation3D(
+            Vector3D unitX, 
+            Vector3D unitY, 
+            Vector3D unitZ)
+        {
+            matrix = Matrix<double>.Build.DenseIdentity(3);
+
+            matrix.SetColumn(
+                0,
+                new double[]
+                {
+                    unitX.X,
+                    unitX.Y,
+                    unitX.Z
+                }
+            );
+
+            matrix.SetColumn(
+                1,
+                new double[]
+                {
+                    unitY.X,
+                    unitY.Y,
+                    unitY.Z
+                }
+            );
+
+            matrix.SetColumn(
+                2,
+                new double[]
+                {
+                    unitZ.X,
+                    unitZ.Y,
+                    unitZ.Z
+                }
+            );
+        }
+
         public Matrix<double> Matrix => matrix;
 
         public static Rotation3D Identity => new Rotation3D();

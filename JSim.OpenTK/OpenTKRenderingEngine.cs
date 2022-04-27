@@ -12,8 +12,8 @@ namespace JSim.OpenTK
 {
     public class OpenTKRenderingEngine : IRenderingEngine
     {
-        const float DEFAULT_POINT_SIZE = 10.0f;
-        const float DEFAULT_LINE_WIDTH = 1.0f;
+        const float DEFAULT_POINT_SIZE = 5.0f;
+        const float DEFAULT_LINE_WIDTH = 0.1f;
 
         readonly ILogger logger;
         readonly IGlContextManager glContextManager;
@@ -82,24 +82,31 @@ namespace JSim.OpenTK
 
             if (scene.TryFindByName("Entity", out ISceneObject? entity))
             {
-                if (entity is ISceneEntity sceneEntity &&
-                    sceneEntity.GeometryContainer.Root.Children.FirstOrDefault() is OpenTKGeometry geometry)
+                if (entity is ISceneEntity sceneEntity)
                 {
-                    IShader shader = shaderManager.FindShader(geometry.Material.Shading);
-                    shader.Bind();
+                    foreach (var geometry in sceneEntity.GeometryContainer.Root.Children.OfType<OpenTKGeometry>())
+                    {
+                        if (!geometry.IsVisible)
+                        {
+                            continue;
+                        }
 
-                    shader.UpdateUniforms(
-                        Transform3D.Identity,
-                        surface.Camera,
-                        geometry.Material
-                    );
+                        IShader shader = shaderManager.FindShader(geometry.Material.Shading);
+                        shader.Bind();
 
-                    VboUtils.Draw(
-                        geometry.VBO,
-                        PrimitiveType.Points
-                    );
+                        shader.UpdateUniforms(
+                            geometry.WorldFrame,
+                            surface.Camera,
+                            geometry.Material
+                        );
 
-                    shader.Unbind();
+                        VboUtils.Draw(
+                            geometry.VBO,
+                            ToPrimitiveType(geometry.GeometryType)
+                        );
+
+                        shader.Unbind();
+                    }
                 }
             }
 
@@ -108,25 +115,25 @@ namespace JSim.OpenTK
 
         private void SetDefaultOptions()
         {
-            //GL.FrontFace(FrontFaceDirection.Cw);
-            //GL.CullFace(CullFaceMode.Back);
-            //GL.Enable(EnableCap.CullFace);
-            //GL.Enable(EnableCap.DepthTest);
-            //GL.Enable(EnableCap.DepthClamp);
-            //GL.Enable(EnableCap.Texture2D);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.CullFace(CullFaceMode.Back);
+            GL.Enable(EnableCap.CullFace);
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.DepthClamp);
+            GL.Enable(EnableCap.Texture2D);
 
             //GL.Enable(EnableCap.PointSmooth);
             //GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
-            //GL.Enable(EnableCap.LineSmooth);
-            //GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
-            //GL.Enable(EnableCap.PolygonSmooth);
-            //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+            GL.Enable(EnableCap.LineSmooth);
+            GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+            GL.Enable(EnableCap.PolygonSmooth);
+            GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
 
-            //GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
             GL.PointSize(DEFAULT_POINT_SIZE);
             GL.LineWidth(DEFAULT_LINE_WIDTH);
 
-            //ResetStencilBufferOptions();
+            ResetStencilBufferOptions();
         }
 
         private void ResetStencilBufferOptions()
@@ -168,8 +175,24 @@ namespace JSim.OpenTK
 
             GL.Clear(
                 ClearBufferMask.ColorBufferBit |
-                ClearBufferMask.DepthBufferBit
+                ClearBufferMask.DepthBufferBit |
+                ClearBufferMask.StencilBufferBit
             );
+        }
+
+        private PrimitiveType ToPrimitiveType(GeometryType geometryType)
+        {
+            switch (geometryType)
+            {
+                case GeometryType.Points:
+                    return PrimitiveType.Points;
+                case GeometryType.Wireframe:
+                    return PrimitiveType.Lines;
+                case GeometryType.Solid:
+                    return PrimitiveType.Triangles;
+                default:
+                    return PrimitiveType.Points;
+            }
         }
 
         private ShaderManager shaderManager;

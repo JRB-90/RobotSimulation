@@ -73,7 +73,7 @@ namespace JSim.Core.Render
         {
             Matrix<double> result = Matrix<double>.Build.DenseDiagonal(4, 0.0);
             result[0, 0] = (1.0 / Math.Tan(fov / 2.0)) / AspectRatio;
-            result[1, 1] = (1.0 / Math.Tan(fov / 2.0));
+            result[1, 1] = (1.0 / -Math.Tan(fov / 2.0));
             result[2, 2] = (nearClip + farClip) / (nearClip - farClip);
             result[2, 3] = (2.0 * nearClip * farClip) / (nearClip - farClip);
             result[3, 2] = -1.0;

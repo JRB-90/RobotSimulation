@@ -86,6 +86,16 @@ namespace JSim.Core.Maths
         public static Vector3D Origin =>
             new Vector3D();
 
+
+        public static Vector3D UnitX =>
+            new Vector3D(1.0, 0.0, 0.0);
+
+        public static Vector3D UnitY =>
+            new Vector3D(0.0, 1.0, 0.0);
+
+        public static Vector3D UnitZ =>
+            new Vector3D(0.0, 0.0, 1.0);
+
         public void Normalize()
         {
             X = X / Length;
@@ -108,7 +118,12 @@ namespace JSim.Core.Maths
             return vector.DotProduct(right.Vector);
         }
 
-        public static Vector3D operator+(
+        public static Vector3D operator -(Vector3D vector)
+        {
+            return -1 * vector;
+        }
+
+        public static Vector3D operator +(
             Vector3D left,
             Vector3D right)
         {

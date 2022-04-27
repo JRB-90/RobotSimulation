@@ -153,10 +153,10 @@ namespace JSim.OpenTK
             {
                 GL.Uniform4(
                     location, 
-                    (float)(value.R * (1.0 / 255)), 
-                    (float)(value.G * (1.0 / 255)),
-                    (float)(value.B * (1.0 / 255)), 
-                    (float)(value.A * (1.0 / 255))
+                    value.R, 
+                    value.G,
+                    value.B, 
+                    value.A
                 );
 
                 GL.EnableVertexAttribArray(location);
@@ -311,7 +311,6 @@ namespace JSim.OpenTK
             string source,
             ShaderType shaderType)
         {
-            int statusCode;
             int shaderID = GL.CreateShader(shaderType);
 
             GL.ShaderSource(shaderID, source);
@@ -319,7 +318,7 @@ namespace JSim.OpenTK
             GL.GetShader(
                 shaderID,
                 ShaderParameter.CompileStatus,
-                out statusCode
+                out int statusCode
             );
 
             if (statusCode != 1)

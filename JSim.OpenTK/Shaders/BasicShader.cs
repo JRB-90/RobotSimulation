@@ -37,14 +37,13 @@ namespace JSim.OpenTK
             SetUniformMatrix(
                 "MVPMat",
                 camera.CameraProjection.GetProjectionMatrix() *
-                camera.CameraProjection.GetViewMatrix(camera) *
+                camera.GetViewMatrix() *
                 model.Matrix
             );
 
             SetUniformVec4(
                 "newColor",
-                new Color(255, 0, 0, 0)
-                //material.Diffuse
+                material.Color
             );
         }
     }

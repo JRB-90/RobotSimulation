@@ -20,11 +20,12 @@ void main()
 		baseColor = newColor;
 	}
 
-	vec4 texColor = texture2D(sampler, texCoord0.xy).rgba;
-	if (texColor != vec4(0.0, 0.0, 0.0, 1.0))
-	{
-		baseColor = texColor;
-	}
+	//vec4 texColor = texture2D(sampler, texCoord0.xy).rgba;
+	//if (texColor != vec4(0.0, 0.0, 0.0, 1.0))
+	//{
+	//	baseColor = texColor;
+	//}
 
+	baseColor = newColor;
 	gl_FragColor = baseColor;
 }

@@ -40,7 +40,7 @@ namespace JSim.OpenTK
         {
             if (surface is OpenTKControl openTKSurface)
             {
-                openTKSurface.Render(() => RenderScene2(openTKSurface, scene));
+                openTKSurface.Render(() => RenderScene(openTKSurface, scene));
                 openTKSurface.InvalidateVisual();
             }
             else
@@ -53,64 +53,96 @@ namespace JSim.OpenTK
             OpenTKControl surface,
             IScene scene)
         {
-            SetViewport(surface);
-            ClearScreen(surface);
-
-            GL.LoadIdentity();
-            GL.Begin(PrimitiveType.Triangles);
-
-            GL.Color4(Color4.Red);
-            GL.Vertex2(0.0f, 0.5f);
-
-            GL.Color4(Color4.Green);
-            GL.Vertex2(0.58f, -0.5f);
-
-            GL.Color4(Color4.Blue);
-            GL.Vertex2(-0.58f, -0.5f);
-
-            GL.End();
-            GL.Flush();
-        }
-
-        private void RenderScene2(
-            OpenTKControl surface,
-            IScene scene)
-        {
             SetDefaultOptions();
             SetViewport(surface);
             ClearScreen(surface);
 
-            if (scene.TryFindByName("Entity", out ISceneObject? entity))
-            {
-                if (entity is ISceneEntity sceneEntity)
-                {
-                    foreach (var geometry in sceneEntity.GeometryContainer.Root.Children.OfType<OpenTKGeometry>())
-                    {
-                        if (!geometry.IsVisible)
-                        {
-                            continue;
-                        }
-
-                        IShader shader = shaderManager.FindShader(geometry.Material.Shading);
-                        shader.Bind();
-
-                        shader.UpdateUniforms(
-                            geometry.WorldFrame,
-                            surface.Camera,
-                            geometry.Material
-                        );
-
-                        VboUtils.Draw(
-                            geometry.VBO,
-                            ToPrimitiveType(geometry.GeometryType)
-                        );
-
-                        shader.Unbind();
-                    }
-                }
-            }
+            RenderSceneAssembly(
+                surface,
+                scene.Root
+            );
 
             GL.Flush();
+        }
+
+        private void RenderSceneAssembly(
+            OpenTKControl surface,
+            ISceneAssembly assembly)
+        {
+            foreach (ISceneAssembly childAssembly in assembly.OfType<ISceneAssembly>())
+            {
+                RenderSceneAssembly(
+                    surface,
+                    childAssembly
+                );
+            }
+
+            foreach (ISceneEntity entity in assembly.OfType<ISceneEntity>())
+            {
+                RenderSceneEntity(
+                    surface,
+                    entity
+                );
+            }
+        }
+
+        private void RenderSceneEntity(
+            OpenTKControl surface,
+            ISceneEntity entity)
+        {
+            RenderGeometryRecursive(
+                surface,
+                entity.GeometryContainer.Root
+            );
+        }
+
+        private void RenderGeometryRecursive(
+            OpenTKControl surface,
+            IGeometry geometry)
+        {
+            foreach (IGeometry childGeometry in geometry.Children)
+            {
+                RenderGeometryRecursive(
+                    surface,
+                    childGeometry
+                );
+            }
+
+            RenderGeometry(
+                surface,
+                geometry
+            );
+        }
+
+        private void RenderGeometry(
+            OpenTKControl surface,
+            IGeometry geometry)
+        {
+            if (!geometry.IsVisible ||
+                shaderManager == null)
+            {
+                return;
+            }
+
+            if (geometry is OpenTKGeometry tkGeometry)
+            {
+
+                IShader shader = shaderManager.FindShader(tkGeometry.Material.Shading);
+                shader.Bind();
+
+                shader.UpdateUniforms(
+                    tkGeometry.WorldFrame,
+                    surface.Camera,
+                    tkGeometry.Material
+                );
+
+                VboUtils.Draw(
+                    tkGeometry.VBO,
+                    ToPrimitiveType(tkGeometry.GeometryType)
+                );
+
+                shader.Unbind();
+            }
         }
 
         private void SetDefaultOptions()
@@ -195,6 +227,6 @@ namespace JSim.OpenTK
             }
         }
 
-        private ShaderManager shaderManager;
+        private ShaderManager? shaderManager;
     }
 }

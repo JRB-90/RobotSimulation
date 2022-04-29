@@ -20,7 +20,7 @@ namespace JSim.Core.Render
 
         public void Render(
             IRenderingSurface surface,
-            IScene scene)
+            IScene? scene)
         {
             logger.Log("Render called", LogLevel.Debug);
         }

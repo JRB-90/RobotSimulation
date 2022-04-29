@@ -1,9 +1,6 @@
 ﻿using Avalonia.Media;
-using Avalonia.OpenGL;
-using Avalonia.Threading;
 using JSim.Core;
 using JSim.Core.Display;
-using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using OpenTK.Graphics.OpenGL;
@@ -36,17 +33,39 @@ namespace JSim.OpenTK
         {
         }
 
+        public void Render(IRenderingSurface surface)
+        {
+            GL.Viewport(0, 0, surface.SurfaceWidth, surface.SurfaceHeight);
+            
+            var hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
+            var c = Color4.FromHsv(new Vector4(hue, 0.75f, 0.75f, 1));
+            GL.ClearColor(c);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.LoadIdentity();
+            GL.Begin(PrimitiveType.Triangles);
+
+            GL.Color4(Color4.Red);
+            GL.Vertex2(0.0f, 0.5f);
+
+            GL.Color4(Color4.Green);
+            GL.Vertex2(0.58f, -0.5f);
+
+            GL.Color4(Color4.Blue);
+            GL.Vertex2(-0.58f, -0.5f);
+
+            GL.End();
+        }
+
         public void Render(
             IRenderingSurface surface, 
-            IScene scene)
+            IScene? scene)
         {
             var sw = new Stopwatch();
             sw.Start();
 
             if (surface is OpenTKControl openTKSurface)
             {
-                openTKSurface.Render(() => RenderScene(openTKSurface, scene));
-                openTKSurface.InvalidateVisual();
+                RenderScene(openTKSurface, scene);
             }
             else
             {
@@ -55,21 +74,24 @@ namespace JSim.OpenTK
 
             sw.Stop();
             var elapsedNS = (double)sw.ElapsedTicks / ((double)TimeSpan.TicksPerMillisecond / 1000.0);
-            Trace.WriteLine($"Render time {elapsedNS / 1000.0:F3}ms", "Debug");
+            //Trace.WriteLine($"Render time {elapsedNS / 1000.0:F3}ms", "Debug");
         }
 
         private void RenderScene(
             OpenTKControl surface,
-            IScene scene)
+            IScene? scene)
         {
             SetDefaultOptions();
             SetViewport(surface);
             ClearScreen(surface);
 
-            RenderSceneAssembly(
-                surface,
-                scene.Root
-            );
+            if (scene != null)
+            {
+                RenderSceneAssembly(
+                    surface,
+                    scene.Root
+                );
+            }
 
             GL.Flush();
         }
@@ -237,5 +259,6 @@ namespace JSim.OpenTK
         }
 
         private ShaderManager? shaderManager;
+        private static readonly Stopwatch _stopwatch = Stopwatch.StartNew();
     }
 }

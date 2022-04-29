@@ -4,18 +4,25 @@ using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using JSim.Core.Display;
 using JSim.Core.Render;
+using JSim.Core.SceneGraph;
 
 namespace JSim.OpenTK
 {
     public class OpenTKControl : OpenTKControlBase, IRenderingSurface
     {
-        public OpenTKControl(ISharedGlContextFactory glContextFactory)
+        readonly IRenderingEngine renderingEngine;
+
+        public OpenTKControl(
+            ISharedGlContextFactory glContextFactory,
+            IRenderingEngine renderingEngine)
           :
             base(
                 glContextFactory,
-                new OpenGlControlSettings() { ContinuouslyRender = false }
+                new OpenGlControlSettings() { ContinuouslyRender = true }
             )
         {
+            this.renderingEngine = renderingEngine;
+
             camera =
                 new StandardCamera(
                     (int)Bounds.Width,
@@ -24,6 +31,7 @@ namespace JSim.OpenTK
 
             camera.CameraModified += OnCameraModified;
             EffectiveViewportChanged += OpenTKControl_EffectiveViewportChanged;
+            AttachedToVisualTree += OpenTKControl_AttachedToVisualTree;
         }
 
         public static readonly StyledProperty<IBrush> ClearColorProperty =
@@ -56,6 +64,19 @@ namespace JSim.OpenTK
             }
         }
 
+        public IScene? Scene
+        {
+            get => scene;
+            set
+            {
+                lock (sceneLock)
+                {
+                    scene = value;
+                }
+                FireRequestRenderEvent();
+            }
+        }
+
         public event RenderRequestedEventHandler? RenderRequested;
 
         public void Dispose()
@@ -67,21 +88,16 @@ namespace JSim.OpenTK
             FireRequestRenderEvent();
         }
 
-        public void Render(Action renderCallback)
-        {
-            this.renderCallback = renderCallback;
-        }
-
         protected override void OnOpenGlRender(GlInterface gl, int fb)
         {
-            if (renderCallback != null)
+            if (renderingEngine is OpenTKRenderingEngine tkRenderer)
             {
-                renderCallback.Invoke();
-                renderCallback = null;
+                lock (sceneLock)
+                {
+                    tkRenderer.Render(this, scene);
+                }
             }
         }
-
-        private Action? renderCallback;
 
         private void FireRequestRenderEvent()
         {
@@ -99,6 +115,14 @@ namespace JSim.OpenTK
             FireRequestRenderEvent();
         }
 
+        private void OpenTKControl_AttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
+        {
+            e.Root.Renderer.DrawFps = true;
+        }
+
         private ICamera camera;
+        private IScene? scene;
+
+        private static object sceneLock = new object();
     }
 }

@@ -18,7 +18,7 @@ namespace JSim.Core.Render
         /// <param name="scene">Scene graph to render.</param>
         void Render(
             IRenderingSurface surface,
-            IScene scene
+            IScene? scene
         );
     }
 }

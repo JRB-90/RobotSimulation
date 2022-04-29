@@ -22,6 +22,10 @@ namespace AvaloniaOpenTK
                 .UseOpenTK(new List<GlVersion> { new GlVersion(GlProfileType.OpenGL, 3, 0, true) })
                 .UsePlatformDetect()
                 .LogToTrace(LogEventLevel.Debug)
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .With(new Win32PlatformOptions
+                {
+                    AllowEglInitialization = true
+                });
     }
 }

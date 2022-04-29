@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Logging;
 using Avalonia.OpenGL;
 using Avalonia.ReactiveUI;
 using System;
@@ -20,7 +21,7 @@ namespace AvaloniaOpenTK
             => AppBuilder.Configure<App>()
                 .UseOpenTK(new List<GlVersion> { new GlVersion(GlProfileType.OpenGL, 3, 0, true) })
                 .UsePlatformDetect()
-                .LogToTrace()
+                .LogToTrace(LogEventLevel.Debug)
                 .UseReactiveUI();
     }
 }

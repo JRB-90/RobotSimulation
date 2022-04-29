@@ -18,34 +18,8 @@ namespace JSim.Core.Render.GeometryBuilders
             double halfLength = length / 2.0;
             double halfHeight = height / 2.0;
 
-            //var vertices =
-            //    new List<Vertex>
-            //    {
-            //        // Near plane
-            //        new Vertex(0, new Vector3D(halfWidth, halfLength, halfLength)),  // 
-            //        new Vertex(1, new Vector3D(halfWidth, -halfLength, halfLength)),
-            //        new Vertex(2, new Vector3D(-halfWidth, halfLength, halfLength)),
-            //        new Vertex(3, new Vector3D(-halfWidth, -halfLength, halfLength)),
-
-            //        // Far plane
-            //        new Vertex(4, new Vector3D(halfWidth, halfLength, -halfLength)),
-            //        new Vertex(5, new Vector3D(halfWidth, -halfLength, -halfLength)),
-            //        new Vertex(6, new Vector3D(-halfWidth, -halfLength, -halfLength)),
-            //        new Vertex(7, new Vector3D(-halfWidth, halfLength, -halfLength))
-            //    };
-
-            //var indices =
-            //    new List<uint>
-            //    {
-            //        0, 1, 2, 1, 3, 2,
-
-            //        0, 1, 2, 1, 3, 2,
-            //    };
-
-            //VertexUtil.CalculateVertexNormals(vertices, indices);
-
             var vertices =
-                new List<Vertex>
+                new Vertex[]
                 {
                     // Near plane
                     new Vertex(0, new Vector3D(-halfWidth, -halfLength, halfHeight)),   // TL
@@ -61,7 +35,7 @@ namespace JSim.Core.Render.GeometryBuilders
                 };
 
             var indices =
-                new List<uint>
+                new uint[]
                 {
                     0, 1, 3, 3, 1, 2,   // Font face
                     1, 0, 5, 5, 4, 1,   // Top face
@@ -70,6 +44,8 @@ namespace JSim.Core.Render.GeometryBuilders
                     6, 5, 0, 0, 3, 6,    // Left face
                     5, 6, 4, 4, 6, 7,   // Back face
                 };
+
+            VertexUtil.CalculateVertexNormals(vertices, indices);
 
             return
                 new Tuple<IReadOnlyList<Vertex>, IReadOnlyList<uint>>(

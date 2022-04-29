@@ -7,6 +7,7 @@ using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using System.Diagnostics;
 
 namespace JSim.OpenTK
 {
@@ -38,6 +39,9 @@ namespace JSim.OpenTK
             IRenderingSurface surface, 
             IScene scene)
         {
+            var sw = new Stopwatch();
+            sw.Start();
+
             if (surface is OpenTKControl openTKSurface)
             {
                 openTKSurface.Render(() => RenderScene(openTKSurface, scene));
@@ -47,6 +51,9 @@ namespace JSim.OpenTK
             {
                 throw new InvalidOperationException("Can only render to OpenTKControl rendering surface");
             }
+
+            sw.Stop();
+            logger.Log($"Render time {sw.ElapsedTicks}", LogLevel.Debug);
         }
 
         private void RenderScene(

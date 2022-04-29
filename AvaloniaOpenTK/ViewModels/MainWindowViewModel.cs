@@ -1,15 +1,17 @@
 using Avalonia.Media;
+using Avalonia.Threading;
 using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
-using JSim.Avalonia.Controls;
 using JSim.BasicBootstrapper;
 using JSim.Core;
 using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.Render.GeometryBuilders;
+using JSim.Core.SceneGraph;
 using JSim.Logging;
 using JSim.OpenTK;
-using System.Collections.Generic;
+using System;
+using System.Timers;
 
 namespace AvaloniaOpenTK.ViewModels
 {
@@ -23,7 +25,7 @@ namespace AvaloniaOpenTK.ViewModels
             app = container.Resolve<ISimApplication>();
 
             var cube = CubeBuilder.Build(1.0, 1.0, 1.0);
-            var entity = app.SceneManager.CurrentScene.Root.CreateNewEntity("Entity");
+            entity = app.SceneManager.CurrentScene.Root.CreateNewEntity("Entity");
 
             var cubePoints = entity.GeometryContainer.Root.CreateChildGeometry("CubePoints");
             cubePoints.IsVisible = true;
@@ -62,6 +64,10 @@ namespace AvaloniaOpenTK.ViewModels
                 );
 
             app.DisplayManager.AddSurface(GraphicsControl);
+
+            timer = new Timer(100);
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
         }
 
         public OpenTKControl GraphicsControl { get; }
@@ -79,5 +85,15 @@ namespace AvaloniaOpenTK.ViewModels
 
             return container;
         }
+
+        private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            double rz = Math.Sin(e.SignalTime.Ticks / TimeSpan.TicksPerSecond).ToDeg();
+            entity.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, rz);
+            GraphicsControl.RequestRender();
+        }
+
+        private ISceneEntity entity;
+        private Timer timer;
     }
 }

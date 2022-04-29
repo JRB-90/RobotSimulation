@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.Render
+﻿using JSim.Core.Maths;
+
+namespace JSim.Core.Render
 {
     /// <summary>
     /// Standard implementation of a geometry container.
@@ -14,5 +16,10 @@
         }
 
         public IGeometry Root { get; }
+
+        public void UpdateWorldPosition(Transform3D worldPositionOfParent)
+        {
+            Root.WorldFrame = worldPositionOfParent;
+        }
     }
 }

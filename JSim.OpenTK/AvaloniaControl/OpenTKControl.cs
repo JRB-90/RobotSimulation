@@ -62,6 +62,11 @@ namespace JSim.OpenTK
         {
         }
 
+        public void RequestRender()
+        {
+            FireRequestRenderEvent();
+        }
+
         public void Render(Action renderCallback)
         {
             this.renderCallback = renderCallback;

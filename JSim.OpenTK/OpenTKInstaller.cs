@@ -28,14 +28,14 @@ namespace JSim.OpenTK
                 .LifestyleTransient()
             );
             container.Register(
-                Component.For<IGeometryFactory>()
+                Component.For<IOpenTKGeometryFactory>()
                 .AsFactory()
             );
 
             container.Register(
                 Component.For<IGeometryCreator>()
-                .Named("GeometryCreator")
-                .ImplementedBy<GeometryCreator>()
+                .Named("OpenTKGeometryCreator")
+                .ImplementedBy<OpenTKGeometryCreator>()
                 .LifestyleTransient()
             );
             container.Register(

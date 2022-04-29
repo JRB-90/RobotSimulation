@@ -26,5 +26,10 @@ namespace JSim.Core.Display
         /// Event fired when the surface is requesting a render.
         /// </summary>
         event RenderRequestedEventHandler? RenderRequested;
+
+        /// <summary>
+        /// Forces the surface to render.
+        /// </summary>
+        void RequestRender();
     }
 }

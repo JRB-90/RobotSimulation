@@ -23,5 +23,10 @@ namespace JSim.Core.Display
         public void Dispose()
         {
         }
+
+        public void RequestRender()
+        {
+            RenderRequested?.Invoke(this, new RenderRequestedEventArgs());
+        }
     }
 }

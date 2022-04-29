@@ -1,23 +1,25 @@
-﻿using JSim.Core.Common;
+﻿using JSim.Core;
+using JSim.Core.Common;
+using JSim.Core.Render;
 
-namespace JSim.Core.Render
+namespace JSim.OpenTK
 {
-    /// <summary>
-    /// Standard implementation of a geometry creator.
-    /// </summary>
-    public class GeometryCreator : IGeometryCreator
+    public class OpenTKGeometryCreator : IGeometryCreator
     {
         readonly ILogger logger;
         readonly INameRepository nameRepository;
-        readonly IGeometryFactory geometryFactory;
+        readonly IOpenTKGeometryFactory geometryFactory;
+        readonly IGlContextManager glContextManager;
 
-        public GeometryCreator(
+        public OpenTKGeometryCreator(
             ILogger logger,
             INameRepositoryFactory nameRepositoryFactory,
-            IGeometryFactory geometryFactory)
+            IOpenTKGeometryFactory geometryFactory,
+            IGlContextManager glContextManager)
         {
             this.logger = logger;
             this.geometryFactory = geometryFactory;
+            this.glContextManager = glContextManager;
             nameRepository = nameRepositoryFactory.CreateNameRepository();
             logger.Log("GeometryCreator initialised", LogLevel.Debug);
         }
@@ -28,16 +30,17 @@ namespace JSim.Core.Render
         }
 
         /// <summary>
-        /// Creates a new IGeometry object.
+        /// Creates a new OpenTKGeometry object.
         /// </summary>
         /// <param name="parentGeometry">Parent to attach this geometry node to.</param>
-        /// <returns>Implementation specific geometry implementation.</returns>
+        /// <returns>OpenTKGeometry object.</returns>
         public IGeometry CreateGeometry(IGeometry? parentGeometry)
         {
             return
                 geometryFactory.CreateGeometry(
                     nameRepository,
                     this,
+                    glContextManager,
                     parentGeometry
                 );
         }

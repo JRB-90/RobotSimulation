@@ -1,4 +1,5 @@
-﻿using JSim.Core.Common;
+﻿using Castle.Core.Logging;
+using JSim.Core.Common;
 using JSim.Core.Render;
 
 namespace JSim.OpenTK
@@ -15,6 +16,21 @@ namespace JSim.OpenTK
             base(
                 nameRepository,
                 creator)
+        {
+            this.glContextManager = glContextManager;
+            VBO = new Vbo();
+        }
+
+        public OpenTKGeometry(
+            INameRepository nameRepository,
+            IGeometryCreator creator,
+            IGlContextManager glContextManager,
+            IGeometry? parentGeometry)
+          :
+            base(
+                nameRepository,
+                creator,
+                parentGeometry)
         {
             this.glContextManager = glContextManager;
             VBO = new Vbo();

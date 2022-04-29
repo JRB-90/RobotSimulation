@@ -22,6 +22,7 @@ namespace JSim.Core.SceneGraph
                 nameRoot)
         {
             GeometryContainer = geometryContainer;
+            SceneObjectMoved += SceneEntity_SceneObjectMoved;
         }
 
         public SceneEntity(
@@ -43,5 +44,10 @@ namespace JSim.Core.SceneGraph
         }
 
         public IGeometryContainer GeometryContainer { get; }
+
+        private void SceneEntity_SceneObjectMoved(object sender, SceneObjectMovedEventArgs e)
+        {
+            GeometryContainer.UpdateWorldPosition(WorldFrame);
+        }
     }
 }

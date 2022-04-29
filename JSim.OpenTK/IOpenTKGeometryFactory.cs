@@ -1,15 +1,17 @@
 ﻿using JSim.Core.Common;
+using JSim.Core.Render;
 
-namespace JSim.Core.Render
+namespace JSim.OpenTK
 {
     /// <summary>
-    /// Interface for all geometry factories.
+    /// Interface for all opentk geometry factories.
     /// </summary>
-    public interface IGeometryFactory : IDisposable
+    public interface IOpenTKGeometryFactory
     {
         IGeometry CreateGeometry(
             INameRepository nameRepository,
             IGeometryCreator creator,
+            IGlContextManager glContextManager,
             IGeometry? parentGeometry
         );
 

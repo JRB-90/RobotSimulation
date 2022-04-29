@@ -26,6 +26,8 @@ void main()
 	//	baseColor = texColor;
 	//}
 
-	baseColor = newColor;
+	//baseColor = newColor;
+	baseColor = vec4(normal0, 1.0);
+
 	gl_FragColor = baseColor;
 }

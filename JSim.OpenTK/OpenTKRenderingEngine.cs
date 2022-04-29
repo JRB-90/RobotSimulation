@@ -1,5 +1,6 @@
 ﻿using Avalonia.Media;
 using Avalonia.OpenGL;
+using Avalonia.Threading;
 using JSim.Core;
 using JSim.Core.Display;
 using JSim.Core.Maths;
@@ -53,7 +54,8 @@ namespace JSim.OpenTK
             }
 
             sw.Stop();
-            logger.Log($"Render time {sw.ElapsedTicks}", LogLevel.Debug);
+            var elapsedNS = (double)sw.ElapsedTicks / ((double)TimeSpan.TicksPerMillisecond / 1000.0);
+            Trace.WriteLine($"Render time {elapsedNS / 1000.0:F3}ms", "Debug");
         }
 
         private void RenderScene(

@@ -1,6 +1,5 @@
 ﻿using Avalonia.Media;
 using JSim.Core;
-using JSim.Core.Display;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using OpenTK.Graphics.OpenGL;

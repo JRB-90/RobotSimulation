@@ -2,7 +2,7 @@
 using Avalonia.Media;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
-using JSim.Core.Display;
+using Avalonia.Threading;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 
@@ -18,7 +18,7 @@ namespace JSim.OpenTK
           :
             base(
                 glContextFactory,
-                new OpenGlControlSettings() { ContinuouslyRender = true }
+                new OpenGlControlSettings() { ContinuouslyRender = false }
             )
         {
             this.renderingEngine = renderingEngine;
@@ -46,7 +46,7 @@ namespace JSim.OpenTK
             set
             {
                 SetValue(ClearColorProperty, value);
-                FireRequestRenderEvent();
+                RequestRender();
             }
         }
 
@@ -60,7 +60,7 @@ namespace JSim.OpenTK
             set
             {
                 camera = value;
-                FireRequestRenderEvent();
+                RequestRender();
             }
         }
 
@@ -73,11 +73,9 @@ namespace JSim.OpenTK
                 {
                     scene = value;
                 }
-                FireRequestRenderEvent();
+                RequestRender();
             }
         }
-
-        public event RenderRequestedEventHandler? RenderRequested;
 
         public void Dispose()
         {
@@ -85,7 +83,10 @@ namespace JSim.OpenTK
 
         public void RequestRender()
         {
-            FireRequestRenderEvent();
+            Dispatcher.UIThread.Post(
+                InvalidateVisual,
+                DispatcherPriority.MaxValue
+            );
         }
 
         protected override void OnOpenGlRender(GlInterface gl, int fb)
@@ -99,20 +100,15 @@ namespace JSim.OpenTK
             }
         }
 
-        private void FireRequestRenderEvent()
-        {
-            RenderRequested?.Invoke(this, new RenderRequestedEventArgs());
-        }
-
         private void OnCameraModified(object sender, CameraModifiedEventArgs e)
         {
-            FireRequestRenderEvent();
+            RequestRender();
         }
 
         private void OpenTKControl_EffectiveViewportChanged(object? sender, global::Avalonia.Layout.EffectiveViewportChangedEventArgs e)
         {
             Camera.Update(this);
-            FireRequestRenderEvent();
+            RequestRender();
         }
 
         private void OpenTKControl_AttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)

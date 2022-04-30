@@ -1,5 +1,4 @@
-﻿using JSim.Core.Display;
-using JSim.Core.SceneGraph;
+﻿using JSim.Core.SceneGraph;
 
 namespace JSim.Core.Render
 {

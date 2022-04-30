@@ -1,21 +1,16 @@
-﻿namespace JSim.Core.Display
+﻿namespace JSim.Core.Render
 {
     /// <summary>
-    /// Interface to define the behaviour of all display managers.
-    /// Display managers are responsible for managing displays and rendering
-    /// surfaces used in a simulation application.
+    /// Interface to define the behaviour of all rendering surface managers.
+    /// Surface managers are responsible for managing all rendering surfaces
+    /// used in a simulation application.
     /// </summary>
-    public interface IDisplayManager : IDisposable
+    public interface ISurfaceManager : IDisposable
     {
         /// <summary>
         /// Gets a collection of all rendering surfaces in the application.
         /// </summary>
         IReadOnlyCollection<IRenderingSurface> Surfaces { get; }
-
-        /// <summary>
-        /// Event fired when a managed surface requires rendering.
-        /// </summary>
-        event SurfaceRequiresRenderEventHandler? SurfaceRequiresRender;
 
         /// <summary>
         /// Adds a surface to the collection of managed surfaces.

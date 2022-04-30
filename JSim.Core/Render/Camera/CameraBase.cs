@@ -1,5 +1,4 @@
-﻿using JSim.Core.Display;
-using JSim.Core.Maths;
+﻿using JSim.Core.Maths;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.Core.Render

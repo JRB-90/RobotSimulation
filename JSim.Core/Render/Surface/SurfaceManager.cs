@@ -1,19 +1,17 @@
-﻿namespace JSim.Core.Display
+﻿namespace JSim.Core.Render
 {
     /// <summary>
-    /// Standard implementation of display manager.
+    /// Standard implementation of a rendering surface manager.
     /// </summary>
-    public class DisplayManager : IDisplayManager
+    public class SurfaceManager : ISurfaceManager
     {
-        public DisplayManager()
+        public SurfaceManager()
         {
             surfaces = new List<IRenderingSurface>();
         }
 
         public IReadOnlyCollection<IRenderingSurface> Surfaces =>
             surfaces;
-
-        public event SurfaceRequiresRenderEventHandler? SurfaceRequiresRender;
 
         public void Dispose()
         {
@@ -32,8 +30,6 @@
             else
             {
                 surfaces.Add(surface);
-                surface.RenderRequested += OnSurfaceRequestedRender;
-                SurfaceRequiresRender?.Invoke(this, new SurfaceRequiresRenderEventArgs(surface));
 
                 return true;
             }
@@ -48,17 +44,8 @@
             else
             {
                 surfaces.Remove(surface);
-                surface.RenderRequested -= OnSurfaceRequestedRender;
 
                 return true;
-            }
-        }
-
-        private void OnSurfaceRequestedRender(object sender, Render.RenderRequestedEventArgs args)
-        {
-            if (sender is IRenderingSurface surface)
-            {
-                SurfaceRequiresRender?.Invoke(this, new SurfaceRequiresRenderEventArgs(surface));
             }
         }
 

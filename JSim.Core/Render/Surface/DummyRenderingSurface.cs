@@ -1,6 +1,4 @@
-﻿using JSim.Core.Render;
-
-namespace JSim.Core.Display
+﻿namespace JSim.Core.Render
 {
     /// <summary>
     /// Dummy implementation of a rendering surface.
@@ -18,15 +16,12 @@ namespace JSim.Core.Display
 
         public ICamera Camera { get; set; }
 
-        public event RenderRequestedEventHandler? RenderRequested;
-
         public void Dispose()
         {
         }
 
         public void RequestRender()
         {
-            RenderRequested?.Invoke(this, new RenderRequestedEventArgs());
         }
     }
 }

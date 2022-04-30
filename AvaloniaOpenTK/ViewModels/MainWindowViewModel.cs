@@ -104,7 +104,7 @@ namespace AvaloniaOpenTK.ViewModels
                 );
 
             graphicsControl.Scene = app.SceneManager.CurrentScene;
-            app.DisplayManager.AddSurface(graphicsControl);
+            app.SurfaceManager.AddSurface(graphicsControl);
 
             return graphicsControl;
         }
@@ -138,7 +138,10 @@ namespace AvaloniaOpenTK.ViewModels
             var ry = _stopwatch.Elapsed.TotalSeconds * 30;
             var rz = _stopwatch.Elapsed.TotalSeconds * 40;
             entity.LocalFrame = new Transform3D(0.0, 0.0, 0.0, rx, ry, rz);
-            //GraphicsControl1.InvalidateVisual();
+            GraphicsControl1?.RequestRender();
+            GraphicsControl2?.RequestRender();
+            GraphicsControl3?.RequestRender();
+            GraphicsControl4?.RequestRender();
         }
 
         private static IWindsorContainer BootstrapContainer()

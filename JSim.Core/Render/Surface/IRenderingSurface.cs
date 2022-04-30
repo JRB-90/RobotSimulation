@@ -1,6 +1,4 @@
-﻿using JSim.Core.Render;
-
-namespace JSim.Core.Display
+﻿namespace JSim.Core.Render
 {
     /// <summary>
     /// Defines a onscreen surface that can be renderered to.
@@ -21,11 +19,6 @@ namespace JSim.Core.Display
         /// The camera for the viewport.
         /// </summary>
         ICamera Camera { get; set; }
-
-        /// <summary>
-        /// Event fired when the surface is requesting a render.
-        /// </summary>
-        event RenderRequestedEventHandler? RenderRequested;
 
         /// <summary>
         /// Forces the surface to render.

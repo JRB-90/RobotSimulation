@@ -1,5 +1,4 @@
-﻿using JSim.Core.Display;
-using JSim.Core.Render;
+﻿using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 
 namespace JSim.Core
@@ -14,21 +13,20 @@ namespace JSim.Core
         public SimApplication(
             ILogger logger,
             ISceneManager sceneManager,
-            IDisplayManager displayManager,
+            ISurfaceManager surfaceManager,
             IRenderingManager renderingManager)
         {
             this.logger = logger;
             SceneManager = sceneManager;
-            DisplayManager = displayManager;
+            SurfaceManager = surfaceManager;
             RenderingManager = renderingManager;
 
-            DisplayManager.SurfaceRequiresRender += OnRenderRequested;
             logger.Log("Sim applicaiton created", LogLevel.Debug);
         }
 
         public ISceneManager SceneManager { get; }
 
-        public IDisplayManager DisplayManager { get; }
+        public ISurfaceManager SurfaceManager { get; }
 
         public IRenderingManager RenderingManager { get; }
 
@@ -36,18 +34,8 @@ namespace JSim.Core
         {
             SceneManager.Dispose();
             RenderingManager.Dispose();
-            DisplayManager.Dispose();
+            SurfaceManager.Dispose();
             logger.Log("Sim applicaiton disposed", LogLevel.Debug);
-        }
-
-        private void OnRenderRequested(
-            object sender, 
-            SurfaceRequiresRenderEventArgs e)
-        {
-            RenderingManager.RenderingEngine.Render(
-                e.Surface,
-                SceneManager.CurrentScene
-            );
         }
     }
 }

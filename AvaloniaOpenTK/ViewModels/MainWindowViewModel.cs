@@ -111,7 +111,25 @@ namespace AvaloniaOpenTK.ViewModels
 
         private void SceneManager_CurrentSceneChanged(object sender, CurrentSceneChangedEventArgs e)
         {
-            GraphicsControl1.Scene = app.SceneManager.CurrentScene;
+            if (GraphicsControl1 != null)
+            {
+                GraphicsControl1.Scene = app.SceneManager.CurrentScene;
+            }
+
+            if (GraphicsControl2 != null)
+            {
+                GraphicsControl2.Scene = app.SceneManager.CurrentScene;
+            }
+
+            if (GraphicsControl3 != null)
+            {
+                GraphicsControl3.Scene = app.SceneManager.CurrentScene;
+            }
+
+            if (GraphicsControl4 != null)
+            {
+                GraphicsControl4.Scene = app.SceneManager.CurrentScene;
+            }
         }
 
         private void Update(object? state)

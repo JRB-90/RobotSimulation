@@ -82,7 +82,7 @@ namespace AvaloniaApp
                     {
                         Id = "LeftPane",
                         Title = "LeftPane",
-                        Proportion = double.NaN,
+                        Proportion = 0.2,
                         Orientation = Orientation.Vertical,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>
@@ -114,7 +114,7 @@ namespace AvaloniaApp
                     {
                         Id = "RightPane",
                         Title = "RightPane",
-                        Proportion = double.NaN,
+                        Proportion = 0.2,
                         Orientation = Orientation.Vertical,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>

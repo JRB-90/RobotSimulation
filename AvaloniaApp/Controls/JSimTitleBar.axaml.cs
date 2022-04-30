@@ -1,11 +1,10 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using JSim.Avalonia.ViewModels;
 using System;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace AvaloniaApp.Controls
 {
@@ -37,6 +36,17 @@ namespace AvaloniaApp.Controls
             windowIcon.DoubleTapped += CloseWindow;
         }
 
+        public static readonly StyledProperty<MainMenuViewModel> MainMenuVMProperty =
+            AvaloniaProperty.Register<JSimTitleBar, MainMenuViewModel>(
+                nameof(MainMenuVM)
+            );
+
+        public MainMenuViewModel MainMenuVM
+        {
+            get => GetValue(MainMenuVMProperty);
+            set => SetValue(MainMenuVMProperty, value);
+        }
+
         public static readonly StyledProperty<bool> IsSeamlessProperty =
             AvaloniaProperty.Register<JSimTitleBar, bool>(
                 nameof(IsSeamless)
@@ -44,7 +54,7 @@ namespace AvaloniaApp.Controls
 
         public bool IsSeamless
         {
-            get { return GetValue(IsSeamlessProperty); }
+            get => GetValue(IsSeamlessProperty);
             set
             {
                 SetValue(IsSeamlessProperty, value);

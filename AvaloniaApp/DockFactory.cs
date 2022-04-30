@@ -26,7 +26,7 @@ namespace AvaloniaApp
                 new View3DViewModel(
                     "3DView",
                     "3D View",
-                    context.OpenTKControlFactory.CreateControl()
+                    context.Create3DControl()
                 );
 
             var toolSceneTree =
@@ -61,7 +61,7 @@ namespace AvaloniaApp
                     new View3DViewModel(
                         $"3DView{index}", 
                         $"3D View {index}", 
-                        context.OpenTKControlFactory.CreateControl()
+                        context.Create3DControl()
                     );
                 
                 AddDockable(documentDock, document);
@@ -167,7 +167,7 @@ namespace AvaloniaApp
                 [nameof(IDockWindow)] = () => context,
                 [nameof(IDocument)] = () => context,
                 [nameof(ITool)] = () => context,
-                ["3DView"] = () => context.OpenTKControlFactory.CreateControl(),
+                ["3DView"] = () => context.Create3DControl(),
                 ["SceneTreeView"] = () => context.SceneTreeVM,
                 ["SceneObjectData"] = () => context.SceneObjectVM,
                 ["LeftPane"] = () => context,

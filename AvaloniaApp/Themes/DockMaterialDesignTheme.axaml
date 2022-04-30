@@ -1,0 +1,48 @@
+<Styles xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:sys="clr-namespace:System;assembly=netstandard"
+	   xmlns:views="clr-namespace:AvaloniaApp.Views;assembly=AvaloniaApp"
+	   xmlns:design="clr-namespace:AvaloniaApp.Design;assembly=AvaloniaApp"
+	   xmlns:material="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+       x:Class="AvaloniaApp.Themes.DockMaterialDesignTheme">
+
+	<Design.PreviewWith>
+		<views:MainWindow
+			Width="800"
+			Height="400"
+			DataContext="{x:Static design:DesignData.MainWindowVM}"/>
+	</Design.PreviewWith>
+
+	<StyleInclude Source="avares://Dock.ProportionalStackPanel/ProportionalStackPanelSplitter.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/DockPanelSplitter.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/DockTarget.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/DocumentControl.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/ToolChromeControl.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/ToolControl.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/ToolPinnedControl.axaml" /> 
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/DockControl.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/HostWindowTitleBar.axaml" />
+	<StyleInclude Source="avares://Dock.Avalonia/Controls/HostWindow.axaml" />
+
+	<Style>
+		<Style.Resources>
+			<SolidColorBrush x:Key="DockApplicationAccentBrushLow">#007ACC</SolidColorBrush>
+			<SolidColorBrush x:Key="DockApplicationAccentBrushMed">#1C97EA</SolidColorBrush>
+			<SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#52B0EF</SolidColorBrush>
+			<SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#F0F0F0</SolidColorBrush>
+			<SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#007ACC</SolidColorBrush>
+		</Style.Resources>
+	</Style>
+	
+	<Style>
+		<Style.Resources>
+			<SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="{DynamicResource ThemeBorderLowColor}" />
+			<SolidColorBrush x:Key="DockThemeBackgroundBrush" Color="{DynamicResource ThemeBackgroundColor}" />
+			<SolidColorBrush x:Key="DockThemeAccentBrush" Color="{DynamicResource ThemeAccentColor}" />
+			<SolidColorBrush x:Key="DockThemeForegroundBrush" Color="#FFFAFAFA" />
+			<SolidColorBrush x:Key="DockThemeControlBackgroundBrush" Color="#FF303030" /> 
+			<sys:Double x:Key="DockFontSizeNormal">14</sys:Double>
+		</Style.Resources>
+	</Style>
+
+</Styles>

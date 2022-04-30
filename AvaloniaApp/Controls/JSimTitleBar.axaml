@@ -1,0 +1,143 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:AvaloniaApp.Controls;assembly=AvaloniaApp"
+			 xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
+             x:Class="AvaloniaApp.Controls.JSimTitleBar">
+
+	<StackPanel>
+		<Grid>
+			<DockPanel
+				x:Name="TitleBarBackground"
+				IsHitTestVisible="False"/>
+
+			<DockPanel
+				x:Name="TitleBar">
+				<StackPanel 
+					Orientation="Horizontal"
+					DockPanel.Dock="Left"
+					Spacing="0">
+					
+					<Image 
+						x:Name="WindowIcon"
+						Height="22"
+						Width="22"
+						Margin="5,0,3,0"
+						VerticalAlignment="Stretch"
+						Source="/Assets/purple-on-black-logo.png"/>
+
+					<TextBlock
+						x:Name="SystemChromeTitle"
+						IsHitTestVisible="False"
+						VerticalAlignment="Center"
+						Margin="5, 0, 0, 0"
+						FontSize="14"
+						Text="JSim Avalonia"/>
+				</StackPanel>
+				
+				<StackPanel 
+					HorizontalAlignment="Right"
+					Orientation="Horizontal"
+					Spacing="0">
+
+					<Button
+						x:Name="MinimizeButton"
+						Classes="Flat"
+						Width="46"
+						HorizontalContentAlignment="Center"
+						BorderThickness="0"
+						ToolTip.Tip="Minimize">
+						
+						<Button.Resources>
+							<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+						</Button.Resources>
+						
+						<Button.Styles>
+							<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="#44AAAAAA"/>
+							</Style>
+							
+							<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+						</Button.Styles>
+
+						<icons:MaterialIcon
+							Foreground="{DynamicResource MaterialDesignBody}"
+							Kind="WindowMinimize"/>
+					</Button>
+
+					<Button
+						x:Name="MaximizeButton"
+						Classes="Flat"
+						Width="46"
+						HorizontalContentAlignment="Center"
+						BorderThickness="0"
+						ToolTip.Tip="Maximise">
+
+						<Button.Resources>
+							<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+						</Button.Resources>
+						
+						<Button.Styles>
+							<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="#44AAAAAA"/>
+							</Style>
+							
+							<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+						</Button.Styles>
+
+						<icons:MaterialIcon
+							Foreground="{DynamicResource MaterialDesignBody}"
+							Kind="WindowMaximize"/>
+					</Button>
+
+					<Button
+						x:Name="CloseButton"
+						Classes="Flat"
+						Width="46"
+						VerticalAlignment="Stretch"
+						BorderThickness="0"
+						ToolTip.Tip="Close">
+						
+						<Button.Resources>
+							<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+						</Button.Resources>
+						
+						<Button.Styles>
+							<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Red"/>
+							</Style>
+							
+							<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+							
+							<Style Selector="Button:pointerover > Path">
+								<Setter Property="Fill" Value="White"/>
+							</Style>
+							
+							<Style Selector="Button:not(:pointerover) > Path">
+								<Setter Property="Fill" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+							</Style>
+						</Button.Styles>
+
+						<icons:MaterialIcon
+							Foreground="{DynamicResource MaterialDesignBody}"
+							Kind="WindowClose"/>
+					</Button>
+
+				</StackPanel>
+			</DockPanel>
+		</Grid>
+
+		<NativeMenuBar
+			x:Name="DefaultMenuBar"
+			HorizontalAlignment="Left">
+		</NativeMenuBar>
+	</StackPanel>
+</UserControl>

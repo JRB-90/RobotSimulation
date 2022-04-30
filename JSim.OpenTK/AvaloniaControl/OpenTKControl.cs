@@ -23,6 +23,8 @@ namespace JSim.OpenTK
         {
             this.renderingEngine = renderingEngine;
 
+            ClearColor = new SolidColorBrush(new Avalonia.Media.Color(255, 32, 32, 56));
+
             camera =
                 new StandardCamera(
                     (int)Bounds.Width,

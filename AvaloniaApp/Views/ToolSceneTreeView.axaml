@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:design="clr-namespace:AvaloniaApp.Design;assembly=AvaloniaApp"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+			 d:DataContext="{x:Static design:DesignData.ToolSceneTreeVM}"
+             x:Class="AvaloniaApp.Views.ToolSceneTreeView">
+	<Grid Focusable="True">
+		<ContentControl
+			Content="{Binding SceneTreeVM}"/>
+	</Grid>
+</UserControl>

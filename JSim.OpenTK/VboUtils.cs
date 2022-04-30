@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using OpenTK;
 using JSim.Core.Render;
 using System.Runtime.InteropServices;
 
@@ -35,8 +34,6 @@ namespace JSim.OpenTK
             GL.GetBufferParameter(BufferTarget.ArrayBuffer, BufferParameterName.BufferSize, out int size);
             if (vertices.Length * Marshal.SizeOf(typeof(Vertex)) != size)
             {
-                // TODO
-                //Logger.Log("Error: Vertex data not uploaded correctly");
                 throw new InvalidOperationException("Vertex data not uploaded correctly");
             }
 
@@ -46,8 +43,6 @@ namespace JSim.OpenTK
             GL.GetBufferParameter(BufferTarget.ElementArrayBuffer, BufferParameterName.BufferSize, out size);
             if (indices.Length * sizeof(uint) != size)
             {
-                // TODO
-                //Logger.Log("Error: Element data not uploaded correctly");
                 throw new InvalidOperationException("Element data not uploaded correctly");
             }
 

@@ -8,19 +8,21 @@ using System.Diagnostics;
 
 namespace JSim.OpenTK
 {
+    /// <summary>
+    /// Provides a rendering engine that uses OpenTK to call OpenGL functions
+    /// and render a scene to a surface.
+    /// </summary>
     public class OpenTKRenderingEngine : IRenderingEngine
     {
         const float DEFAULT_POINT_SIZE = 5.0f;
         const float DEFAULT_LINE_WIDTH = 0.1f;
 
-        readonly ILogger logger;
         readonly IGlContextManager glContextManager;
 
         public OpenTKRenderingEngine(
             ILogger logger,
             IGlContextManager glContextManager)
         {
-            this.logger = logger;
             this.glContextManager = glContextManager;
 
             glContextManager.RunOnResourceContext(
@@ -28,33 +30,19 @@ namespace JSim.OpenTK
             );
         }
 
+        /// <summary>
+        /// Disposes this object.
+        /// </summary>
         public void Dispose()
         {
         }
 
-        public void Render(IRenderingSurface surface)
-        {
-            GL.Viewport(0, 0, surface.SurfaceWidth, surface.SurfaceHeight);
-            
-            var hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
-            var c = Color4.FromHsv(new Vector4(hue, 0.75f, 0.75f, 1));
-            GL.ClearColor(c);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.LoadIdentity();
-            GL.Begin(PrimitiveType.Triangles);
-
-            GL.Color4(Color4.Red);
-            GL.Vertex2(0.0f, 0.5f);
-
-            GL.Color4(Color4.Green);
-            GL.Vertex2(0.58f, -0.5f);
-
-            GL.Color4(Color4.Blue);
-            GL.Vertex2(-0.58f, -0.5f);
-
-            GL.End();
-        }
-
+        /// <summary>
+        /// Renders the given scene to the a surface.
+        /// </summary>
+        /// <param name="surface">Surface to render to.</param>
+        /// <param name="scene">Scene to render to the surface.</param>
+        /// <exception cref="InvalidOperationException">Thrown if surface is incompatible with this renderer.</exception>
         public void Render(
             IRenderingSurface surface, 
             IScene? scene)
@@ -74,6 +62,32 @@ namespace JSim.OpenTK
             sw.Stop();
             var elapsedNS = (double)sw.ElapsedTicks / ((double)TimeSpan.TicksPerMillisecond / 1000.0);
             //Trace.WriteLine($"Render time {elapsedNS / 1000.0:F3}ms", "Debug");
+        }
+
+        /// <summary>
+        /// Renders a test scene to the given surface.
+        /// </summary>
+        internal void RenderTestScene(IRenderingSurface surface)
+        {
+            GL.Viewport(0, 0, surface.SurfaceWidth, surface.SurfaceHeight);
+
+            var hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
+            var c = Color4.FromHsv(new Vector4(hue, 0.75f, 0.75f, 1));
+            GL.ClearColor(c);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.LoadIdentity();
+            GL.Begin(PrimitiveType.Triangles);
+
+            GL.Color4(Color4.Red);
+            GL.Vertex2(0.0f, 0.5f);
+
+            GL.Color4(Color4.Green);
+            GL.Vertex2(0.58f, -0.5f);
+
+            GL.Color4(Color4.Blue);
+            GL.Vertex2(-0.58f, -0.5f);
+
+            GL.End();
         }
 
         private void RenderScene(

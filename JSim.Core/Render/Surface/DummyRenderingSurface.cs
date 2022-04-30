@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.Render
+﻿using JSim.Core.SceneGraph;
+
+namespace JSim.Core.Render
 {
     /// <summary>
     /// Dummy implementation of a rendering surface.
@@ -15,6 +17,8 @@
         public int SurfaceHeight => 0;
 
         public ICamera Camera { get; set; }
+
+        public IScene? Scene { get; set;}
 
         public void Dispose()
         {

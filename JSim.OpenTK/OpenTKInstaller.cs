@@ -7,7 +7,7 @@ using JSim.Core.Render;
 namespace JSim.OpenTK
 {
     /// <summary>
-    /// Installs an opentk based rendering backend.
+    /// Installs an OpenTK based rendering backend.
     /// </summary>
     public class OpenTKInstaller : IWindsorInstaller
     {

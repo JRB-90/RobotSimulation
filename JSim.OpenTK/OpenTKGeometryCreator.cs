@@ -4,29 +4,31 @@ using JSim.Core.Render;
 
 namespace JSim.OpenTK
 {
+    /// <summary>
+    /// OpenTK compatible implementation of a geometry creator.
+    /// Provides correct dependencies when creating OpenTK geometry objects.
+    /// </summary>
     public class OpenTKGeometryCreator : IGeometryCreator
     {
-        readonly ILogger logger;
         readonly INameRepository nameRepository;
         readonly IOpenTKGeometryFactory geometryFactory;
         readonly IGlContextManager glContextManager;
 
         public OpenTKGeometryCreator(
-            ILogger logger,
             INameRepositoryFactory nameRepositoryFactory,
             IOpenTKGeometryFactory geometryFactory,
             IGlContextManager glContextManager)
         {
-            this.logger = logger;
             this.geometryFactory = geometryFactory;
             this.glContextManager = glContextManager;
             nameRepository = nameRepositoryFactory.CreateNameRepository();
-            logger.Log("GeometryCreator initialised", LogLevel.Debug);
         }
 
+        /// <summary>
+        /// Disposes this object.
+        /// </summary>
         public void Dispose()
         {
-            logger.Log("GeometryCreator disposed", LogLevel.Debug);
         }
 
         /// <summary>

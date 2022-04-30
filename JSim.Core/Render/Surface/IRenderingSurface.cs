@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.Render
+﻿using JSim.Core.SceneGraph;
+
+namespace JSim.Core.Render
 {
     /// <summary>
     /// Defines a onscreen surface that can be renderered to.
@@ -19,6 +21,12 @@
         /// The camera for the viewport.
         /// </summary>
         ICamera Camera { get; set; }
+
+        /// <summary>
+        /// Scene associated with this surface.
+        /// Will be the scene render when the surface is render is requested.
+        /// </summary>
+        IScene? Scene { get; set; }
 
         /// <summary>
         /// Forces the surface to render.

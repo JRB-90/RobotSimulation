@@ -2,6 +2,9 @@
 
 namespace JSim.Core.Render
 {
+    /// <summary>
+    /// Provides a dummy rendering engine implementation.
+    /// </summary>
     public class DummyRenderingEngine : IRenderingEngine
     {
         readonly ILogger logger;

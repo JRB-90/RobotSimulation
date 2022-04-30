@@ -10,9 +10,14 @@
             surfaces = new List<IRenderingSurface>();
         }
 
-        public IReadOnlyCollection<IRenderingSurface> Surfaces =>
-            surfaces;
+        /// <summary>
+        /// Gets a collection of all rendering surfaces in the application.
+        /// </summary>
+        public IReadOnlyCollection<IRenderingSurface> Surfaces => surfaces;
 
+        /// <summary>
+        /// Disposes the surface manager and any managed surfaces.
+        /// </summary>
         public void Dispose()
         {
             foreach (var surface in surfaces)
@@ -21,6 +26,12 @@
             }
         }
 
+
+        /// <summary>
+        /// Adds a surface to the collection of managed surfaces.
+        /// </summary>
+        /// <param name="surface">Surface to add.</param>
+        /// <returns>True if add was successful.</returns>
         public bool AddSurface(IRenderingSurface surface)
         {
             if (surfaces.Contains(surface))
@@ -35,6 +46,11 @@
             }
         }
 
+        /// <summary>
+        /// Removes a surface from the collection of managed surfaces.
+        /// </summary>
+        /// <param name="surface">Surface to remove.</param>
+        /// <returns>True if remove was successful.</returns>
         public bool RemoveSurface(IRenderingSurface surface)
         {
             if (!surfaces.Contains(surface))

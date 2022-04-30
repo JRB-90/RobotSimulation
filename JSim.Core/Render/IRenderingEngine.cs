@@ -1,5 +1,4 @@
-﻿using JSim.Core.Display;
-using JSim.Core.SceneGraph;
+﻿using JSim.Core.SceneGraph;
 
 namespace JSim.Core.Render
 {
@@ -18,7 +17,7 @@ namespace JSim.Core.Render
         /// <param name="scene">Scene graph to render.</param>
         void Render(
             IRenderingSurface surface,
-            IScene scene
+            IScene? scene
         );
     }
 }

@@ -296,6 +296,16 @@ namespace JSim.Core.Render
 
         public event SelectionStateChangedEventHandler? SelectionStateChanged;
 
+        public void SetDrawingData(
+            IReadOnlyList<Vertex> vertices,
+            IReadOnlyList<uint> indices)
+        {
+            this.vertices = vertices;
+            this.indices = indices;
+            Rebuild();
+            FireGeometryRebuiltEvent();
+        }
+
         public bool MoveGeometry(IGeometry newParent)
         {
             if (ParentGeometry == null)
@@ -373,16 +383,6 @@ namespace JSim.Core.Render
         public override string ToString()
         {
             return $"{GetType().Name}:{Name}";
-        }
-
-        protected void SetDrawingData(
-            IReadOnlyList<Vertex> vertices,
-            IReadOnlyList<uint> indices)
-        {
-            this.vertices = vertices;
-            this.indices = indices;
-            Rebuild();
-            FireGeometryRebuiltEvent();
         }
 
         protected void FireGeometryRebuiltEvent()

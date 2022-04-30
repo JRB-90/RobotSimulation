@@ -1,5 +1,4 @@
-﻿using JSim.Core.Display;
-using JSim.Core.Maths;
+﻿using JSim.Core.Maths;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.Core.Render
@@ -60,7 +59,7 @@ namespace JSim.Core.Render
         /// <returns>MAtrix object representing the projection matrix.</returns>
         public Matrix<double> GetProjectionMatrix()
         {
-            return projectionMatrix;
+            return cameraProjection.GetProjectionMatrix();
         }
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace JSim.Core.Render
         /// <returns>Matrix object representing the view matrix.</returns>
         public Matrix<double> GetViewMatrix()
         {
-            return viewMatrix;
+            return PositionInWorld.Inverse.Matrix;
         }
 
         /// <summary>
@@ -78,11 +77,31 @@ namespace JSim.Core.Render
         /// <param name="surface">Rendering surface to be used to update the camera.</param>
         public void Update(IRenderingSurface surface)
         {
-            cameraProjection.Height = surface.SurfaceHeight;
-            cameraProjection.Width = surface.SurfaceWidth;
-            projectionMatrix = cameraProjection.GetProjectionMatrix();
-            viewMatrix = cameraProjection.GetViewMatrix(this);
-            FireCameraModifiedEvent();
+            if (cameraProjection.Height != surface.SurfaceHeight ||
+                cameraProjection.Width != surface.SurfaceWidth)
+            {
+                cameraProjection.Height = surface.SurfaceHeight;
+                cameraProjection.Width = surface.SurfaceWidth;
+                FireCameraModifiedEvent();
+            }
+        }
+
+        /// <summary>
+        /// Rotates the camera to look at a given point.
+        /// </summary>
+        /// <param name="focusPoint">The point in space to focus the camera on.</param>
+        /// <param name="up">The up vector of the world, in order to ensure the camera does not yaw.</param>
+        public void LookAtPoint(Vector3D focusPoint, Vector3D up)
+        {
+            Vector3D zAxis = (PositionInWorld.Translation - focusPoint).Normalised;
+            Vector3D xAxis = up.Cross(zAxis).Normalised;
+            Vector3D yAxis = zAxis.Cross(xAxis).Normalised;
+
+            PositionInWorld =
+                new Transform3D(
+                    PositionInWorld.Translation,
+                    new Rotation3D(xAxis, yAxis, zAxis)
+                );
         }
 
         protected void FireCameraModifiedEvent()

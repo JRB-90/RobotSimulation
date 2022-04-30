@@ -13,10 +13,6 @@ namespace JSim.Core.Render
             IGeometry? parentGeometry
         );
 
-        /// <summary>
-        /// Releases a IGeometry object.
-        /// </summary>
-        /// <param name="geometry">IGeometry object to release.</param>
         void Destroy(IGeometry geometry);
     }
 }

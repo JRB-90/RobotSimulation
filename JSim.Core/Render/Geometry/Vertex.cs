@@ -412,76 +412,7 @@ namespace JSim.Core.Render
                     vertices[i].Normal = norm;
                     continue;
                 }
-                vertices[i].Normal.Normalize();
-            }
-        }
-
-        /// <summary>
-        /// Rough estimation of texture coordinates for a list of vertices.
-        /// </summary>
-        /// <param name="vertices">List of vertices to calculate from.</param>
-        /// <param name="indices">Drawing order of the vertices.</param>
-        public static void CalculateVertexTexCoords(
-            List<Vertex> vertices, 
-            List<uint> indices)
-        {
-            CalculateVertexTexCoords(
-                vertices.ToArray(), 
-                indices.ToArray()
-            );
-        }
-
-        /// <summary>
-        /// Rough estimation of texture coordinates for a list of vertices.
-        /// </summary>
-        /// <param name="vertices">List of vertices to calculate from.</param>
-        /// <param name="indices">Drawing order of the vertices.</param>
-        public static void CalculateVertexTexCoords(
-            Vertex[] vertices, 
-            uint[] indices)
-        {
-            double lowestX, lowestZ;
-            double highestX, highestZ;
-            lowestX = lowestZ = double.PositiveInfinity;
-            highestX = highestZ = double.NegativeInfinity;
-
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                if (vertices[i].Position.X < lowestX)
-                {
-                    lowestX = vertices[i].Position.X;
-                }
-
-                if (vertices[i].Position.X > highestX)
-                {
-                    highestX = vertices[i].Position.X;
-                }
-
-                if (vertices[i].Position.X < lowestZ)
-                {
-                    lowestZ = vertices[i].Position.Z;
-                }
-
-                if (vertices[i].Position.X > highestZ)
-                {
-                    highestZ = vertices[i].Position.Z;
-                }
-            }
-
-            double rangeX = (lowestX - highestX) * -1.0;
-            double rangeZ = (lowestZ - highestZ) * -1.0;
-            double offsetX = 0.0 - lowestX;
-            double offsetZ = 0.0 - lowestZ;
-
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                Vector2D tex =
-                    new Vector2D(
-                        (vertices[i].Position.X + offsetX) / rangeX,
-                        (vertices[i].Position.Z + offsetZ) / rangeZ
-                    );
-
-                vertices[i].TexCoord = tex;
+                vertices[i].Normal = vertices[i].Normal.Normalised;
             }
         }
     }

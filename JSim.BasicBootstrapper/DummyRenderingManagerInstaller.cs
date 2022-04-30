@@ -2,7 +2,6 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using JSim.Core.Display;
 using JSim.Core.Render;
 
 namespace JSim.BasicBootstrapper
@@ -65,9 +64,9 @@ namespace JSim.BasicBootstrapper
             );
 
             container.Register(
-                Component.For<IDisplayManager>()
+                Component.For<ISurfaceManager>()
                 .Named("DisplayManager")
-                .ImplementedBy<DisplayManager>()
+                .ImplementedBy<SurfaceManager>()
                 .LifestyleSingleton()
             );
         }

@@ -4,6 +4,7 @@ using JSim.BasicBootstrapper;
 using JSim.Core;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
+using JSim.OpenTK;
 
 namespace JSim.TestApp
 {

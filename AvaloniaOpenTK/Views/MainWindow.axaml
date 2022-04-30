@@ -18,7 +18,7 @@
 	<Grid
 		RowDefinitions="*,*"
 		ColumnDefinitions="*,*">
-
+	
 		<ContentControl
 			Grid.Row="0"
 			Grid.Column="0"
@@ -38,7 +38,6 @@
 			Grid.Row="1"
 			Grid.Column="1"
 			Content="{Binding GraphicsControl4}"/>
-		
-	</Grid>
 
+	</Grid>
 </Window>

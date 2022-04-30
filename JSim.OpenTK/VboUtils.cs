@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using OpenTK;
 using JSim.Core.Render;
 using System.Runtime.InteropServices;
 
@@ -27,17 +26,14 @@ namespace JSim.OpenTK
         /// <returns>Vbo object containing the buffer pointers.</returns>
         public static Vbo CreateVbo(Vertex[] vertices, uint[] indices)
         {
-            int size;
             Vbo handle = new Vbo();
             handle.NumElements = vertices.Length;
             GL.GenBuffers(1, out handle.VboID);
             GL.BindBuffer(BufferTarget.ArrayBuffer, handle.VboID);
             GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * Marshal.SizeOf(typeof(Vertex))), vertices, BufferUsageHint.StaticDraw);
-            GL.GetBufferParameter(BufferTarget.ArrayBuffer, BufferParameterName.BufferSize, out size);
+            GL.GetBufferParameter(BufferTarget.ArrayBuffer, BufferParameterName.BufferSize, out int size);
             if (vertices.Length * Marshal.SizeOf(typeof(Vertex)) != size)
             {
-                // TODO
-                //Logger.Log("Error: Vertex data not uploaded correctly");
                 throw new InvalidOperationException("Vertex data not uploaded correctly");
             }
 
@@ -47,8 +43,6 @@ namespace JSim.OpenTK
             GL.GetBufferParameter(BufferTarget.ElementArrayBuffer, BufferParameterName.BufferSize, out size);
             if (indices.Length * sizeof(uint) != size)
             {
-                // TODO
-                //Logger.Log("Error: Element data not uploaded correctly");
                 throw new InvalidOperationException("Element data not uploaded correctly");
             }
 

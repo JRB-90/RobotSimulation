@@ -19,19 +19,19 @@ namespace JSim.Core.Render
             this.logger = logger;
             this.geometryFactory = geometryFactory;
             nameRepository = nameRepositoryFactory.CreateNameRepository();
-            logger.Log("DummyGeometryCreator initialised", LogLevel.Debug);
+            logger.Log("GeometryCreator initialised", LogLevel.Debug);
         }
 
         public void Dispose()
         {
-            logger.Log("DummyGeometryCreator disposed", LogLevel.Debug);
+            logger.Log("GeometryCreator disposed", LogLevel.Debug);
         }
 
         /// <summary>
-        /// Creates a new dummy geometry object.
+        /// Creates a new IGeometry object.
         /// </summary>
-        /// <param name="parentGeometry"></param>
-        /// <returns></returns>
+        /// <param name="parentGeometry">Parent to attach this geometry node to.</param>
+        /// <returns>Implementation specific geometry implementation.</returns>
         public IGeometry CreateGeometry(IGeometry? parentGeometry)
         {
             return

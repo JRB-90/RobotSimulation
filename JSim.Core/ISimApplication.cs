@@ -1,5 +1,4 @@
 ﻿using JSim.Core.SceneGraph;
-using JSim.Core.Display;
 using JSim.Core.Render;
 
 namespace JSim.Core
@@ -22,7 +21,7 @@ namespace JSim.Core
         /// Gets the IDisplayManager implementation used in the JSim application,
         /// which is used to interact with display surfaces.
         /// </summary>
-        IDisplayManager DisplayManager { get; }
+        ISurfaceManager SurfaceManager { get; }
 
         /// <summary>
         /// Gets the IRenderingManager implementation used in the JSim application,

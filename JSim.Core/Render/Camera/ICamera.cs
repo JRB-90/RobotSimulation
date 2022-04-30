@@ -1,5 +1,4 @@
-﻿using JSim.Core.Display;
-using JSim.Core.Maths;
+﻿using JSim.Core.Maths;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.Core.Render
@@ -41,5 +40,12 @@ namespace JSim.Core.Render
         /// </summary>
         /// <param name="surface">Rendering surface to be used to update the camera.</param>
         void Update(IRenderingSurface surface);
+
+        /// <summary>
+        /// Rotates the camera to look at a given point.
+        /// </summary>
+        /// <param name="focusPoint">The point in space to focus the camera on.</param>
+        /// <param name="up">The up vector of the world, in order to ensure the camera does not yaw.</param>
+        void LookAtPoint(Vector3D focusPoint, Vector3D up);
     }
 }

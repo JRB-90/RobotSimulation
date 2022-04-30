@@ -1,8 +1,10 @@
-﻿using JSim.Core.Display;
-using JSim.Core.SceneGraph;
+﻿using JSim.Core.SceneGraph;
 
 namespace JSim.Core.Render
 {
+    /// <summary>
+    /// Provides a dummy rendering engine implementation.
+    /// </summary>
     public class DummyRenderingEngine : IRenderingEngine
     {
         readonly ILogger logger;
@@ -20,7 +22,7 @@ namespace JSim.Core.Render
 
         public void Render(
             IRenderingSurface surface,
-            IScene scene)
+            IScene? scene)
         {
             logger.Log("Render called", LogLevel.Debug);
         }

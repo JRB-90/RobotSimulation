@@ -104,6 +104,16 @@ namespace JSim.Core.Render
         event SelectionStateChangedEventHandler? SelectionStateChanged;
 
         /// <summary>
+        /// Sets the vertices and indices of the geometry.
+        /// </summary>
+        /// <param name="vertices">Vertex data.</param>
+        /// <param name="indices">Drawing indices.</param>
+        void SetDrawingData(
+            IReadOnlyList<Vertex> vertices,
+            IReadOnlyList<uint> indices
+        );
+
+        /// <summary>
         /// Moves the geometry to a new node.
         /// </summary>
         /// <param name="newParent">New geometry to attach this node to.</param>

@@ -1,4 +1,4 @@
-﻿using JSim.Core.Render;
+﻿using JSim.Core.Maths;
 
 namespace JSim.Core.Input
 {
@@ -9,8 +9,18 @@ namespace JSim.Core.Input
     public interface ICameraController
     {
         /// <summary>
-        /// The camera this controller is manipulating.
+        /// Gets the controlled position in world coordinates of the camera.
         /// </summary>
-        ICamera? AttachedCamera { get; set; }
+        Transform3D CameraPosition { get; }
+
+        /// <summary>
+        /// Flag to designate if the controller is activated or not.
+        /// </summary>
+        bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Event fired when a new camera position has been calculated.
+        /// </summary>
+        event NewPositionCalculatedEventHandler? NewPositionCalculated;
     }
 }

@@ -120,8 +120,13 @@ namespace AvaloniaApp.Models
         {
             OpenTKControl control = openTKControlFactory.CreateControl();
             control.Scene = app.SceneManager.CurrentScene;
-            control.Camera.PositionInWorld = new Transform3D(3, 3, 3, 0, 0, 0);
-            control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+            
+            if (control.Camera != null)
+            {
+                control.Camera.PositionInWorld = new Transform3D(3, 3, 3, 0, 0, 0);
+                control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+            }
+            
             app.SurfaceManager.AddSurface(control);
 
             return control;

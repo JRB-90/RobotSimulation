@@ -3,6 +3,7 @@ using Avalonia.Media;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.Threading;
+using JSim.Core.Input;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.OpenTK.Input;
@@ -34,6 +35,11 @@ namespace JSim.OpenTK
                     (int)Bounds.Height
                 );
 
+            camera.CameraController =
+                new MouseOrbitController(
+                    new MouseInputProvider(this)
+                );
+
             camera.CameraModified += OnCameraModified;
             EffectiveViewportChanged += OpenTKControl_EffectiveViewportChanged;
             AttachedToVisualTree += OpenTKControl_AttachedToVisualTree;
@@ -59,12 +65,16 @@ namespace JSim.OpenTK
 
         public int SurfaceHeight => (int)Bounds.Height;
 
-        public ICamera Camera
+        public ICamera? Camera
         {
             get => camera;
             set
             {
                 camera = value;
+                if (camera != null)
+                {
+                    camera.CameraModified += OnCameraModified;
+                }
                 RequestRender();
             }
         }
@@ -112,7 +122,7 @@ namespace JSim.OpenTK
 
         private void OpenTKControl_EffectiveViewportChanged(object? sender, global::Avalonia.Layout.EffectiveViewportChangedEventArgs e)
         {
-            Camera.Update(this);
+            Camera?.Update(this);
             RequestRender();
         }
 
@@ -121,7 +131,7 @@ namespace JSim.OpenTK
             e.Root.Renderer.DrawFps = true;
         }
 
-        private ICamera camera;
+        private ICamera? camera;
         private IScene? scene;
 
         private static object sceneLock = new object();

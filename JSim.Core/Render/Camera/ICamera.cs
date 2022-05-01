@@ -1,4 +1,5 @@
-﻿using JSim.Core.Maths;
+﻿using JSim.Core.Input;
+using JSim.Core.Maths;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.Core.Render
@@ -8,6 +9,11 @@ namespace JSim.Core.Render
     /// </summary>
     public interface ICamera
     {
+        /// <summary>
+        /// The controller used for manipulating the camera.
+        /// </summary>
+        ICameraController? CameraController { get; set; }
+
         /// <summary>
         /// Gets and sets the position of the camera in the world.
         /// </summary>

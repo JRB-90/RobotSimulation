@@ -1,4 +1,4 @@
-﻿using JSim.Core.Render;
+﻿using JSim.Core.Maths;
 
 namespace JSim.Core.Input
 {
@@ -22,16 +22,11 @@ namespace JSim.Core.Input
 
         public MouseOrbitController(
             IMouseInputProvider mouse,
-            ICamera? camera)
+            Transform3D initialCameraPosition)
           : 
-            base(camera)
+            base(initialCameraPosition)
         {
             this.mouse = mouse;
-        }
-
-        protected override void OnCameraChanged(ICamera? camera)
-        {
-            CalculateCameraPosition();
         }
 
         protected override void OnParametersChanged()

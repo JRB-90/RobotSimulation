@@ -1,5 +1,4 @@
 ﻿using JSim.Core.Maths;
-using JSim.Core.Render;
 
 namespace JSim.Core.Input
 {
@@ -18,9 +17,9 @@ namespace JSim.Core.Input
             zoomSpeed = 1.0;
         }
 
-        public OrbitControllerBase(ICamera? camera)
+        public OrbitControllerBase(Transform3D initialCameraPosition)
           :
-            base(camera)
+            base(initialCameraPosition)
         {
             focusPoint = Vector3D.Origin;
             upVector = Vector3D.UnitZ;

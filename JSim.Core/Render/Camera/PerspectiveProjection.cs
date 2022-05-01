@@ -81,32 +81,6 @@ namespace JSim.Core.Render
             return result;
         }
 
-        /// <summary>
-        /// Gets the view matrix.
-        /// </summary>
-        /// <param name="camera">Camera calculate the view matrix from.</param>
-        /// <returns>View matrix.</returns>
-        public override Matrix<double> GetViewMatrix(ICamera camera)
-        {
-            Matrix<double> result = Matrix<double>.Build.DenseIdentity(4);
-            Matrix<double> translation = -camera.PositionInWorld.Translation.ToHomogeneousMat();
-            Matrix<double> rotation = Matrix<double>.Build.DenseIdentity(4);
-
-            rotation[0, 0] = camera.PositionInWorld.I.X;
-            rotation[0, 1] = camera.PositionInWorld.I.Y; 
-            rotation[0, 2] = camera.PositionInWorld.I.Z;
-
-            rotation[1, 0] = camera.PositionInWorld.J.X; 
-            rotation[1, 1] = camera.PositionInWorld.J.Y; 
-            rotation[1, 2] = camera.PositionInWorld.J.Z;
-
-            rotation[2, 0] = camera.PositionInWorld.K.X; 
-            rotation[2, 1] = camera.PositionInWorld.K.Y; 
-            rotation[2, 2] = camera.PositionInWorld.K.Z;
-
-            return rotation * translation;
-        }
-
         private double fov;
         private double nearClip;
         private double farClip;

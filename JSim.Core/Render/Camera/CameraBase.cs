@@ -1,4 +1,5 @@
-﻿using JSim.Core.Maths;
+﻿using JSim.Core.Input;
+using JSim.Core.Maths;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.Core.Render
@@ -19,6 +20,23 @@ namespace JSim.Core.Render
             positionInWorld = Transform3D.Identity;
             projectionMatrix = Matrix<double>.Build.DenseIdentity(4);
             viewMatrix = Matrix<double>.Build.DenseIdentity(4);
+        }
+
+        /// <summary>
+        /// The controller used for manipulating the camera.
+        /// </summary>
+        public ICameraController? CameraController
+        {
+            get => cameraController;
+            set
+            {
+                cameraController = value;
+                if (cameraController != null)
+                {
+                    cameraController.NewPositionCalculated += OnNewPositionCalculated;
+                }
+                FireCameraModifiedEvent();
+            }
         }
 
         /// <summary>
@@ -104,6 +122,11 @@ namespace JSim.Core.Render
                 );
         }
 
+        private void OnNewPositionCalculated(object sender, NewPositionCalculatedEventArgs e)
+        {
+            PositionInWorld = e.NewPosition;
+        }
+
         protected void FireCameraModifiedEvent()
         {
             CameraModified?.Invoke(this, new CameraModifiedEventArgs());
@@ -114,6 +137,7 @@ namespace JSim.Core.Render
             FireCameraModifiedEvent();
         }
 
+        private ICameraController? cameraController;
         private Transform3D positionInWorld;
         private ICameraProjection cameraProjection;
         private Matrix<double> projectionMatrix;

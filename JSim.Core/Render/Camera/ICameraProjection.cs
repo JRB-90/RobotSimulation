@@ -27,12 +27,5 @@ namespace JSim.Core.Render
         /// </summary>
         /// <returns>Projection matrix.</returns>
         Matrix<double> GetProjectionMatrix();
-
-        /// <summary>
-        /// Gets the camera view matrix.
-        /// </summary>
-        /// <param name="camera">Camera the view matrix is derived from.</param>
-        /// <returns>View matrix.</returns>
-        Matrix<double> GetViewMatrix(ICamera camera);
     }
 }

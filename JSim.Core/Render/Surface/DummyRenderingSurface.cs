@@ -16,7 +16,7 @@ namespace JSim.Core.Render
 
         public int SurfaceHeight => 0;
 
-        public ICamera Camera { get; set; }
+        public ICamera? Camera { get; set; }
 
         public IScene? Scene { get; set;}
 

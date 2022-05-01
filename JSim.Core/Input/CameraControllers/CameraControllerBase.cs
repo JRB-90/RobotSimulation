@@ -1,4 +1,4 @@
-﻿using JSim.Core.Render;
+﻿using JSim.Core.Maths;
 
 namespace JSim.Core.Input
 {
@@ -9,32 +9,37 @@ namespace JSim.Core.Input
     {
         public CameraControllerBase()
         {
+            cameraPosition = Transform3D.Identity;
         }
 
-        public CameraControllerBase(ICamera? camera)
+        public CameraControllerBase(Transform3D initialCameraPosition)
         {
-            this.camera = camera;
+            cameraPosition = initialCameraPosition;
         }
 
         /// <summary>
-        /// The camera this controller is manipulating.
+        /// Gets the controlled position in world coordinates of the camera.
         /// </summary>
-        public ICamera? AttachedCamera
+        public Transform3D CameraPosition
         {
-            get => camera;
-            set
+            get => cameraPosition;
+            protected set
             {
-                camera = value;
-                OnCameraChanged(camera);
+                cameraPosition = value;
+                NewPositionCalculated?.Invoke(this, new NewPositionCalculatedEventArgs(cameraPosition));
             }
         }
 
         /// <summary>
-        /// Called when the camera object has changed.
+        /// Flag to designate if the controller is activated or not.
         /// </summary>
-        /// <param name="camera">New camera object.</param>
-        protected abstract void OnCameraChanged(ICamera? camera);
+        public bool IsEnabled { get; set; }
 
-        private ICamera? camera;
+        /// <summary>
+        /// Event fired when a new camera position has been calculated.
+        /// </summary>
+        public event NewPositionCalculatedEventHandler? NewPositionCalculated;
+
+        private Transform3D cameraPosition;
     }
 }

@@ -1,18 +1,15 @@
-﻿namespace JSim.Core.Input
+﻿using JSim.Core.Maths;
+
+namespace JSim.Core.Input
 {
     public delegate void MouseMovedEventHandler(object sender, MouseMovedEventArgs e);
     public class MouseMovedEventArgs : EventArgs
     {
-        public MouseMovedEventArgs(
-            double deltaX,
-            double deltaY)
+        public MouseMovedEventArgs(Vector2D newPosition)
         {
-            DeltaX = deltaX;
-            DeltaY = deltaY;
+            NewPosition = newPosition;
         }
 
-        public double DeltaX { get; }
-
-        public double DeltaY { get; }
+        public Vector2D NewPosition { get; }
     }
 }

@@ -5,12 +5,14 @@ using Avalonia.OpenGL.Controls;
 using Avalonia.Threading;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
+using JSim.OpenTK.Input;
 
 namespace JSim.OpenTK
 {
     public class OpenTKControl : OpenTKControlBase, IRenderingSurface
     {
         readonly IRenderingEngine renderingEngine;
+        readonly MouseInputProvider mouseInput;
 
         public OpenTKControl(
             ISharedGlContextFactory glContextFactory,
@@ -22,6 +24,7 @@ namespace JSim.OpenTK
             )
         {
             this.renderingEngine = renderingEngine;
+            mouseInput = new MouseInputProvider(this);
 
             ClearColor = new SolidColorBrush(new Avalonia.Media.Color(255, 32, 32, 56));
 

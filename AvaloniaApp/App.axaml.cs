@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using AvaloniaApp.Controls;
 using AvaloniaApp.Models;
 using AvaloniaApp.ViewModels;
 using AvaloniaApp.Views;
@@ -28,7 +29,8 @@ namespace AvaloniaApp
                 var mainWindowViewModel = new MainWindowViewModel()
                 {
                     Factory = factory,
-                    Layout = layout
+                    Layout = layout,
+                    TitleBar = new JSimTitleBar() { IsSeamless = true, MainMenuVM = appModel.MainMenuVM }
                 };
 
                 mainWindow.DataContext = mainWindowViewModel;

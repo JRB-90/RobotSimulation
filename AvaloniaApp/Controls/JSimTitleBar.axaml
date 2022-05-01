@@ -5,10 +5,12 @@
 			 xmlns:controls="clr-namespace:AvaloniaApp.Controls;assembly=AvaloniaApp"
 			 xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
-             x:Class="AvaloniaApp.Controls.JSimTitleBar">
+             x:Class="AvaloniaApp.Controls.JSimTitleBar"
+			 x:Name="uc">
 
 	<StackPanel>
-		<Grid>
+		<Grid
+			Margin="10, 10, 10, 5">
 			<DockPanel
 				x:Name="TitleBarBackground"
 				IsHitTestVisible="False"/>
@@ -22,19 +24,23 @@
 					
 					<Image 
 						x:Name="WindowIcon"
-						Height="22"
-						Width="22"
-						Margin="5,0,3,0"
-						VerticalAlignment="Stretch"
+						Height="18"
+						Width="18"
+						Margin="3,0,3,0"
 						Source="/Assets/purple-on-black-logo.png"/>
 
-					<TextBlock
+					<!--<TextBlock
 						x:Name="SystemChromeTitle"
 						IsHitTestVisible="False"
 						VerticalAlignment="Center"
 						Margin="5, 0, 0, 0"
 						FontSize="14"
-						Text="JSim Avalonia"/>
+						Text="JSim Avalonia"/>-->
+					
+					<ContentControl
+						Margin="10, 0, 0, 0"
+						VerticalAlignment="Center"
+						Content="{Binding MainMenuVM, ElementName=uc}"/>
 				</StackPanel>
 				
 				<StackPanel 

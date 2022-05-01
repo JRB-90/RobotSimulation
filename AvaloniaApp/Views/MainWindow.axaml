@@ -20,10 +20,11 @@
 		VerticalAlignment="Stretch"
 		LastChildFill="True">
 		
-		<controls:JSimTitleBar
+		<ContentControl
 			DockPanel.Dock="Top"
-			IsSeamless="True"/>
+			Content="{Binding TitleBar}"/>
 
-		<idc:DockControl Layout="{Binding Layout}"/>
+		<idc:DockControl
+			Layout="{Binding Layout}"/>
 	</DockPanel>
 </Window>

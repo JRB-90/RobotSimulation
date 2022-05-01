@@ -26,7 +26,7 @@ namespace AvaloniaApp
                 new View3DViewModel(
                     "3DView",
                     "3D View",
-                    context.OpenTKControlFactory.CreateControl()
+                    context.Create3DControl()
                 );
 
             var toolSceneTree =
@@ -61,7 +61,7 @@ namespace AvaloniaApp
                     new View3DViewModel(
                         $"3DView{index}", 
                         $"3D View {index}", 
-                        context.OpenTKControlFactory.CreateControl()
+                        context.Create3DControl()
                     );
                 
                 AddDockable(documentDock, document);
@@ -82,7 +82,7 @@ namespace AvaloniaApp
                     {
                         Id = "LeftPane",
                         Title = "LeftPane",
-                        Proportion = double.NaN,
+                        Proportion = 0.2,
                         Orientation = Orientation.Vertical,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>
@@ -91,7 +91,7 @@ namespace AvaloniaApp
                             {
                                 Id = "LeftPaneTop",
                                 Title = "LeftPaneTop",
-                                Proportion = double.NaN,
+                                Proportion = 0.2,
                                 ActiveDockable = toolSceneTree,
                                 VisibleDockables = CreateList<IDockable>(toolSceneTree),
                                 Alignment = Alignment.Left,
@@ -114,7 +114,7 @@ namespace AvaloniaApp
                     {
                         Id = "RightPane",
                         Title = "RightPane",
-                        Proportion = double.NaN,
+                        Proportion = 0.2,
                         Orientation = Orientation.Vertical,
                         ActiveDockable = null,
                         VisibleDockables = CreateList<IDockable>
@@ -123,7 +123,7 @@ namespace AvaloniaApp
                             {
                                 Id = "RightPaneTop",
                                 Title = "RightPaneTop",
-                                Proportion = double.NaN,
+                                Proportion = 0.2,
                                 ActiveDockable = toolSceneObjectData,
                                 VisibleDockables = CreateList<IDockable>(toolSceneObjectData),
                                 Alignment = Alignment.Right,
@@ -167,7 +167,7 @@ namespace AvaloniaApp
                 [nameof(IDockWindow)] = () => context,
                 [nameof(IDocument)] = () => context,
                 [nameof(ITool)] = () => context,
-                ["3DView"] = () => context.OpenTKControlFactory.CreateControl(),
+                ["3DView"] = () => context.Create3DControl(),
                 ["SceneTreeView"] = () => context.SceneTreeVM,
                 ["SceneObjectData"] = () => context.SceneObjectVM,
                 ["LeftPane"] = () => context,

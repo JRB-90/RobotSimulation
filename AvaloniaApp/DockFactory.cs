@@ -91,7 +91,7 @@ namespace AvaloniaApp
                             {
                                 Id = "LeftPaneTop",
                                 Title = "LeftPaneTop",
-                                Proportion = double.NaN,
+                                Proportion = 0.2,
                                 ActiveDockable = toolSceneTree,
                                 VisibleDockables = CreateList<IDockable>(toolSceneTree),
                                 Alignment = Alignment.Left,
@@ -123,7 +123,7 @@ namespace AvaloniaApp
                             {
                                 Id = "RightPaneTop",
                                 Title = "RightPaneTop",
-                                Proportion = double.NaN,
+                                Proportion = 0.2,
                                 ActiveDockable = toolSceneObjectData,
                                 VisibleDockables = CreateList<IDockable>(toolSceneObjectData),
                                 Alignment = Alignment.Right,

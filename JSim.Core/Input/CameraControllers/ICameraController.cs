@@ -11,7 +11,7 @@ namespace JSim.Core.Input
         /// <summary>
         /// Gets the controlled position in world coordinates of the camera.
         /// </summary>
-        Transform3D CameraPosition { get; }
+        Transform3D CameraPosition { get; set; }
 
         /// <summary>
         /// Flag to designate if the controller is activated or not.

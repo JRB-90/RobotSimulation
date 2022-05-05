@@ -123,7 +123,7 @@ namespace AvaloniaApp.Models
             
             if (control.Camera != null)
             {
-                control.Camera.PositionInWorld = new Transform3D(3, 3, 3, 0, 0, 0);
+                control.Camera.PositionInWorld = new Transform3D(0, -10, 0, 0, 0, 0);
                 control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
             }
             
@@ -145,7 +145,7 @@ namespace AvaloniaApp.Models
             var rx = _stopwatch.Elapsed.TotalSeconds * 20;
             var ry = _stopwatch.Elapsed.TotalSeconds * 30;
             var rz = _stopwatch.Elapsed.TotalSeconds * 40;
-            entity.LocalFrame = new Transform3D(0.0, 0.0, 0.0, rx, ry, rz);
+            //entity.LocalFrame = new Transform3D(0.0, 0.0, 0.0, rx, ry, rz);
             
             // TODO - Make render call happen on entity modified
 

@@ -8,6 +8,6 @@
             WheelDelta = wheelDelta;
         }
 
-        double WheelDelta { get; }
+        public double WheelDelta { get; }
     }
 }

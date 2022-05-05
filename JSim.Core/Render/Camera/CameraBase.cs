@@ -33,6 +33,7 @@ namespace JSim.Core.Render
                 cameraController = value;
                 if (cameraController != null)
                 {
+                    cameraController.CameraPosition = PositionInWorld;
                     cameraController.NewPositionCalculated += OnNewPositionCalculated;
                 }
                 FireCameraModifiedEvent();
@@ -48,6 +49,10 @@ namespace JSim.Core.Render
             set
             {
                 positionInWorld = value;
+                if (cameraController != null)
+                {
+                    cameraController.CameraPosition = positionInWorld;
+                }
                 FireCameraModifiedEvent();
             }
         }

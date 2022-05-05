@@ -14,7 +14,7 @@
                 new PerspectiveProjection(
                     width, 
                     height, 
-                    90.0, 
+                    45.0, 
                     0.001, 
                     10000.0
                 )

@@ -23,11 +23,7 @@ namespace JSim.Core.Input
         public Transform3D CameraPosition
         {
             get => cameraPosition;
-            protected set
-            {
-                cameraPosition = value;
-                NewPositionCalculated?.Invoke(this, new NewPositionCalculatedEventArgs(cameraPosition));
-            }
+            set => cameraPosition = value;
         }
 
         /// <summary>
@@ -39,6 +35,11 @@ namespace JSim.Core.Input
         /// Event fired when a new camera position has been calculated.
         /// </summary>
         public event NewPositionCalculatedEventHandler? NewPositionCalculated;
+
+        protected void FireNewPositionCalculatedEvent()
+        {
+            NewPositionCalculated?.Invoke(this, new NewPositionCalculatedEventArgs(CameraPosition));
+        }
 
         private Transform3D cameraPosition;
     }

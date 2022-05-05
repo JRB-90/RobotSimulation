@@ -1,4 +1,5 @@
 ﻿using JSim.Core.Maths;
+using System.Diagnostics;
 
 namespace JSim.Core.Input
 {
@@ -14,7 +15,10 @@ namespace JSim.Core.Input
             base()
         {
             this.mouse = mouse;
-            mouse.MouseWheelMoved += OnMouseMoved;
+            oldMousePos = Vector2D.Origin;
+            deltaPos = Vector2D.Origin;
+
+            mouse.MouseMoved += OnMouseMoved;
             mouse.MouseButtonPressed += OnMouseButtonPressed;
             mouse.MouseButtonReleased += OnMouseButtonReleased;
             mouse.MouseWheelMoved += OnMouseWheelMoved;
@@ -27,36 +31,69 @@ namespace JSim.Core.Input
             base(initialCameraPosition)
         {
             this.mouse = mouse;
+            oldMousePos = Vector2D.Origin;
+            deltaPos = Vector2D.Origin;
         }
 
         protected override void OnParametersChanged()
         {
-            CalculateCameraPosition();
         }
 
-        private void OnMouseMoved(object sender, MouseWheelEventArgs e)
+        private void OnMouseMoved(object sender, MouseMovedEventArgs e)
         {
-            
+            if (orbitState == OrbitState.Orbiting ||
+                orbitState == OrbitState.Panning)
+            {
+                deltaPos = e.NewPosition - oldMousePos;
+                oldMousePos = e.NewPosition;
+                
+                if (orbitState == OrbitState.Orbiting)
+                {
+                    Rotate(deltaPos.X, -deltaPos.Y);
+                }
+                if (orbitState == OrbitState.Panning)
+                {
+                    Pan(deltaPos.X, deltaPos.Y);
+                }
+            }
         }
 
         private void OnMouseButtonPressed(object sender, MouseButtonPressedEventArgs e)
         {
-            
+            if (e.Button == MouseButton.Right &&
+                orbitState == OrbitState.Idle)
+            {
+                orbitState = OrbitState.Orbiting;
+                oldMousePos = e.Position;
+            }
+            else if (e.Button == MouseButton.Left &&
+                     orbitState == OrbitState.Idle)
+            {
+                orbitState = OrbitState.Panning;
+                oldMousePos = e.Position;
+            }
         }
 
         private void OnMouseButtonReleased(object sender, MouseButtonReleasedEventArgs e)
         {
-            
+            if (e.Button == MouseButton.Right &&
+                orbitState == OrbitState.Orbiting)
+            {
+                orbitState = OrbitState.Idle;
+            }
+            else if (e.Button == MouseButton.Left &&
+                     orbitState == OrbitState.Panning)
+            {
+                orbitState = OrbitState.Idle;
+            }
         }
 
         private void OnMouseWheelMoved(object sender, MouseWheelEventArgs e)
         {
-            
+            ZoomExponential(e.WheelDelta);
         }
 
-        private void CalculateCameraPosition()
-        {
-
-        }
+        private Vector2D oldMousePos;
+        private Vector2D deltaPos;
     }
 }

@@ -31,24 +31,49 @@ namespace JSim.OpenTK.Input
         private void OnPointerMoved(object? sender, global::Avalonia.Input.PointerEventArgs e)
         {
             var pos = e.GetPosition(control);
-            MouseMoved?.Invoke(this, new MouseMovedEventArgs(new Vector2D(pos.X, pos.Y)));
+
+            MouseMoved?.Invoke(
+                this, 
+                new MouseMovedEventArgs(new Vector2D(pos.X, pos.Y))
+            );
         }
 
         private void OnPointerPressed(object? sender, global::Avalonia.Input.PointerPressedEventArgs e)
         {
+            var pos = e.GetCurrentPoint(control).Position;
             var state = e.GetCurrentPoint(control).Properties;
 
             if (state.IsLeftButtonPressed)
             {
-                MouseButtonPressed?.Invoke(this, new MouseButtonPressedEventArgs(MouseButton.Left));
+                MouseButtonPressed?.Invoke(
+                    this, 
+                    new MouseButtonPressedEventArgs(
+                        MouseButton.Left, 
+                        new Vector2D(pos.X, pos.Y)
+                    )
+                );
             }
+
             if (state.IsRightButtonPressed)
             {
-                MouseButtonPressed?.Invoke(this, new MouseButtonPressedEventArgs(MouseButton.Right));
+                MouseButtonPressed?.Invoke(
+                    this,
+                    new MouseButtonPressedEventArgs(
+                        MouseButton.Right,
+                        new Vector2D(pos.X, pos.Y)
+                    )
+                );
             }
+
             if (state.IsMiddleButtonPressed)
             {
-                MouseButtonPressed?.Invoke(this, new MouseButtonPressedEventArgs(MouseButton.Middle));
+                MouseButtonPressed?.Invoke(
+                    this,
+                    new MouseButtonPressedEventArgs(
+                        MouseButton.Middle,
+                        new Vector2D(pos.X, pos.Y)
+                    )
+                );
             }
         }
 
@@ -58,21 +83,35 @@ namespace JSim.OpenTK.Input
 
             if (!state.IsLeftButtonPressed)
             {
-                MouseButtonReleased?.Invoke(this, new MouseButtonReleasedEventArgs(MouseButton.Left));
+                MouseButtonReleased?.Invoke(
+                    this, 
+                    new MouseButtonReleasedEventArgs(MouseButton.Left)
+                );
             }
+
             if (!state.IsRightButtonPressed)
             {
-                MouseButtonReleased?.Invoke(this, new MouseButtonReleasedEventArgs(MouseButton.Right));
+                MouseButtonReleased?.Invoke(
+                    this, 
+                    new MouseButtonReleasedEventArgs(MouseButton.Right)
+                );
             }
+
             if (!state.IsMiddleButtonPressed)
             {
-                MouseButtonReleased?.Invoke(this, new MouseButtonReleasedEventArgs(MouseButton.Middle));
+                MouseButtonReleased?.Invoke(
+                    this, 
+                    new MouseButtonReleasedEventArgs(MouseButton.Middle)
+                );
             }
         }
 
         private void OnPointerWheelChanged(object? sender, global::Avalonia.Input.PointerWheelEventArgs e)
         {
-            MouseWheelMoved?.Invoke(this, new MouseWheelEventArgs(e.Delta.Length));
+            MouseWheelMoved?.Invoke(
+                this, 
+                new MouseWheelEventArgs(e.Delta.Y)
+            );
         }
     }
 }

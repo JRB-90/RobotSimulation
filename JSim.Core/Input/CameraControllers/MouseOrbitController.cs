@@ -1,5 +1,4 @@
 ﻿using JSim.Core.Maths;
-using System.Diagnostics;
 
 namespace JSim.Core.Input
 {

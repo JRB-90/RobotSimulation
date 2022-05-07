@@ -168,7 +168,8 @@ namespace JSim.OpenTK
                 return;
             }
 
-            if (geometry is OpenTKGeometry tkGeometry)
+            if (geometry is OpenTKGeometry tkGeometry &&
+                surface.Camera != null)
             {
 
                 IShader shader = shaderManager.FindShader(tkGeometry.Material.Shading);

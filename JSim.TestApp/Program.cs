@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.Maths;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 using JSim.OpenTK;
@@ -12,35 +13,21 @@ namespace JSim.TestApp
     {
         static void Main(string[] args)
         {
-            IWindsorContainer container = BootstrapContainer();
-            ISimApplication app = container.Resolve<ISimApplication>();
+            //IWindsorContainer container = BootstrapContainer();
+            //ISimApplication app = container.Resolve<ISimApplication>();
+            //ISceneManager sceneManager = app.SceneManager;
+            //IScene scene = sceneManager.CurrentScene;
 
-            ISceneManager sceneManager = app.SceneManager;
-            sceneManager.CurrentSceneChanged += SceneManager_CurrentSceneChanged;
+            //ISceneEntity entity1 = scene.Root.CreateNewEntity();
+            //ISceneEntity entity2 = scene.Root.CreateNewEntity();
+            //ISceneEntity entity3 = scene.Root.CreateNewEntity();
 
-            IScene scene = sceneManager.CurrentScene;
-            scene.SceneObjectModified += Scene_SceneObjectModified;
-            scene.SceneStructureChanged += Scene_SceneStructureChanged;
+            //app.Dispose();
 
-            ISceneEntity entity1 = scene.Root.CreateNewEntity();
-            ISceneEntity entity2 = scene.Root.CreateNewEntity();
-            ISceneEntity entity3 = scene.Root.CreateNewEntity();
 
-            app.Dispose();
+            var q = Quaternion.RotationAboutAxis(Vector3D.UnitX, 10.0);
 
             Console.Read();
-        }
-
-        private static void SceneManager_CurrentSceneChanged(object sender, CurrentSceneChangedEventArgs e)
-        {
-        }
-
-        private static void Scene_SceneStructureChanged(object sender, SceneStructureChangedEventArgs e)
-        {
-        }
-
-        private static void Scene_SceneObjectModified(object sender, SceneObjectModifiedEventArgs e)
-        {
         }
 
         private static IWindsorContainer BootstrapContainer()

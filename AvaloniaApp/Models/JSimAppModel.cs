@@ -62,25 +62,45 @@ namespace AvaloniaApp.Models
             entity5.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
             entity5.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
 
-            var cube = CubeBuilder.Build(1.0, 1.0, 1.0);
+            var cube = CubeBuilder.Build(0.2, 0.2, 0.2);
 
-            var cubePoints = entity1.GeometryContainer.Root.CreateChildGeometry("CubePoints");
-            cubePoints.IsVisible = true;
-            cubePoints.SetDrawingData(cube.Item1, cube.Item2);
-            cubePoints.GeometryType = GeometryType.Points;
-            cubePoints.Material.Color = new Color(0.8f, 0.1f, 0.1f);
-
-            var cubeLines = entity1.GeometryContainer.Root.CreateChildGeometry("CubeLines");
-            cubeLines.IsVisible = false;
-            cubeLines.SetDrawingData(cube.Item1, cube.Item2);
-            cubeLines.GeometryType = GeometryType.Wireframe;
-            cubeLines.Material.Color = new Color(0.5f, 0.5f, 0.5f);
-
-            var cubeSolid = entity1.GeometryContainer.Root.CreateChildGeometry("CubeSolid");
+            var cubeSolid = entity1.GeometryContainer.Root.CreateChildGeometry("Cube");
+            cubeSolid.LocalFrame = new Transform3D(new Vector3D(0.5, 0.5, 0.1));
             cubeSolid.IsVisible = true;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
-            cubeSolid.Material.Color = new Color(0.2f, 0.7f, 0.2f);
+            cubeSolid.Material.Color = new Color(0.7f, 0.7f, 0.7f);
+
+            double size = 1.0;
+            var lineVerts =
+                new Vertex[]
+                {
+                    new Vertex(0, new Vector3D(0, 0, 0)),
+                    new Vertex(1, new Vector3D(size, 0, 0)),
+                    new Vertex(2, new Vector3D(0, 0, 0)),
+                    new Vertex(3, new Vector3D(0, size, 0)),
+                    new Vertex(4, new Vector3D(0, 0, 0)),
+                    new Vertex(5, new Vector3D(0, 0, size))
+                };
+
+            var XIndices = new uint[] { 0, 1 };
+            var YIndices = new uint[] { 2, 3 };
+            var ZIndices = new uint[] { 4, 5 };
+
+            var xAxis = entity1.GeometryContainer.Root.CreateChildGeometry("XAxis");
+            xAxis.SetDrawingData(lineVerts, XIndices);
+            xAxis.GeometryType = GeometryType.Wireframe;
+            xAxis.Material.Color = new Color(1.0f, 0.0f, 0.0f);
+
+            var yAxis = entity1.GeometryContainer.Root.CreateChildGeometry("YAxis");
+            yAxis.SetDrawingData(lineVerts, YIndices);
+            yAxis.GeometryType = GeometryType.Wireframe;
+            yAxis.Material.Color = new Color(0.0f, 1.0f, 0.0f);
+
+            var zAxis = entity1.GeometryContainer.Root.CreateChildGeometry("ZAxis");
+            zAxis.SetDrawingData(lineVerts, ZIndices);
+            zAxis.GeometryType = GeometryType.Wireframe;
+            zAxis.Material.Color = new Color(0.0f, 0.0f, 1.0f);
 
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);
@@ -120,8 +140,13 @@ namespace AvaloniaApp.Models
         {
             OpenTKControl control = openTKControlFactory.CreateControl();
             control.Scene = app.SceneManager.CurrentScene;
-            control.Camera.PositionInWorld = new Transform3D(3, 3, 3, 0, 0, 0);
-            control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+            
+            if (control.Camera != null)
+            {
+                control.Camera.PositionInWorld = new Transform3D(5, 5, 5, 0, 0, 0);
+                control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+            }
+            
             app.SurfaceManager.AddSurface(control);
 
             return control;
@@ -140,7 +165,7 @@ namespace AvaloniaApp.Models
             var rx = _stopwatch.Elapsed.TotalSeconds * 20;
             var ry = _stopwatch.Elapsed.TotalSeconds * 30;
             var rz = _stopwatch.Elapsed.TotalSeconds * 40;
-            entity.LocalFrame = new Transform3D(0.0, 0.0, 0.0, rx, ry, rz);
+            //entity.LocalFrame = new Transform3D(0.0, 0.0, 0.0, rx, ry, rz);
             
             // TODO - Make render call happen on entity modified
 

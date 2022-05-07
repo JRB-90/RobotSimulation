@@ -91,17 +91,20 @@ namespace AvaloniaOpenTK.ViewModels
             var graphicsControl = controlFactory.CreateControl();
 
             graphicsControl.ClearColor = clearColor;
-            graphicsControl.Camera.PositionInWorld = camPosition;
-            graphicsControl.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
 
-            graphicsControl.Camera.CameraProjection =
-                new PerspectiveProjection(
-                    graphicsControl.SurfaceWidth,
-                    graphicsControl.SurfaceHeight,
-                    70.0,
-                    0.01,
-                    1000.0
-                );
+            if (graphicsControl.Camera != null)
+            {
+                graphicsControl.Camera.PositionInWorld = camPosition;
+                graphicsControl.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+                graphicsControl.Camera.CameraProjection =
+                    new PerspectiveProjection(
+                        graphicsControl.SurfaceWidth,
+                        graphicsControl.SurfaceHeight,
+                        70.0,
+                        0.01,
+                        1000.0
+                    );
+            }
 
             graphicsControl.Scene = app.SceneManager.CurrentScene;
             app.SurfaceManager.AddSurface(graphicsControl);

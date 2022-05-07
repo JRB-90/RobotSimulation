@@ -1,16 +1,20 @@
 ﻿using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.Threading;
+using JSim.Core.Input;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
+using JSim.OpenTK.Input;
 
 namespace JSim.OpenTK
 {
     public class OpenTKControl : OpenTKControlBase, IRenderingSurface
     {
         readonly IRenderingEngine renderingEngine;
+        readonly MouseInputProvider mouseInput;
 
         public OpenTKControl(
             ISharedGlContextFactory glContextFactory,
@@ -22,6 +26,7 @@ namespace JSim.OpenTK
             )
         {
             this.renderingEngine = renderingEngine;
+            mouseInput = new MouseInputProvider(this);
 
             ClearColor = new SolidColorBrush(new Avalonia.Media.Color(255, 32, 32, 56));
 
@@ -29,6 +34,11 @@ namespace JSim.OpenTK
                 new StandardCamera(
                     (int)Bounds.Width,
                     (int)Bounds.Height
+                );
+
+            camera.CameraController =
+                new MouseOrbitController(
+                    new MouseInputProvider(this)
                 );
 
             camera.CameraModified += OnCameraModified;
@@ -56,12 +66,16 @@ namespace JSim.OpenTK
 
         public int SurfaceHeight => (int)Bounds.Height;
 
-        public ICamera Camera
+        public ICamera? Camera
         {
             get => camera;
             set
             {
                 camera = value;
+                if (camera != null)
+                {
+                    camera.CameraModified += OnCameraModified;
+                }
                 RequestRender();
             }
         }
@@ -109,7 +123,7 @@ namespace JSim.OpenTK
 
         private void OpenTKControl_EffectiveViewportChanged(object? sender, global::Avalonia.Layout.EffectiveViewportChangedEventArgs e)
         {
-            Camera.Update(this);
+            Camera?.Update(this);
             RequestRender();
         }
 
@@ -118,7 +132,7 @@ namespace JSim.OpenTK
             e.Root.Renderer.DrawFps = true;
         }
 
-        private ICamera camera;
+        private ICamera? camera;
         private IScene? scene;
 
         private static object sceneLock = new object();

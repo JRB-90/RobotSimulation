@@ -203,7 +203,7 @@ namespace SceneGraphTests
         [Fact]
         public void DoTransform3DOperationsFunctionCorrectly()
         {
-            Transform3D t1 = new Transform3D() * new Vector3D(1.0, 2.0, 3.0);
+            Transform3D t1 = new Transform3D(new Vector3D(1.0, 2.0, 3.0));
             t1.Translation.X.Should().BeApproximately(1.0, 0.0001);
             t1.Translation.Y.Should().BeApproximately(2.0, 0.0001);
             t1.Translation.Z.Should().BeApproximately(3.0, 0.0001);

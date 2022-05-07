@@ -1,4 +1,5 @@
-﻿using JSim.Core.Maths;
+﻿using JSim.Core.Input;
+using JSim.Core.Maths;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.Core.Render
@@ -22,6 +23,24 @@ namespace JSim.Core.Render
         }
 
         /// <summary>
+        /// The controller used for manipulating the camera.
+        /// </summary>
+        public ICameraController? CameraController
+        {
+            get => cameraController;
+            set
+            {
+                cameraController = value;
+                if (cameraController != null)
+                {
+                    cameraController.CameraPosition = PositionInWorld;
+                    cameraController.NewPositionCalculated += OnNewPositionCalculated;
+                }
+                FireCameraModifiedEvent();
+            }
+        }
+
+        /// <summary>
         /// Gets and sets the position of the camera in the world.
         /// </summary>
         public Transform3D PositionInWorld
@@ -30,6 +49,10 @@ namespace JSim.Core.Render
             set
             {
                 positionInWorld = value;
+                if (cameraController != null)
+                {
+                    cameraController.CameraPosition = positionInWorld;
+                }
                 FireCameraModifiedEvent();
             }
         }
@@ -59,7 +82,7 @@ namespace JSim.Core.Render
         /// <returns>MAtrix object representing the projection matrix.</returns>
         public Matrix<double> GetProjectionMatrix()
         {
-            return cameraProjection.GetProjectionMatrix();
+            return cameraProjection.GetProjectionMatrix(this);
         }
 
         /// <summary>
@@ -104,6 +127,11 @@ namespace JSim.Core.Render
                 );
         }
 
+        private void OnNewPositionCalculated(object sender, NewPositionCalculatedEventArgs e)
+        {
+            PositionInWorld = e.NewPosition;
+        }
+
         protected void FireCameraModifiedEvent()
         {
             CameraModified?.Invoke(this, new CameraModifiedEventArgs());
@@ -114,6 +142,7 @@ namespace JSim.Core.Render
             FireCameraModifiedEvent();
         }
 
+        private ICameraController? cameraController;
         private Transform3D positionInWorld;
         private ICameraProjection cameraProjection;
         private Matrix<double> projectionMatrix;

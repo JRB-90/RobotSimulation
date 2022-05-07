@@ -20,7 +20,7 @@ namespace JSim.Core.Render
         /// <summary>
         /// The camera for the viewport.
         /// </summary>
-        ICamera Camera { get; set; }
+        ICamera? Camera { get; set; }
 
         /// <summary>
         /// Scene associated with this surface.

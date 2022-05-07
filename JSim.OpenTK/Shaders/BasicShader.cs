@@ -36,7 +36,7 @@ namespace JSim.OpenTK
 
             SetUniformMatrix(
                 "MVPMat",
-                camera.CameraProjection.GetProjectionMatrix() *
+                camera.GetProjectionMatrix() *
                 camera.GetViewMatrix() *
                 model.Matrix
             );

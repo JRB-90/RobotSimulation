@@ -82,7 +82,7 @@ namespace JSim.Core.Render
         /// <returns>MAtrix object representing the projection matrix.</returns>
         public Matrix<double> GetProjectionMatrix()
         {
-            return cameraProjection.GetProjectionMatrix();
+            return cameraProjection.GetProjectionMatrix(this);
         }
 
         /// <summary>

@@ -11,13 +11,21 @@
         public StandardCamera(int width, int height)
           : 
             base(
-                new PerspectiveProjection(
-                    width, 
-                    height, 
-                    45.0, 
-                    0.001, 
-                    10000.0
-                )
+            new PerspectiveProjection(
+                width,
+                height,
+                45.0,
+                0.001,
+                10000.0
+            )
+            //new OrthographicProjection(
+            //    width,
+            //    height,
+            //    45.0,
+            //    45.0,
+            //    0.001,
+            //    10000.0
+            //)
             )
         {
         }

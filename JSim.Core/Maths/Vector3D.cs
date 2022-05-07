@@ -118,6 +118,31 @@ namespace JSim.Core.Maths
             return vector.DotProduct(right.Vector);
         }
 
+        public double AngleWith(Vector3D vector)
+        {
+            double x = Length * vector.Length;
+            
+            if (x == 0)
+            {
+                return 0;
+            }
+
+            double dot = Dot(vector) / x;
+
+            if (dot < -1)
+            {
+                dot = -1;
+            }
+            else if (dot > 1)
+            {
+                dot = 1;
+            }
+
+            double angle = Math.Acos(dot);
+
+            return angle.ToDeg();
+        }
+
         public static Vector3D operator -(Vector3D vector)
         {
             return -1 * vector;

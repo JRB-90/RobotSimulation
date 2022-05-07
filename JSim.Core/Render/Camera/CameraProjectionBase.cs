@@ -59,7 +59,7 @@ namespace JSim.Core.Render
         /// Gets the camera projection matrix.
         /// </summary>
         /// <returns>Projection matrix.</returns>
-        public abstract Matrix<double> GetProjectionMatrix();
+        public abstract Matrix<double> GetProjectionMatrix(ICamera camera);
 
         protected void FireProjectionChangedEvent()
         {

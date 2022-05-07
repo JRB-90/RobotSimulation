@@ -9,6 +9,32 @@ namespace JSim.Core.Render
     public class PerspectiveProjection : CameraProjectionBase
     {
         /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="width">Width of the renderable area in pixels.</param>
+        /// <param name="height">Height of the renderable area in pixels.</param>
+        /// <param name="fov">Camera field of view.</param>
+        /// <param name="nearClip">Near cliping plane distance.</param>
+        /// <param name="farClip">Far clipping plane distance.</param>
+        public PerspectiveProjection(
+            int width, 
+            int height, 
+            double fov, 
+            double nearClip, 
+            double farClip)
+          : 
+            base(
+                width, 
+                height)
+        {
+            this.width = width;
+            this.height = height;
+            this.fov = fov.ToRad();
+            this.nearClip = nearClip;
+            this.farClip = farClip;
+        }
+
+        /// <summary>
         /// Camera field of view.
         /// </summary>
         public double Fov
@@ -48,28 +74,10 @@ namespace JSim.Core.Render
         }
 
         /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="width">Width of the renderable area in pixels.</param>
-        /// <param name="height">Height of the renderable area in pixels.</param>
-        /// <param name="fov">Camera field of view.</param>
-        /// <param name="nearClip">Near cliping plane distance.</param>
-        /// <param name="farClip">Far clipping plane distance.</param>
-        public PerspectiveProjection(int width, int height, double fov, double nearClip, double farClip)
-            : base(width, height)
-        {
-            this.width = width;
-            this.height = height;
-            this.fov = fov.ToRad();
-            this.nearClip = nearClip;
-            this.farClip = farClip;
-        }
-
-        /// <summary>
         /// Gets the projection matrix.
         /// </summary>
         /// <returns>Projection matrix.</returns>
-        public override Matrix<double> GetProjectionMatrix()
+        public override Matrix<double> GetProjectionMatrix(ICamera camera)
         {
             Matrix<double> result = Matrix<double>.Build.DenseDiagonal(4, 0.0);
             result[0, 0] = (1.0 / Math.Tan(fov / 2.0)) / AspectRatio;

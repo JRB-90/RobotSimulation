@@ -13,12 +13,12 @@
         /// <summary>
         /// Event raised when a mouse button has been pressed.
         /// </summary>
-        event MouseButtonPressedEventHandler? MouseButtonPressed;
+        event MouseButtonDownEventHandler? MouseButtonDown;
 
         /// <summary>
         /// Event raised when a mouse button has been released.
         /// </summary>
-        event MouseButtonReleasedEventHandler? MouseButtonReleased;
+        event MouseButtonUpEventHandler? MouseButtonUp;
 
         /// <summary>
         /// Event raised when the mouse wheel has moved.

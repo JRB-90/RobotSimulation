@@ -149,16 +149,6 @@ namespace JSim.Core.Maths
 
         public static Transform3D operator *(
             Transform3D left,
-            Vector3D right)
-        {
-            var transMatrix = Matrix<double>.Build.DenseIdentity(4);
-            transMatrix.SetColumn(3, 0, 3, right.Vector);
-
-            return new Transform3D(left.Matrix * transMatrix);
-        }
-
-        public static Transform3D operator *(
-            Transform3D left,
             Rotation3D right)
         {
             var rotMatrix = Matrix<double>.Build.DenseIdentity(4);

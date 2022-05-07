@@ -2,10 +2,10 @@
 
 namespace JSim.Core.Input
 {
-    public delegate void MouseButtonPressedEventHandler(object sender, MouseButtonPressedEventArgs e);
-    public class MouseButtonPressedEventArgs : EventArgs
+    public delegate void MouseButtonDownEventHandler(object sender, MouseButtonDownEventArgs e);
+    public class MouseButtonDownEventArgs : EventArgs
     {
-        public MouseButtonPressedEventArgs(
+        public MouseButtonDownEventArgs(
             MouseButton button,
             Vector2D position)
         {

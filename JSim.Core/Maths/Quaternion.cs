@@ -29,10 +29,10 @@ namespace JSim.Core.Maths
             double z,
             double w)
         {
-            X = 0.0;
-            Y = 0.0;
-            Z = 0.0;
-            W = 1.0;
+            X = x;
+            Y = y;
+            Z = z;
+            W = w;
         }
 
         public Quaternion(Rotation3D rotation)

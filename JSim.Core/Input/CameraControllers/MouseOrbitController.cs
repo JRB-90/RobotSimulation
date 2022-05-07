@@ -18,8 +18,8 @@ namespace JSim.Core.Input
             deltaPos = Vector2D.Origin;
 
             mouse.MouseMoved += OnMouseMoved;
-            mouse.MouseButtonPressed += OnMouseButtonPressed;
-            mouse.MouseButtonReleased += OnMouseButtonReleased;
+            mouse.MouseButtonDown += OnMouseButtonDown;
+            mouse.MouseButtonUp += OnMouseButtonUp;
             mouse.MouseWheelMoved += OnMouseWheelMoved;
         }
 
@@ -57,7 +57,7 @@ namespace JSim.Core.Input
             }
         }
 
-        private void OnMouseButtonPressed(object sender, MouseButtonPressedEventArgs e)
+        private void OnMouseButtonDown(object sender, MouseButtonDownEventArgs e)
         {
             if (e.Button == MouseButton.Right &&
                 orbitState == OrbitState.Idle)
@@ -73,7 +73,7 @@ namespace JSim.Core.Input
             }
         }
 
-        private void OnMouseButtonReleased(object sender, MouseButtonReleasedEventArgs e)
+        private void OnMouseButtonUp(object sender, MouseButtonUpEventArgs e)
         {
             if (e.Button == MouseButton.Right &&
                 orbitState == OrbitState.Orbiting)

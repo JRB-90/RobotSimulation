@@ -24,11 +24,8 @@ namespace JSim.TestApp
 
             //app.Dispose();
 
-            double angle = 45.0;
-            Vector3D pos = new Vector3D(3, 0, 0);
-            SphericalCoords sph = new SphericalCoords(pos);
-            sph.Azimuth += angle.ToRad();
-            Vector3D newPos = sph.ToCartesian();
+
+            var q = Quaternion.RotationAboutAxis(Vector3D.UnitX, 10.0);
 
             Console.Read();
         }

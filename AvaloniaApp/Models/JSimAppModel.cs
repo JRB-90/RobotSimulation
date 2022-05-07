@@ -123,7 +123,7 @@ namespace AvaloniaApp.Models
             
             if (control.Camera != null)
             {
-                control.Camera.PositionInWorld = new Transform3D(0, -10, 0, 0, 0, 0);
+                control.Camera.PositionInWorld = new Transform3D(0, -10, 10, 0, 0, 0);
                 control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
             }
             

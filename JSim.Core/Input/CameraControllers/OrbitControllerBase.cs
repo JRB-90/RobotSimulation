@@ -8,7 +8,7 @@ namespace JSim.Core.Input
     public abstract class OrbitControllerBase : CameraControllerBase, IOrbitCameraController
     {
         const double DEFAULT_PAN_SPEED = 0.01;
-        const double DEFAULT_ROT_SPEED = 0.1;
+        const double DEFAULT_ROT_SPEED = 0.25;
         const double DEFAULT_ZOOM_SPEED = 0.1;
 
         public OrbitControllerBase()
@@ -71,6 +71,12 @@ namespace JSim.Core.Input
             set => zoomSpeed = value;
         }
 
+        /// <summary>
+        /// Pans the camera in the image plane of the camera.
+        /// Moves the focus point along with it.
+        /// </summary>
+        /// <param name="horizontal">Horizontal pan amount.</param>
+        /// <param name="vertical">Vertical pan amount.</param>
         protected void Pan(double horizontal, double vertical)
         {
             var newCamPos = 
@@ -87,15 +93,35 @@ namespace JSim.Core.Input
             FireNewPositionCalculatedEvent();
         }
 
+        /// <summary>
+        /// Rotates the camera around the focus point whilst maintaining focus on it.
+        /// </summary>
+        /// <param name="horizontal">Horizontal rotation amount.</param>
+        /// <param name="vertical">Vertical rotation amount.</param>
         protected void Rotate(double horizontal, double vertical)
         {
+            RotateSph(horizontal, vertical);
+            //RotateQ(horizontal, vertical);
+        }
+
+        protected void RotateSph(double horizontal, double vertical)
+        {
             var spherical = new SphericalCoords(CameraPosition.Translation - FocusPoint);
-            
             spherical.Azimuth -= (horizontal * rotationSpeed).ToRad();
             spherical.Elevation += (vertical * rotationSpeed).ToRad();
             spherical.Elevation = Math.Clamp(spherical.Elevation, (10.0).ToRad(), (170.0).ToRad());
-
             var newCameraPos = spherical.ToCartesian() + FocusPoint;
+            var newCameraRot = CalculateLookAtRotation(newCameraPos);
+            CameraPosition = new Transform3D(newCameraPos, newCameraRot);
+            FireNewPositionCalculatedEvent();
+        }
+
+        protected void RotateQ(double horizontal, double vertical)
+        {
+            Rotation3D rotX = Quaternion.RotationAboutAxis(CameraPosition.I, vertical).ToRotation3D();
+            Rotation3D rotY = Quaternion.RotationAboutAxis(Vector3D.UnitY, -horizontal).ToRotation3D();
+            var newCameraPos = rotX * rotY * (CameraPosition.Translation - FocusPoint);
+            newCameraPos += FocusPoint;
             var newCameraRot = CalculateLookAtRotation(newCameraPos);
             CameraPosition = new Transform3D(newCameraPos, newCameraRot);
             FireNewPositionCalculatedEvent();

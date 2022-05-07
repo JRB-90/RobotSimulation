@@ -22,9 +22,9 @@ namespace JSim.OpenTK.Input
 
         public event MouseMovedEventHandler? MouseMoved;
 
-        public event MouseButtonPressedEventHandler? MouseButtonPressed;
+        public event MouseButtonDownEventHandler? MouseButtonDown;
 
-        public event MouseButtonReleasedEventHandler? MouseButtonReleased;
+        public event MouseButtonUpEventHandler? MouseButtonUp;
 
         public event MouseWheelEventHandler? MouseWheelMoved;
 
@@ -45,9 +45,9 @@ namespace JSim.OpenTK.Input
 
             if (state.IsLeftButtonPressed)
             {
-                MouseButtonPressed?.Invoke(
+                MouseButtonDown?.Invoke(
                     this, 
-                    new MouseButtonPressedEventArgs(
+                    new MouseButtonDownEventArgs(
                         MouseButton.Left, 
                         new Vector2D(pos.X, pos.Y)
                     )
@@ -56,9 +56,9 @@ namespace JSim.OpenTK.Input
 
             if (state.IsRightButtonPressed)
             {
-                MouseButtonPressed?.Invoke(
+                MouseButtonDown?.Invoke(
                     this,
-                    new MouseButtonPressedEventArgs(
+                    new MouseButtonDownEventArgs(
                         MouseButton.Right,
                         new Vector2D(pos.X, pos.Y)
                     )
@@ -67,9 +67,9 @@ namespace JSim.OpenTK.Input
 
             if (state.IsMiddleButtonPressed)
             {
-                MouseButtonPressed?.Invoke(
+                MouseButtonDown?.Invoke(
                     this,
-                    new MouseButtonPressedEventArgs(
+                    new MouseButtonDownEventArgs(
                         MouseButton.Middle,
                         new Vector2D(pos.X, pos.Y)
                     )
@@ -83,25 +83,25 @@ namespace JSim.OpenTK.Input
 
             if (!state.IsLeftButtonPressed)
             {
-                MouseButtonReleased?.Invoke(
+                MouseButtonUp?.Invoke(
                     this, 
-                    new MouseButtonReleasedEventArgs(MouseButton.Left)
+                    new MouseButtonUpEventArgs(MouseButton.Left)
                 );
             }
 
             if (!state.IsRightButtonPressed)
             {
-                MouseButtonReleased?.Invoke(
+                MouseButtonUp?.Invoke(
                     this, 
-                    new MouseButtonReleasedEventArgs(MouseButton.Right)
+                    new MouseButtonUpEventArgs(MouseButton.Right)
                 );
             }
 
             if (!state.IsMiddleButtonPressed)
             {
-                MouseButtonReleased?.Invoke(
+                MouseButtonUp?.Invoke(
                     this, 
-                    new MouseButtonReleasedEventArgs(MouseButton.Middle)
+                    new MouseButtonUpEventArgs(MouseButton.Middle)
                 );
             }
         }

@@ -178,21 +178,85 @@ namespace JSim.Core.Maths
         }
 
         public static Vector3D operator *(
-            Vector3D left,
-            Transform3D right)
+            Rotation3D rotation,
+            Vector3D vector)
         {
             Vector<double> v =
                 Vector<double>.Build.DenseOfArray(
                     new double[]
                     {
-                        left.X,
-                        left.Y,
-                        left.Z,
+                        vector.X,
+                        vector.Y,
+                        vector.Z,
                         1.0
                     }
                 );
 
-            var result = v * right.Matrix;
+            var t = new Transform3D(rotation);
+
+            var result = t.Matrix * v;
+
+            return new Vector3D(result.SubVector(0, 3));
+        }
+
+        public static Vector3D operator *(
+            Vector3D vector,
+            Rotation3D rotation)
+        {
+            Vector<double> v =
+                Vector<double>.Build.DenseOfArray(
+                    new double[]
+                    {
+                        vector.X,
+                        vector.Y,
+                        vector.Z,
+                        1.0
+                    }
+                );
+
+            var t = new Transform3D(rotation);
+
+            var result = v * t.Matrix;
+
+            return new Vector3D(result.SubVector(0, 3));
+        }
+
+        public static Vector3D operator *(
+            Transform3D transform,
+            Vector3D vector)
+        {
+            Vector<double> v =
+                Vector<double>.Build.DenseOfArray(
+                    new double[]
+                    {
+                        vector.X,
+                        vector.Y,
+                        vector.Z,
+                        1.0
+                    }
+                );
+
+            var result = transform.Matrix * v;
+
+            return new Vector3D(result.SubVector(0, 3));
+        }
+
+        public static Vector3D operator *(
+            Vector3D vector,
+            Transform3D transform)
+        {
+            Vector<double> v =
+                Vector<double>.Build.DenseOfArray(
+                    new double[]
+                    {
+                        vector.X,
+                        vector.Y,
+                        vector.Z,
+                        1.0
+                    }
+                );
+
+            var result = v * transform.Matrix;
 
             return new Vector3D(result.SubVector(0, 3));
         }

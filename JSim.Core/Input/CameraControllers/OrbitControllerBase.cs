@@ -16,7 +16,7 @@ namespace JSim.Core.Input
             base()
         {
             focusPoint = Vector3D.Origin;
-            upVector = Vector3D.UnitZ;
+            upVector = -Vector3D.UnitZ;
             panSpeed = DEFAULT_PAN_SPEED;
             rotationSpeed = DEFAULT_ROT_SPEED;
             zoomSpeed = DEFAULT_ZOOM_SPEED;
@@ -27,7 +27,7 @@ namespace JSim.Core.Input
             base(initialCameraPosition)
         {
             focusPoint = Vector3D.Origin;
-            upVector = Vector3D.UnitZ;
+            upVector = -Vector3D.UnitZ;
             panSpeed = DEFAULT_PAN_SPEED;
             rotationSpeed = DEFAULT_ROT_SPEED;
             zoomSpeed = DEFAULT_ZOOM_SPEED;
@@ -82,7 +82,7 @@ namespace JSim.Core.Input
             var newCamPos = 
                 CameraPosition * 
                 new Transform3D(
-                    new Vector3D(-horizontal * panSpeed, vertical * panSpeed, 0.0),
+                    new Vector3D(-horizontal * panSpeed, -vertical * panSpeed, 0.0),
                     Rotation3D.Identity
                 );
 
@@ -107,7 +107,7 @@ namespace JSim.Core.Input
         protected void RotateSph(double horizontal, double vertical)
         {
             var spherical = new SphericalCoords(CameraPosition.Translation - FocusPoint);
-            spherical.Azimuth -= (horizontal * rotationSpeed).ToRad();
+            spherical.Azimuth += (horizontal * rotationSpeed).ToRad();
             spherical.Elevation += (vertical * rotationSpeed).ToRad();
             spherical.Elevation = Math.Clamp(spherical.Elevation, (10.0).ToRad(), (170.0).ToRad());
             var newCameraPos = spherical.ToCartesian() + FocusPoint;

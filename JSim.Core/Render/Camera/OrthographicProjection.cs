@@ -88,11 +88,12 @@ namespace JSim.Core.Render
             var angleA = camera.PositionInWorld.K.AngleWith(camToOrigin);
             var angleB = 90.0 - angleA;
             var angleC = 180.0 - angleA - angleB;
-            var scalingFactor = 
-                (camToOrigin.Length * Math.Sin(angleB.ToRad())) / 
+            var scalingFactor =
+                (camToOrigin.Length * Math.Sin(angleB.ToRad())) /
                 Math.Sin(angleC.ToRad());
+            scalingFactor = Math.Abs(scalingFactor);
 
-            mat[0, 0] = -(1.0 / scalingFactor) / Math.Tan(fovX / 2.0) / AspectRatio;
+            mat[0, 0] = (1.0 / scalingFactor) / Math.Tan(fovX / 2.0) / AspectRatio;
             mat[1, 1] = (1.0 / scalingFactor) / Math.Tan(fovY / 2.0);
             mat[2, 2] = -2.0 / (farClip - nearClip);
             mat[2, 3] = -(farClip + nearClip) / (farClip - nearClip);

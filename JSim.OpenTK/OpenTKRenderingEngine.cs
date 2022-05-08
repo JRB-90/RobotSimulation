@@ -192,7 +192,7 @@ namespace JSim.OpenTK
 
         private void SetDefaultOptions()
         {
-            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.FrontFace(FrontFaceDirection.Cw);
             GL.CullFace(CullFaceMode.Back);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.DepthTest);

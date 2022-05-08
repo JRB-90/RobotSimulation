@@ -143,8 +143,8 @@ namespace AvaloniaApp.Models
             
             if (control.Camera != null)
             {
-                control.Camera.PositionInWorld = new Transform3D(5, 5, 5, 0, 0, 0);
-                control.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+                control.Camera.PositionInWorld = new Transform3D(3, 3, 3, 0, 0, 0);
+                control.Camera.LookAtPoint(Vector3D.Origin, -Vector3D.UnitZ);
             }
             
             app.SurfaceManager.AddSurface(control);

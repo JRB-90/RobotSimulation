@@ -65,11 +65,12 @@ namespace AvaloniaApp.Models
             var cube = CubeBuilder.Build(0.2, 0.2, 0.2);
 
             var cubeSolid = entity1.GeometryContainer.Root.CreateChildGeometry("Cube");
-            cubeSolid.LocalFrame = new Transform3D(new Vector3D(0.5, 0.5, 0.1));
+            cubeSolid.LocalFrame = new Transform3D(0.5, 0.5, 0.1, 0.0, 0.0, 10.0);
             cubeSolid.IsVisible = true;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
-            cubeSolid.Material.Color = new Color(0.7f, 0.7f, 0.7f);
+            cubeSolid.Material.Color = new Color(1.0f, 0.0f, 0.0f);
+            cubeSolid.Material.Shading = ShadingType.Flat;
 
             double size = 1.0;
             var lineVerts =

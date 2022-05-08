@@ -47,7 +47,7 @@ namespace JSim.OpenTK
             SetUniformVec4("light.color", new Color(1.0f, 1.0f, 1.0f, 1.0f));
             SetUniformVec3("light.direction", new Vector3D(1, 1, 1));
 
-            SetUniformVec4("material.ambient", new Color(1.0f, 0.2f, 0.2f, 0.2f));
+            SetUniformVec4("material.ambient", new Color(1.0f, 0.1f, 0.1f, 0.1f));
             SetUniformVec4("material.diffuse", material.Color);
         }
     }

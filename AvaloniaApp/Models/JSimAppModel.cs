@@ -39,33 +39,12 @@ namespace AvaloniaApp.Models
             var scene = app.SceneManager.CurrentScene;
 
             var assembly1 = scene.Root.CreateNewAssembly("Assembly1");
-            var assembly2 = scene.Root.CreateNewAssembly("Assembly2");
-            var assembly3 = scene.Root.CreateNewAssembly("Assembly3");
-            var entity1 = scene.Root.CreateNewEntity("Entity1");
-            var entity2 = scene.Root.CreateNewEntity("Entity2");
-
-            var entity3 = assembly2.CreateNewEntity("Entity3");
-            var entity4 = assembly2.CreateNewEntity("Entity4");
-
-            var entity5 = assembly3.CreateNewEntity("Entity5");
-            var assembly4 = assembly3.CreateNewAssembly("Assembly4");
-            var assembly5 = assembly3.CreateNewAssembly("Assembly5");
-
-            var entity6 = assembly4.CreateNewEntity("Entity6");
-            var entity7 = assembly4.CreateNewEntity("Entity7");
-
-            assembly3.WorldFrame = new Transform3D(10, 20, 30, 40, 50, 60);
-
-            assembly4.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
-            assembly4.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
-
-            entity5.WorldFrame = new Transform3D(1, 2, 3, 4, 5, 6);
-            entity5.LocalFrame = new Transform3D(-7, -8, -9, -10, -11, -12);
+            var entity1 = assembly1.CreateNewEntity("Entity1");
+            var entity2 = assembly1.CreateNewEntity("Entity2");
 
             var cube = CubeBuilder.Build(0.2, 0.2, 0.2);
-
-            var cubeSolid = entity1.GeometryContainer.Root.CreateChildGeometry("Cube");
-            cubeSolid.LocalFrame = new Transform3D(0.5, 0.5, 0.1, 0.0, 0.0, 10.0);
+            var cubeSolid = entity2.GeometryContainer.Root.CreateChildGeometry("Cube");
+            entity2.LocalFrame = new Transform3D(0.5, 0.5, 0.1, 0.0, 0.0, 15.0);
             cubeSolid.IsVisible = true;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
@@ -124,7 +103,7 @@ namespace AvaloniaApp.Models
                     app.SceneManager
                 );
 
-            app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(assembly4);
+            app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(entity2);
             app.SceneManager.CurrentSceneChanged += OnCurrentSceneChanged;
 
             entity = entity1;

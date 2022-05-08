@@ -26,25 +26,16 @@ uniform sampler2D sampler;
 uniform LightSource light;
 uniform MaterialData material;
 
+vec3 scaleNorm(vec3 norm);
+
 void main()
 {
 	vec4 ambient = material.ambient * light.color;
-	vec4 diffuse = material.diffuse;
-
-	vec4 texColor = texture2D(sampler, texCoord0.xy).rgba;
-	if (texColor != vec4(0.0, 0.0, 0.0, 1.0))
-	{
-		ambient = texColor * 0.4;
-		diffuse = texColor;
-	}
-
+	vec4 diffuse = material.diffuse * light.color;
+	vec3 lightDir = normalize(light.direction);
 	vec3 flatNormal = normalize(cross(dFdx(position0), dFdy(position0)));
-	vec3 lightDir = -normalize(light.direction);
-	//float intensity = dot(lightDir, flatNormal);
-    float intensity = max(dot(flatNormal, lightDir), 0.0);
-	vec4 diffuse0 = light.color * (diffuse * intensity);
+	float intensity = (dot(flatNormal, lightDir) + 1) * 0.5;
+	diffuse = diffuse * intensity;
 
-	gl_FragColor = ambient + diffuse0;
-	//gl_FragColor = light.color;
-	//gl_FragColor = vec4(flatNormal, 1.0);
+	gl_FragColor = mix(ambient, diffuse, 1.0);
 }

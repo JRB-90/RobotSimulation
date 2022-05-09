@@ -37,7 +37,8 @@ namespace JSim.Importers
             Assimp.Scene model = 
                 importer.ImportFile(
                     path,
-                    PostProcessSteps.FlipWindingOrder
+                    PostProcessSteps.FlipWindingOrder |
+                    PostProcessSteps.GenerateSmoothNormals
                 );
 
             ISceneAssembly assembly = parent.CreateNewAssembly(Path.GetFileNameWithoutExtension(path));
@@ -68,28 +69,26 @@ namespace JSim.Importers
             foreach (var meshIndex in node.MeshIndices)
             {
                 var mesh = model.Meshes[meshIndex];
-                int id = 0;
-
-                var vertices =
-                    mesh.Vertices
-                    .Select(v =>
-                    {
-                        var vert = 
-                        new Core.Render.Vertex(
-                            id, 
-                            new Core.Maths.Vector3D(v.X, v.Y, v.Z)
-                        );
-                        id++;
-
-                        return vert;
-                    })
-                    .ToArray();
-
+                var vertices = new List<Core.Render.Vertex>();
                 var indices = mesh.GetUnsignedIndices();
+
+                for (int i = 0; i < indices.Length; i++)
+                {
+                    var v = mesh.Vertices[i];
+                    var n = mesh.Normals[i];
+
+                    vertices.Add(
+                        new Core.Render.Vertex(
+                            i,
+                            new Core.Maths.Vector3D(v.X, v.Y, v.Z),
+                            new Core.Maths.Vector3D(n.X, n.Y, n.Z)
+                        )
+                    );
+                }
 
                 ISceneEntity entity = assembly.CreateNewEntity(mesh.Name);
                 var geo = entity.GeometryContainer.Root.CreateChildGeometry(mesh.Name);
-                geo.SetDrawingData(vertices, indices);
+                geo.SetDrawingData(vertices.ToArray(), indices);
 
                 if (model.HasMaterials)
                 {

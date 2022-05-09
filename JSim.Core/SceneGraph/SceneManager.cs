@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Importer;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Standard implementation class for a JSim scene manager.
@@ -12,12 +14,14 @@
         public SceneManager(
             ILogger logger,
             ISceneFactory sceneFactory,
-            ISceneIOHandler sceneIOHandler)
+            ISceneIOHandler sceneIOHandler,
+            IModelImporter modelImporter)
         {
             this.logger = logger;
             this.sceneFactory = sceneFactory;
             this.sceneIOHandler = sceneIOHandler;
             currentScene = sceneFactory.GetScene();
+            ModelImporter = modelImporter;
             logger.Log("SceneManager initialised", LogLevel.Debug);
         }
 
@@ -30,6 +34,8 @@
                 CurrentSceneChanged?.Invoke(this, new CurrentSceneChangedEventArgs(value));
             }
         }
+
+        public IModelImporter ModelImporter { get; }
 
         public event CurrentSceneChangedEventHandler? CurrentSceneChanged;
 

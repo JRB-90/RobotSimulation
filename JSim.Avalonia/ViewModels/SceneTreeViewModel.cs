@@ -39,6 +39,55 @@ namespace JSim.Avalonia.ViewModels
             private set => this.RaiseAndSetIfChanged(ref sceneModels, value, nameof(SceneModels));
         }
 
+        public async void LoadModel(object? sceneObjectModel)
+        {
+            var filters =
+                new List<FileDialogFilter>
+                {
+                    new FileDialogFilter()
+                    {
+                        Name = "STL Files (*.stl)",
+                        Extensions = new List<string>() { "stl" }
+                    },
+                    new FileDialogFilter()
+                    {
+                        Name = "OBJ Files (*.obj)",
+                        Extensions = new List<string>() { "obj" }
+                    },
+                    new FileDialogFilter()
+                    {
+                        Name = "3DS Files (*.3ds)",
+                        Extensions = new List<string>() { "3ds" }
+                    },
+                    new FileDialogFilter()
+                    {
+                        Name = "All Files (*.*)",
+                        Extensions = new List<string>() { "*" }
+                    },
+                };
+
+            var res =
+                await dialogManager.ShowOpenFileDialog(
+                    "Load Model",
+                    filters,
+                    false
+                );
+
+            if (res != null &&
+                res.Length > 0 &&
+                res[0] != null)
+            {
+                if (sceneObjectModel is SceneModel scene)
+                {
+                    sceneManager.ModelImporter.LoadModel(res[0], scene.Scene.Root);
+                }
+                else if (sceneObjectModel is SceneAssemblyModel assembly)
+                {
+                    sceneManager.ModelImporter.LoadModel(res[0], assembly.Assembly);
+                }
+            }
+        }
+
         public void SceneObjectSelectionChanged(global::Avalonia.Controls.SelectionChangedEventArgs e)
         {
             if (e.Source is TreeView tree &&

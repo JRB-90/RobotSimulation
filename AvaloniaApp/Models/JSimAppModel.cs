@@ -86,9 +86,15 @@ namespace AvaloniaApp.Models
             zAxis.Material.Color = new Color(0.0f, 0.0f, 1.0f);
             zAxis.IsVisible = false;
 
-            var entity3 = 
+            //var entity3 = 
+            //    app.SceneManager.ModelImporter.LoadModel(
+            //        @"C:\Development\Test\Suzanne.stl", 
+            //        assembly1
+            //    );
+
+            var entity3 =
                 app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\Suzanne.stl", 
+                    @"C:\Development\Test\fanuc.3ds",
                     assembly1
                 );
 

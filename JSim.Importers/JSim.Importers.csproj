@@ -7,12 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Windsor" Version="5.1.1" />
+    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JSim.Core\JSim.Core.csproj" />
-    <ProjectReference Include="..\JSim.Importers\JSim.Importers.csproj" />
   </ItemGroup>
 
 </Project>

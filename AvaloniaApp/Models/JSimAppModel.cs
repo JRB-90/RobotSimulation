@@ -5,6 +5,7 @@ using JSim.Avalonia.Shared;
 using JSim.Avalonia.ViewModels;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.Importer;
 using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.Render.GeometryBuilders;
@@ -35,7 +36,7 @@ namespace AvaloniaApp.Models
 
             app = container.Resolve<ISimApplication>();
             openTKControlFactory = container.Resolve<IOpenTKControlFactory>();
-            
+
             var scene = app.SceneManager.CurrentScene;
 
             var assembly1 = scene.Root.CreateNewAssembly("Assembly1");
@@ -45,7 +46,7 @@ namespace AvaloniaApp.Models
             var cube = CubeBuilder.Build(0.2, 0.2, 0.2);
             var cubeSolid = entity2.GeometryContainer.Root.CreateChildGeometry("Cube");
             entity2.LocalFrame = new Transform3D(0.5, 0.5, 0.1, 0.0, 0.0, 15.0);
-            cubeSolid.IsVisible = true;
+            cubeSolid.IsVisible = false;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
             cubeSolid.Material.Color = new Color(1.0f, 0.0f, 0.0f);
@@ -71,16 +72,25 @@ namespace AvaloniaApp.Models
             xAxis.SetDrawingData(lineVerts, XIndices);
             xAxis.GeometryType = GeometryType.Wireframe;
             xAxis.Material.Color = new Color(1.0f, 0.0f, 0.0f);
+            xAxis.IsVisible = false;
 
             var yAxis = entity1.GeometryContainer.Root.CreateChildGeometry("YAxis");
             yAxis.SetDrawingData(lineVerts, YIndices);
             yAxis.GeometryType = GeometryType.Wireframe;
             yAxis.Material.Color = new Color(0.0f, 1.0f, 0.0f);
+            yAxis.IsVisible = false;
 
             var zAxis = entity1.GeometryContainer.Root.CreateChildGeometry("ZAxis");
             zAxis.SetDrawingData(lineVerts, ZIndices);
             zAxis.GeometryType = GeometryType.Wireframe;
             zAxis.Material.Color = new Color(0.0f, 0.0f, 1.0f);
+            zAxis.IsVisible = false;
+
+            var entity3 = 
+                app.SceneManager.ModelImporter.LoadModel(
+                    @"C:\Development\Test\Suzanne.stl", 
+                    assembly1
+                );
 
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);

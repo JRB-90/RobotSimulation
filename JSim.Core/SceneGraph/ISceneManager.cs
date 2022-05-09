@@ -1,4 +1,6 @@
-﻿namespace JSim.Core.SceneGraph
+﻿using JSim.Core.Importer;
+
+namespace JSim.Core.SceneGraph
 {
     /// <summary>
     /// Interface to define the behavior of all scene managers.
@@ -11,6 +13,11 @@
         /// Gets the current scene.
         /// </summary>
         IScene CurrentScene { get; }
+
+        /// <summary>
+        /// Gets the currently configured model importer.
+        /// </summary>
+        IModelImporter ModelImporter { get; }
 
         /// <summary>
         /// Event fired when the current scene has changed.

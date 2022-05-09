@@ -2,7 +2,9 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using JSim.Core.Importer;
 using JSim.Core.SceneGraph;
+using JSim.Importers;
 
 namespace JSim.BasicBootstrapper
 {
@@ -13,6 +15,13 @@ namespace JSim.BasicBootstrapper
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Register(
+                Component.For<IModelImporter>()
+                .Named("AssimpImporter")
+                .ImplementedBy<AssimpImporter>()
+                .LifestyleSingleton()
+            );
+
             container.Register(
                 Component.For<ISelectionManager>()
                 .Named("SelectionManager")

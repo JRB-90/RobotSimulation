@@ -94,7 +94,7 @@ namespace AvaloniaApp.Models
 
             var entity3 =
                 app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\fanuc.3ds",
+                    @"C:\Development\Test\robot.3ds",
                     assembly1
                 );
 

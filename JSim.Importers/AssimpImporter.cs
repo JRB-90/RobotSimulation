@@ -20,7 +20,10 @@ namespace JSim.Importers
             var importer = new AssimpContext();
 
             var config = new NormalSmoothingAngleConfig(66.0f);
-            importer.SetConfig(config);
+            //importer.SetConfig(config);
+            importer.Scale = 0.001f;
+
+            var supported = importer.GetSupportedImportFormats();
 
             var logStream =
                 new LogStream(
@@ -34,8 +37,7 @@ namespace JSim.Importers
 
             Assimp.Scene model = 
                 importer.ImportFile(
-                    path, 
-                    PostProcessSteps.GenerateNormals |
+                    path,
                     PostProcessSteps.FlipWindingOrder
                 );
 
@@ -59,13 +61,40 @@ namespace JSim.Importers
 
                 var geo = entity.GeometryContainer.Root.CreateChildGeometry(mesh.Name);
                 geo.SetDrawingData(vertices, indices);
-                geo.Material.Shading = Core.Render.ShadingType.Flat;
-                geo.Material.Color = new Core.Render.Color(1.0f, 0.5f, 0.5f, 0.5f);
+
+                if (model.HasMaterials)
+                {
+                    geo.Material = ToJSimMaterial(model.Materials[mesh.MaterialIndex]);
+                }
+                else
+                {
+                    geo.Material.Color = new Core.Render.Color(1.0f, 0.5f, 0.5f, 0.5f);
+                }
             }
 
             importer.Dispose();
 
             return entity;
+        }
+
+        private Core.Render.Material ToJSimMaterial(Material material)
+        {
+            var mat = new Core.Render.Material();
+            mat.Shading = Core.Render.ShadingType.Flat;
+            mat.Color = ToJSimColor(material.ColorDiffuse);
+
+            return mat;
+        }
+
+        private Core.Render.Color ToJSimColor(Color4D color)
+        {
+            return
+                new Core.Render.Color(
+                    color.A,
+                    color.R,
+                    color.G,
+                    color.B
+                );
         }
     }
 }

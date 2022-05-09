@@ -20,8 +20,7 @@ namespace JSim.Importers
             var importer = new AssimpContext();
 
             var config = new NormalSmoothingAngleConfig(66.0f);
-            //importer.SetConfig(config);
-            importer.Scale = 0.001f;
+            importer.SetConfig(config);
 
             var supported = importer.GetSupportedImportFormats();
 

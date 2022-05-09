@@ -15,7 +15,7 @@ namespace JSim.Importers
             this.logger = logger;
         }
 
-        public ISceneEntity LoadModel(string path, ISceneAssembly parent)
+        public ISceneObject LoadModel(string path, ISceneAssembly parent)
         {
             var importer = new AssimpContext();
 
@@ -40,24 +40,54 @@ namespace JSim.Importers
                     PostProcessSteps.FlipWindingOrder
                 );
 
-            ISceneEntity entity = parent.CreateNewEntity(Path.GetFileNameWithoutExtension(path));
+            ISceneAssembly assembly = parent.CreateNewAssembly(Path.GetFileNameWithoutExtension(path));
+            ProcessNode(model, model.RootNode, assembly);
+            importer.Dispose();
 
-            foreach (var mesh in model.Meshes)
+            return assembly;
+        }
+
+        private void ProcessNode(
+            Assimp.Scene model, 
+            Node node, 
+            ISceneAssembly assembly)
+        {
+            foreach (var childNode in node.Children)
             {
+                var childAssembly = assembly.CreateNewAssembly(childNode.Name);
+                ProcessNode(model, childNode, childAssembly);
+            }
+            ProcessMeshes(model, node, assembly);
+        }
+
+        private void ProcessMeshes(
+            Assimp.Scene model, 
+            Node node, 
+            ISceneAssembly assembly)
+        {
+            foreach (var meshIndex in node.MeshIndices)
+            {
+                var mesh = model.Meshes[meshIndex];
                 int id = 0;
 
                 var vertices =
                     mesh.Vertices
                     .Select(v =>
                     {
-                        var vert = new Core.Render.Vertex(id, new Core.Maths.Vector3D(v.X, v.Y, v.Z));
+                        var vert = 
+                        new Core.Render.Vertex(
+                            id, 
+                            new Core.Maths.Vector3D(v.X, v.Y, v.Z)
+                        );
                         id++;
+
                         return vert;
                     })
                     .ToArray();
 
                 var indices = mesh.GetUnsignedIndices();
 
+                ISceneEntity entity = assembly.CreateNewEntity(mesh.Name);
                 var geo = entity.GeometryContainer.Root.CreateChildGeometry(mesh.Name);
                 geo.SetDrawingData(vertices, indices);
 
@@ -70,10 +100,6 @@ namespace JSim.Importers
                     geo.Material.Color = new Core.Render.Color(1.0f, 0.5f, 0.5f, 0.5f);
                 }
             }
-
-            importer.Dispose();
-
-            return entity;
         }
 
         private Core.Render.Material ToJSimMaterial(Material material)

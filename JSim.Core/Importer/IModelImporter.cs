@@ -13,6 +13,6 @@ namespace JSim.Core.Importer
         /// <param name="path">Path to the model file.</param>
         /// <param name="parent">Parent assembly to attach this model to.</param>
         /// <returns>Constructed scene entity containing the model geometry.</returns>
-        ISceneEntity LoadModel(string path, ISceneAssembly parent);
+        ISceneObject LoadModel(string path, ISceneAssembly parent);
     }
 }

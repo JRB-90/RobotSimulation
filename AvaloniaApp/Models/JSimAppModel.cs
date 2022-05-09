@@ -86,17 +86,18 @@ namespace AvaloniaApp.Models
             zAxis.Material.Color = new Color(0.0f, 0.0f, 1.0f);
             zAxis.IsVisible = false;
 
-            //var entity3 = 
-            //    app.SceneManager.ModelImporter.LoadModel(
-            //        @"C:\Development\Test\Suzanne.stl", 
-            //        assembly1
-            //    );
-
             var entity3 =
                 app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\robot.3ds",
+                    @"C:\Development\Test\Suzanne.stl",
                     assembly1
                 );
+            entity3.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 180.0);
+
+            //var entity3 =
+            //    app.SceneManager.ModelImporter.LoadModel(
+            //        @"C:\Development\Test\robot.3ds",
+            //        assembly1
+            //    );
 
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);
@@ -139,7 +140,7 @@ namespace AvaloniaApp.Models
             
             if (control.Camera != null)
             {
-                control.Camera.PositionInWorld = new Transform3D(3, 3, 3, 0, 0, 0);
+                control.Camera.PositionInWorld = new Transform3D(0, 5, 0, 0, 0, 0);
                 control.Camera.LookAtPoint(Vector3D.Origin, -Vector3D.UnitZ);
             }
             

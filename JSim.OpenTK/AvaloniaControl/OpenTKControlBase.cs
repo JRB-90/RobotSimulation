@@ -1,4 +1,5 @@
-﻿using Avalonia.OpenGL.Controls;
+﻿using Avalonia.Media;
+using Avalonia.OpenGL.Controls;
 using Avalonia.OpenTK;
 
 namespace JSim.OpenTK
@@ -14,6 +15,11 @@ namespace JSim.OpenTK
                 new OpenGlControlSettings()
             )
         {
+            RenderTransform =
+                new TransformGroup()
+                {
+                    Children = new Transforms() { new ScaleTransform(1.0, -1.0) }
+                };
         }
 
         public OpenTKControlBase(
@@ -23,6 +29,12 @@ namespace JSim.OpenTK
             base(UpdateSettings(settings, glContextFactory))
         {
             this.glContextFactory = glContextFactory;
+
+            RenderTransform =
+                new TransformGroup()
+                {
+                    Children = new Transforms() { new ScaleTransform(1.0, -1.0) }
+                };
         }
 
         private static OpenGlControlSettings UpdateSettings(

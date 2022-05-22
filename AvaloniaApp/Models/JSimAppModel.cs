@@ -81,7 +81,7 @@ namespace AvaloniaApp.Models
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
             cubeSolid.Material.Color = new Color(1.0f, 0.0f, 0.0f);
-            cubeSolid.Material.Shading = ShadingType.Solid;
+            cubeSolid.Material.Shading = ShadingType.Flat;
 
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);

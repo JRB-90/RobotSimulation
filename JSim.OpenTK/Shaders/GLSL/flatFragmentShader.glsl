@@ -33,7 +33,7 @@ void main()
 	vec4 diffuse = material.diffuse * light.color;
 	vec3 lightDir = normalize(light.direction);
 	vec3 flatNormal = normalize(cross(dFdx(positionOut), dFdy(positionOut)));
-	float intensity = (dot(flatNormal, lightDir) + 1) * 0.5;
+	float intensity = (-dot(flatNormal, lightDir) + 1) * 0.5;
 	diffuse = diffuse * intensity;
 
 	gl_FragColor = mix(ambient, diffuse, 1.0);

@@ -81,7 +81,7 @@ namespace JSim.Core.Render
         {
             Matrix<double> result = Matrix<double>.Build.DenseDiagonal(4, 0.0);
             
-            double ar = width / height;
+            double ar = (double)width / (double)height;
             double t = 1.0 / Math.Tan(fov.ToRad() / 2.0);
 
             result[0, 0] = t / ar;

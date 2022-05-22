@@ -30,11 +30,6 @@ namespace JSim.OpenTK
             ICamera camera, 
             IMaterial material)
         {
-            //Matrix<double> mvp =
-            //    model.Matrix *
-            //    camera.GetViewMatrix() *
-            //    camera.GetProjectionMatrix();
-
             Matrix<double> mvp =
                 camera.GetProjectionMatrix() *
                 camera.GetViewMatrix() *

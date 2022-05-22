@@ -225,30 +225,6 @@ namespace JSim.OpenTK
             }
         }
 
-        //private Matrix4 ToOpenTKMat4(MathNet.Numerics.LinearAlgebra.Matrix<double> matrix)
-        //{
-        //    Matrix4 res = new Matrix4();
-
-        //    res.M11 = (float)matrix[0, 0];
-        //    res.M21 = (float)matrix[0, 1];
-        //    res.M31 = (float)matrix[0, 2];
-        //    res.M41 = (float)matrix[0, 3];
-        //    res.M12 = (float)matrix[1, 0];
-        //    res.M22 = (float)matrix[1, 1];
-        //    res.M32 = (float)matrix[1, 2];
-        //    res.M42 = (float)matrix[1, 3];
-        //    res.M13 = (float)matrix[2, 0];
-        //    res.M23 = (float)matrix[2, 1];
-        //    res.M33 = (float)matrix[2, 2];
-        //    res.M43 = (float)matrix[2, 3];
-        //    res.M14 = (float)matrix[3, 0];
-        //    res.M24 = (float)matrix[3, 1];
-        //    res.M34 = (float)matrix[3, 2];
-        //    res.M44 = (float)matrix[3, 3];
-
-        //    return res;
-        //}
-
         private void CompileProgram(
             string vsource,
             string fsource)

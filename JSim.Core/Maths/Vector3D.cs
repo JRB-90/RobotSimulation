@@ -72,20 +72,20 @@ namespace JSim.Core.Maths
         }
 
         public double Length =>
-            vector.L2Norm();
-
-        public double Norm =>
-            vector.Norm(Length);
+            Math.Sqrt(X * X + Y * Y + Z * Z);
 
         public Vector3D Normalised =>
-            new Vector3D(vector.Normalize(Length));
+            new Vector3D(
+                X / Length,
+                Y / Length,
+                Z / Length
+            );
 
         public Vector<double> Vector =>
             vector;
 
         public static Vector3D Origin =>
             new Vector3D();
-
 
         public static Vector3D UnitX =>
             new Vector3D(1.0, 0.0, 0.0);

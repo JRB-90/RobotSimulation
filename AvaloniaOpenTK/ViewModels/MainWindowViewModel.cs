@@ -100,8 +100,8 @@ namespace AvaloniaOpenTK.ViewModels
                     new PerspectiveProjection(
                         graphicsControl.SurfaceWidth,
                         graphicsControl.SurfaceHeight,
-                        70.0,
-                        0.01,
+                        45.0,
+                        0.1,
                         1000.0
                     );
             }

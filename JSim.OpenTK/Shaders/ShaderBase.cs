@@ -323,10 +323,11 @@ namespace JSim.OpenTK
 
             if (statusCode != 1)
             {
+                GL.GetShaderInfoLog(shaderID, out string info);
                 GL.DeleteShader(shaderID);
                 GL.DeleteProgram(program);
 
-                throw new ArgumentException($"Failed to compile shader: {GL.GetError()}");
+                throw new ArgumentException($"Failed to compile shader: {info}");
             }
 
             GL.AttachShader(program, shaderID);

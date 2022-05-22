@@ -8,7 +8,7 @@ namespace JSim.Core.Input
     public abstract class OrbitControllerBase : CameraControllerBase, IOrbitCameraController
     {
         const double DEFAULT_PAN_SPEED = 1.0;
-        const double DEFAULT_ROT_SPEED = 0.25;
+        const double DEFAULT_ROT_SPEED = 0.65;
         const double DEFAULT_ZOOM_SPEED = 0.1;
 
         public OrbitControllerBase()

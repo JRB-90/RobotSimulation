@@ -74,14 +74,14 @@ namespace AvaloniaApp.Models
             zAxis.Material.Color = new Color(0.0f, 0.0f, 1.0f);
             zAxis.IsVisible = true;
 
-            var cube = CubeBuilder.Build(0.2, 0.2, 0.2);
+            var cube = CubeBuilder.Build(0.5, 0.5, 0.5);
             var cubeSolid = entity2.GeometryContainer.Root.CreateChildGeometry("Cube");
-            entity2.LocalFrame = new Transform3D(0.5, 0.5, 0.1, 0.0, 0.0, 15.0);
-            cubeSolid.IsVisible = false;
+            entity2.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+            cubeSolid.IsVisible = true;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
             cubeSolid.Material.Color = new Color(1.0f, 0.0f, 0.0f);
-            cubeSolid.Material.Shading = ShadingType.Flat;
+            cubeSolid.Material.Shading = ShadingType.Solid;
 
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);

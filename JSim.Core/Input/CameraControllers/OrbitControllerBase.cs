@@ -16,7 +16,7 @@ namespace JSim.Core.Input
             base()
         {
             focusPoint = Vector3D.Origin;
-            upVector = -Vector3D.UnitZ;
+            upVector = Vector3D.UnitZ;
             panSpeed = DEFAULT_PAN_SPEED;
             rotationSpeed = DEFAULT_ROT_SPEED;
             zoomSpeed = DEFAULT_ZOOM_SPEED;
@@ -27,7 +27,7 @@ namespace JSim.Core.Input
             base(initialCameraPosition)
         {
             focusPoint = Vector3D.Origin;
-            upVector = -Vector3D.UnitZ;
+            upVector = Vector3D.UnitZ;
             panSpeed = DEFAULT_PAN_SPEED;
             rotationSpeed = DEFAULT_ROT_SPEED;
             zoomSpeed = DEFAULT_ZOOM_SPEED;
@@ -119,7 +119,7 @@ namespace JSim.Core.Input
         protected void RotateQ(double horizontal, double vertical)
         {
             Rotation3D rotX = Quaternion.RotationAboutAxis(CameraPosition.I, vertical).ToRotation3D();
-            Rotation3D rotY = Quaternion.RotationAboutAxis(Vector3D.UnitY, -horizontal).ToRotation3D();
+            Rotation3D rotY = Quaternion.RotationAboutAxis(Vector3D.UnitY, horizontal).ToRotation3D();
             var newCameraPos = rotX * rotY * (CameraPosition.Translation - FocusPoint);
             newCameraPos += FocusPoint;
             var newCameraRot = CalculateLookAtRotation(newCameraPos);

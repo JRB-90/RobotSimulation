@@ -10,14 +10,12 @@
     <None Remove="Shaders\GLSL\basicFragmentShader.glsl" />
     <None Remove="Shaders\GLSL\basicVertexShader.glsl" />
     <None Remove="Shaders\GLSL\flatFragmentShader.glsl" />
-    <None Remove="Shaders\GLSL\flatVertexShader.glsl" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Shaders\GLSL\basicFragmentShader.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\basicVertexShader.glsl" />
     <EmbeddedResource Include="Shaders\GLSL\flatFragmentShader.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\flatVertexShader.glsl" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using JSim.Core;
 using JSim.Core.Maths;
 using JSim.Core.Render;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace JSim.OpenTK
 {
@@ -20,7 +21,7 @@ namespace JSim.OpenTK
                 fsource)
         {
             AddUniform("modelMat");
-            AddUniform("MVPMat");
+            AddUniform("mvpMat");
             AddUniform("light.color");
             AddUniform("light.direction");
             AddUniform("material.ambient");
@@ -32,23 +33,40 @@ namespace JSim.OpenTK
             ICamera camera, 
             IMaterial material)
         {
-            SetUniformMatrix(
+            Matrix<double> mvp =
+                camera.GetProjectionMatrix() *
+                camera.GetViewMatrix() *
+                model.Matrix;
+
+            SetUniformMatrix4x4(
                 "modelMat",
                 model
             );
 
-            SetUniformMatrix(
-                "MVPMat",
-                camera.GetProjectionMatrix() *
-                camera.GetViewMatrix() *
-                model.Matrix
+            SetUniformMatrix4x4(
+                "mvpMat",
+                mvp
             );
 
-            SetUniformVec4("light.color", new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            SetUniformVec3("light.direction", new Vector3D(1, 1, 1));
+            SetUniformColor(
+                "light.color", 
+                new Color(1.0f, 1.0f, 1.0f, 1.0f)
+            );
 
-            SetUniformVec4("material.ambient", new Color(1.0f, 0.1f, 0.1f, 0.1f));
-            SetUniformVec4("material.diffuse", material.Color);
+            SetUniformVec3(
+                "light.direction", 
+                new Vector3D(-1, -1, -1)
+            );
+
+            SetUniformColor(
+                "material.ambient", 
+                new Color(1.0f, 0.1f, 0.1f, 0.1f)
+            );
+
+            SetUniformColor(
+                "material.diffuse", 
+                material.Color
+            );
         }
     }
 }

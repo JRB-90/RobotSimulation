@@ -1,9 +1,9 @@
 ﻿#version 120
 
-varying vec3 position0;
-varying vec3 normal0;
-varying vec4 color0;
-varying vec2 texCoord0;
+varying vec3 positionOut;
+varying vec3 normalOut;
+varying vec4 colorOut;
+varying vec2 texCoordOut;
 
 struct LightSource
 {
@@ -22,7 +22,6 @@ struct MaterialData
 	float shininess;
 };
 
-uniform sampler2D sampler;
 uniform LightSource light;
 uniform MaterialData material;
 
@@ -33,8 +32,8 @@ void main()
 	vec4 ambient = material.ambient * light.color;
 	vec4 diffuse = material.diffuse * light.color;
 	vec3 lightDir = normalize(light.direction);
-	vec3 flatNormal = normalize(cross(dFdx(position0), dFdy(position0)));
-	float intensity = (dot(flatNormal, lightDir) + 1) * 0.5;
+	vec3 flatNormal = normalize(cross(dFdx(positionOut), dFdy(positionOut)));
+	float intensity = (-dot(flatNormal, lightDir) + 1) * 0.5;
 	diffuse = diffuse * intensity;
 
 	gl_FragColor = mix(ambient, diffuse, 1.0);

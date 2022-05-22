@@ -80,27 +80,15 @@ namespace JSim.Core.Render
         public override Matrix<double> GetProjectionMatrix(ICamera camera)
         {
             Matrix<double> result = Matrix<double>.Build.DenseDiagonal(4, 0.0);
-            //result[0, 0] = (1.0 / Math.Tan(fov / 2.0)) / AspectRatio;
-            //result[1, 1] = (1.0 / -Math.Tan(fov / 2.0));
-            //result[2, 2] = (nearClip + farClip) / (nearClip - farClip);
-            //result[2, 3] = (2.0 * nearClip * farClip) / (nearClip - farClip);
-            //result[3, 2] = -1.0;
+            
+            double ar = (double)width / (double)height;
+            double t = 1.0 / Math.Tan(fov.ToRad() / 2.0);
 
-            double ar = width / height;
-            double n = nearClip;
-            double f = farClip;
-            double t = Math.Tan(fov.ToRad() * 0.5) * n;
-            double b = -t;
-            double r = t * ar;
-            double l = -t * ar;
-
-            result[0, 0] = (2.0 * n) / (r - l);
-            result[1, 1] = (2.0 * n) / (t - b);
-            result[2, 2] = -(f + n) / (f - n);
-            result[2, 3] = -(2.0 * f * n) / (f - n);
+            result[0, 0] = t / ar;
+            result[1, 1] = t;
+            result[2, 2] = -(farClip + nearClip) / (farClip - nearClip);
+            result[2, 3] = -2.0 * (nearClip * farClip) / (farClip - nearClip);
             result[3, 2] = -1.0;
-            result[0, 2] = (r + l) / (r - l);
-            result[1, 3] = (t + b) / (t - b);
 
             return result;
         }

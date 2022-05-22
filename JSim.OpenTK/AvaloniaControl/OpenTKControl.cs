@@ -87,6 +87,10 @@ namespace JSim.OpenTK
                 lock (sceneLock)
                 {
                     scene = value;
+                    if (scene != null)
+                    {
+                        scene.SceneObjectModified += Scene_SceneObjectModified;
+                    }
                 }
                 RequestRender();
             }
@@ -129,6 +133,11 @@ namespace JSim.OpenTK
         private void OpenTKControl_AttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
         {
             e.Root.Renderer.DrawFps = true;
+        }
+
+        private void Scene_SceneObjectModified(object sender, SceneObjectModifiedEventArgs e)
+        {
+            RequestRender();
         }
 
         private ICamera? camera;

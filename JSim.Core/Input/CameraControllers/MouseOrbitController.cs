@@ -48,7 +48,7 @@ namespace JSim.Core.Input
                 
                 if (orbitState == OrbitState.Orbiting)
                 {
-                    Rotate(deltaPos.X, -deltaPos.Y);
+                    Rotate(-deltaPos.X, deltaPos.Y);
                 }
                 if (orbitState == OrbitState.Panning)
                 {

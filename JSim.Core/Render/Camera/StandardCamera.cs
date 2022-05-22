@@ -16,7 +16,7 @@
                 height,
                 45.0,
                 0.1,
-                10000.0
+                1000.0
             )
             //new OrthographicProjection(
             //    width,

@@ -1,32 +1,13 @@
 ﻿#version 120
 
-varying vec3 position0;
-varying vec3 normal0;
-varying vec4 color0;
-varying vec2 texCoord0;
+varying vec3 positionOut;
+varying vec3 normalOut;
+varying vec4 colorOut;
+varying vec2 texCoordOut;
 
-uniform sampler2D sampler;
-uniform vec4 newColor;
+uniform vec4 modelColor;
 
 void main()
 {
-	vec4 baseColor;
-	if (color0.w >= 0)
-	{
-		baseColor = color0;
-	}
-	else
-	{
-		baseColor = newColor;
-	}
-
-	vec4 texColor = texture2D(sampler, texCoord0.xy).rgba;
-	if (texColor != vec4(0.0, 0.0, 0.0, 1.0))
-	{
-		baseColor = texColor;
-	}
-
-	//baseColor = vec4(normal0, 1.0);
-
-	gl_FragColor = baseColor;
+	gl_FragColor = modelColor;
 }

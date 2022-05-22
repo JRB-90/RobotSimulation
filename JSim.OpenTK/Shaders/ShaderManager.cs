@@ -10,7 +10,6 @@ namespace JSim.OpenTK
         const string RES_ROOT = "JSim.OpenTK.Shaders.GLSL.";
         const string BASIC_VERT = "basicVertexShader.glsl";
         const string BASIC_FRAG = "basicFragmentShader.glsl";
-        const string FLAT_VERT = "flatVertexShader.glsl";
         const string FLAT_FRAG = "flatFragmentShader.glsl";
 
         readonly BasicShader basicShader;
@@ -20,7 +19,6 @@ namespace JSim.OpenTK
         {
             string basicVert = LoadShaderFile(BASIC_VERT);
             string basicFrag = LoadShaderFile(BASIC_FRAG);
-            string flatVert = LoadShaderFile(FLAT_VERT);
             string flatFrag = LoadShaderFile(FLAT_FRAG);
 
             basicShader =
@@ -33,7 +31,7 @@ namespace JSim.OpenTK
             flatShader =
                 new FlatShader(
                     logger,
-                    flatVert,
+                    basicVert,
                     flatFrag
                 );
         }

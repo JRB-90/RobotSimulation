@@ -32,23 +32,37 @@ namespace JSim.OpenTK
             ICamera camera, 
             IMaterial material)
         {
-            SetUniformMatrix(
+            SetUniformMatrix4x4(
                 "modelMat",
                 model
             );
 
-            SetUniformMatrix(
+            SetUniformMatrix4x4(
                 "MVPMat",
                 camera.GetProjectionMatrix() *
                 camera.GetViewMatrix() *
                 model.Matrix
             );
 
-            SetUniformVec4("light.color", new Color(1.0f, 1.0f, 1.0f, 1.0f));
-            SetUniformVec3("light.direction", new Vector3D(1, 1, 1));
+            SetUniformColor(
+                "light.color", 
+                new Color(1.0f, 1.0f, 1.0f, 1.0f)
+            );
 
-            SetUniformVec4("material.ambient", new Color(1.0f, 0.1f, 0.1f, 0.1f));
-            SetUniformVec4("material.diffuse", material.Color);
+            SetUniformVec3(
+                "light.direction", 
+                new Vector3D(1, 1, 1)
+            );
+
+            SetUniformColor(
+                "material.ambient", 
+                new Color(1.0f, 0.1f, 0.1f, 0.1f)
+            );
+
+            SetUniformColor(
+                "material.diffuse", 
+                material.Color
+            );
         }
     }
 }

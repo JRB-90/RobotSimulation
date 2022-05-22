@@ -87,6 +87,10 @@ namespace JSim.OpenTK
                 GL.Uniform1(location, value);
                 GL.EnableVertexAttribArray(location);
             }
+            else
+            {
+                throw new ArgumentException($"Failed to set uniform: {name}");
+            }
         }
 
         /// <summary>
@@ -100,6 +104,10 @@ namespace JSim.OpenTK
             {
                 GL.Uniform1(location, value);
                 GL.EnableVertexAttribArray(location);
+            }
+            else
+            {
+                throw new ArgumentException($"Failed to set uniform: {name}");
             }
         }
 
@@ -119,6 +127,10 @@ namespace JSim.OpenTK
                 );
 
                 GL.EnableVertexAttribArray(location);
+            }
+            else
+            {
+                throw new ArgumentException($"Failed to set uniform: {name}");
             }
         }
 
@@ -140,41 +152,34 @@ namespace JSim.OpenTK
 
                 GL.EnableVertexAttribArray(location);
             }
+            else
+            {
+                throw new ArgumentException($"Failed to set uniform: {name}");
+            }
         }
 
         /// <summary>
-        /// Sets a 4 dimensional vector uniform.
+        /// Sets a Color uniform.
         /// </summary>
         /// <param name="name">Name of the uniform.</param>
         /// <param name="value">Value of the uniform.</param>
-        protected void SetUniformVec4(string name, Color value)
+        protected void SetUniformColor(string name, Color value)
         {
             if (uniforms.TryGetValue(name, out int location))
             {
                 GL.Uniform4(
-                    location, 
-                    value.R, 
+                    location,
+                    value.R,
                     value.G,
-                    value.B, 
+                    value.B,
                     value.A
                 );
 
                 GL.EnableVertexAttribArray(location);
             }
-        }
-
-        /// <summary>
-        /// Sets a rotation matrix uniform.
-        /// </summary>
-        /// <param name="name">Name of the uniform.</param>
-        /// <param name="value">Value of the uniform.</param>
-        protected void SetUniformMatrix(string name, Rotation3D value)
-        {
-            if (uniforms.TryGetValue(name, out int location))
+            else
             {
-                Matrix3 mat = ToOpenTKMat3(value);
-                GL.UniformMatrix3(location, false, ref mat);
-                GL.EnableVertexAttribArray(location);
+                throw new ArgumentException($"Failed to set uniform: {name}");
             }
         }
 
@@ -183,14 +188,9 @@ namespace JSim.OpenTK
         /// </summary>
         /// <param name="name">Name of the uniform.</param>
         /// <param name="value">Value of the uniform.</param>
-        protected void SetUniformMatrix(string name, Transform3D value)
+        protected void SetUniformMatrix4x4(string name, Transform3D value)
         {
-            if (uniforms.TryGetValue(name, out int location))
-            {
-                Matrix4 mat = ToOpenTKMat4(value);
-                GL.UniformMatrix4(location, false, ref mat);
-                GL.EnableVertexAttribArray(location);
-            }
+            SetUniformMatrix4x4(name, value.Matrix);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace JSim.OpenTK
         /// </summary>
         /// <param name="name">Name of the uniform.</param>
         /// <param name="value">Value of the uniform.</param>
-        protected void SetUniformMatrix(string name, MathNet.Numerics.LinearAlgebra.Matrix<double> value)
+        protected void SetUniformMatrix4x4(string name, MathNet.Numerics.LinearAlgebra.Matrix<double> value)
         {
             if (value.ColumnCount != 4 ||
                 value.RowCount != 4)
@@ -208,68 +208,46 @@ namespace JSim.OpenTK
 
             if (uniforms.TryGetValue(name, out int location))
             {
-                Matrix4 mat = ToOpenTKMat4(value);
-                GL.UniformMatrix4(location, false, ref mat);
+                Matrix4 mat =
+                    new Matrix4(
+                        (float)value[0, 0], (float)value[0, 1], (float)value[0, 2], (float)value[0, 3],
+                        (float)value[1, 0], (float)value[1, 1], (float)value[1, 2], (float)value[1, 3],
+                        (float)value[2, 0], (float)value[2, 1], (float)value[2, 2], (float)value[2, 3],
+                        (float)value[3, 0], (float)value[3, 1], (float)value[3, 2], (float)value[3, 3]
+                    );
+
+                GL.UniformMatrix4(location, true, ref mat);
                 GL.EnableVertexAttribArray(location);
+            }
+            else
+            {
+                throw new ArgumentException($"Failed to set uniform: {name}");
             }
         }
 
-        private Matrix3 ToOpenTKMat3(Rotation3D rotation)
-        {
-            Matrix3 res = new Matrix3();
+        //private Matrix4 ToOpenTKMat4(MathNet.Numerics.LinearAlgebra.Matrix<double> matrix)
+        //{
+        //    Matrix4 res = new Matrix4();
 
-            res.M11 = (float)rotation.Matrix[0, 0]; 
-            res.M21 = (float)rotation.Matrix[0, 1]; 
-            res.M31 = (float)rotation.Matrix[0, 2]; 
-            res.M12 = (float)rotation.Matrix[1, 0]; 
-            res.M22 = (float)rotation.Matrix[1, 1]; 
-            res.M32 = (float)rotation.Matrix[1, 2]; 
-            res.M13 = (float)rotation.Matrix[2, 0];
-            res.M23 = (float)rotation.Matrix[2, 1];
-            res.M33 = (float)rotation.Matrix[2, 2];
+        //    res.M11 = (float)matrix[0, 0];
+        //    res.M21 = (float)matrix[0, 1];
+        //    res.M31 = (float)matrix[0, 2];
+        //    res.M41 = (float)matrix[0, 3];
+        //    res.M12 = (float)matrix[1, 0];
+        //    res.M22 = (float)matrix[1, 1];
+        //    res.M32 = (float)matrix[1, 2];
+        //    res.M42 = (float)matrix[1, 3];
+        //    res.M13 = (float)matrix[2, 0];
+        //    res.M23 = (float)matrix[2, 1];
+        //    res.M33 = (float)matrix[2, 2];
+        //    res.M43 = (float)matrix[2, 3];
+        //    res.M14 = (float)matrix[3, 0];
+        //    res.M24 = (float)matrix[3, 1];
+        //    res.M34 = (float)matrix[3, 2];
+        //    res.M44 = (float)matrix[3, 3];
 
-            return res;
-        }
-
-        private Matrix4 ToOpenTKMat4(Transform3D transform)
-        {
-            return ToOpenTKMat4(transform.Matrix);
-        }
-
-        private Matrix4 ToOpenTKMat4(MathNet.Numerics.LinearAlgebra.Matrix<double> matrix)
-        {
-            Matrix4 res = new Matrix4();
-
-            res.M11 = (float)matrix[0, 0];
-            res.M21 = (float)matrix[0, 1];
-            res.M31 = (float)matrix[0, 2];
-            res.M41 = (float)matrix[0, 3];
-            res.M12 = (float)matrix[1, 0];
-            res.M22 = (float)matrix[1, 1];
-            res.M32 = (float)matrix[1, 2];
-            res.M42 = (float)matrix[1, 3];
-            res.M13 = (float)matrix[2, 0];
-            res.M23 = (float)matrix[2, 1];
-            res.M33 = (float)matrix[2, 2];
-            res.M43 = (float)matrix[2, 3];
-            res.M14 = (float)matrix[3, 0];
-            res.M24 = (float)matrix[3, 1];
-            res.M34 = (float)matrix[3, 2];
-            res.M44 = (float)matrix[3, 3];
-
-            return res;
-        }
-
-        private Vector4 ToOpenTKVec4(Color color)
-        {
-            return 
-                new Vector4(
-                    color.R, 
-                    color.G,
-                    color.B, 
-                    color.A
-                );
-        }
+        //    return res;
+        //}
 
         private void CompileProgram(
             string vsource,

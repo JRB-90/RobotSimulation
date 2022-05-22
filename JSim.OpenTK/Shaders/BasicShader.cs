@@ -40,17 +40,17 @@ namespace JSim.OpenTK
                 camera.GetViewMatrix() *
                 model.Matrix;
 
-            SetUniformMatrix(
+            SetUniformMatrix4x4(
                 "modelMat",
                 model
             );
 
-            SetUniformMatrix(
+            SetUniformMatrix4x4(
                 "mvpMat",
                 mvp
             );
 
-            SetUniformVec4(
+            SetUniformColor(
                 "modelColor",
                 material.Color
             );

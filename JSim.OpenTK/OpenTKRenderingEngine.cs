@@ -178,7 +178,8 @@ namespace JSim.OpenTK
                 shader.UpdateUniforms(
                     tkGeometry.WorldFrame,
                     surface.Camera,
-                    tkGeometry.Material
+                    tkGeometry.Material,
+                    surface.SceneLighting
                 );
 
                 VboUtils.Draw(

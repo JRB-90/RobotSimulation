@@ -5,7 +5,7 @@
     /// </summary>
     public class SceneLighting
     {
-        const int MAX_LIGHTS = 8;
+        public const int MAX_LIGHTS = 8;
 
         public SceneLighting()
         {
@@ -85,7 +85,7 @@
                 lighting.AddLight(
                     new DirectionalLight(
                         new Maths.Vector3D(-1, -1, -1), 
-                        new Color(1, 1, 1)
+                        new Color(1.0f, 1.0f, 1.0f, 1.0f)
                     )
                 );
 

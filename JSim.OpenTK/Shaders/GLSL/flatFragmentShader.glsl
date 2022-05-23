@@ -22,6 +22,7 @@ struct MaterialData
 	float shininess;
 };
 
+uniform vec4 ambientLight;
 uniform LightSource light;
 uniform MaterialData material;
 
@@ -29,7 +30,7 @@ vec3 scaleNorm(vec3 norm);
 
 void main()
 {
-	vec4 ambient = material.ambient * light.color;
+	vec4 ambient = material.ambient * ambientLight;
 	vec4 diffuse = material.diffuse * light.color;
 	vec3 lightDir = normalize(light.direction);
 	vec3 flatNormal = normalize(cross(dFdx(positionOut), dFdy(positionOut)));

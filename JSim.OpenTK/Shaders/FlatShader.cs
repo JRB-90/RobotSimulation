@@ -22,6 +22,7 @@ namespace JSim.OpenTK
         {
             AddUniform("modelMat");
             AddUniform("mvpMat");
+            AddUniform("ambientLight");
             AddUniform("light.color");
             AddUniform("light.direction");
             AddUniform("material.ambient");
@@ -31,7 +32,8 @@ namespace JSim.OpenTK
         public override void UpdateUniforms(
             Transform3D model, 
             ICamera camera, 
-            IMaterial material)
+            IMaterial material,
+            SceneLighting sceneLighting)
         {
             Matrix<double> mvp =
                 camera.GetProjectionMatrix() *
@@ -49,14 +51,39 @@ namespace JSim.OpenTK
             );
 
             SetUniformColor(
-                "light.color", 
-                new Color(1.0f, 1.0f, 1.0f, 1.0f)
+                "ambientLight",
+                sceneLighting.AmbientLight.Color
             );
 
-            SetUniformVec3(
-                "light.direction", 
-                new Vector3D(-1, -1, -1)
-            );
+            var dir =
+                sceneLighting.Lights
+                .OfType<DirectionalLight>()
+                .FirstOrDefault();
+
+            if (dir != null)
+            {
+                SetUniformColor(
+                        "light.color",
+                        dir.Color
+                    );
+
+                SetUniformVec3(
+                    "light.direction",
+                    dir.Direction
+                );
+            }
+            else
+            {
+                SetUniformColor(
+                        "light.color",
+                        new Color(0.0f, 0.0f, 0.0f, 0.0f)
+                    );
+
+                SetUniformVec3(
+                    "light.direction",
+                    new Vector3D(0, 0, 0)
+                );
+            }
 
             SetUniformColor(
                 "material.ambient",

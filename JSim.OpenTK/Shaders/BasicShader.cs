@@ -28,7 +28,8 @@ namespace JSim.OpenTK
         public override void UpdateUniforms(
             Transform3D model, 
             ICamera camera, 
-            IMaterial material)
+            IMaterial material,
+            SceneLighting sceneLighting)
         {
             Matrix<double> mvp =
                 camera.GetProjectionMatrix() *

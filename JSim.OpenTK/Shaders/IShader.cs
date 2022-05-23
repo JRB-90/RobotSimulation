@@ -24,10 +24,12 @@ namespace JSim.OpenTK
         /// <param name="model">Model matrix.</param>
         /// <param name="camera">Camera.</param>
         /// <param name="material">Material data.</param>
+        /// <param name="sceneLighting">Lighting environment.</param>
         void UpdateUniforms(
             Transform3D model,
             ICamera camera,
-            IMaterial material
+            IMaterial material,
+            SceneLighting sceneLighting
         );
     }
 }

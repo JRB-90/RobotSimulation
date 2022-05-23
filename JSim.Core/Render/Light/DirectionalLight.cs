@@ -12,6 +12,7 @@ namespace JSim.Core.Render
             base(LightType.Directional)
         {
             Direction = direction;
+            Color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
         public DirectionalLight(

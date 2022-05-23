@@ -96,18 +96,24 @@ namespace JSim.Importers
                 }
                 else
                 {
-                    geo.Material.Color = new Core.Render.Color(1.0f, 0.5f, 0.5f, 0.5f);
+                    geo.Material = 
+                        Core.Render.Material.FromSingleColor(
+                            new Core.Render.Color(1.0f, 0.5f, 0.5f, 0.5f)
+                        );
                 }
             }
         }
 
         private Core.Render.Material ToJSimMaterial(Material material)
         {
-            var mat = new Core.Render.Material();
-            mat.Shading = Core.Render.ShadingType.Flat;
-            mat.Color = ToJSimColor(material.ColorDiffuse);
-
-            return mat;
+            return
+                new Core.Render.Material(
+                    ToJSimColor(material.ColorAmbient),
+                    ToJSimColor(material.ColorDiffuse),
+                    ToJSimColor(material.ColorSpecular),
+                    material.Shininess,
+                    Core.Render.ShadingType.Flat
+                );
         }
 
         private Core.Render.Color ToJSimColor(Color4D color)

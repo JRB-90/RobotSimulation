@@ -29,6 +29,8 @@ namespace JSim.OpenTK
 
             ClearColor = new SolidColorBrush(new Avalonia.Media.Color(255, 32, 32, 56));
 
+            SceneLighting = SceneLighting.Default;
+
             camera =
                 new StandardCamera(
                     (int)Bounds.Width,
@@ -95,6 +97,8 @@ namespace JSim.OpenTK
                 RequestRender();
             }
         }
+
+        public SceneLighting SceneLighting { get; }
 
         public void Dispose()
         {

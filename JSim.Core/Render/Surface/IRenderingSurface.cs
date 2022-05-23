@@ -29,6 +29,11 @@ namespace JSim.Core.Render
         IScene? Scene { get; set; }
 
         /// <summary>
+        /// The lighting that should be applied to the rendered scene.
+        /// </summary>
+        SceneLighting SceneLighting { get; }
+
+        /// <summary>
         /// Forces the surface to render.
         /// </summary>
         void RequestRender();

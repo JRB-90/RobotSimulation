@@ -59,19 +59,19 @@ namespace AvaloniaApp.Models
             var xAxis = entity1.GeometryContainer.Root.CreateChildGeometry("XAxis");
             xAxis.SetDrawingData(lineVerts, XIndices);
             xAxis.GeometryType = GeometryType.Wireframe;
-            xAxis.Material.Color = new Color(1.0f, 0.0f, 0.0f);
+            xAxis.Material = JSim.Core.Render.Material.FromSingleColor(new Color(1.0f, 0.0f, 0.0f), ShadingType.Solid);
             xAxis.IsVisible = true;
 
             var yAxis = entity1.GeometryContainer.Root.CreateChildGeometry("YAxis");
             yAxis.SetDrawingData(lineVerts, YIndices);
             yAxis.GeometryType = GeometryType.Wireframe;
-            yAxis.Material.Color = new Color(0.0f, 1.0f, 0.0f);
+            yAxis.Material = JSim.Core.Render.Material.FromSingleColor(new Color(0.0f, 1.0f, 0.0f), ShadingType.Solid);
             yAxis.IsVisible = true;
 
             var zAxis = entity1.GeometryContainer.Root.CreateChildGeometry("ZAxis");
             zAxis.SetDrawingData(lineVerts, ZIndices);
             zAxis.GeometryType = GeometryType.Wireframe;
-            zAxis.Material.Color = new Color(0.0f, 0.0f, 1.0f);
+            zAxis.Material = JSim.Core.Render.Material.FromSingleColor(new Color(0.0f, 0.0f, 1.0f), ShadingType.Solid);
             zAxis.IsVisible = true;
 
             var cube = CubeBuilder.Build(0.5, 0.5, 0.5);
@@ -80,8 +80,7 @@ namespace AvaloniaApp.Models
             cubeSolid.IsVisible = true;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
-            cubeSolid.Material.Color = new Color(1.0f, 0.0f, 0.0f);
-            cubeSolid.Material.Shading = ShadingType.Flat;
+            cubeSolid.Material = JSim.Core.Render.Material.FromSingleColor(new Color(1.0f, 0.0f, 0.0f), ShadingType.Flat);
 
             var inputManager = new InputManager(window);
             var dialogManager = new DialogManager(window);
@@ -102,6 +101,19 @@ namespace AvaloniaApp.Models
             SceneObjectVM =
                 new SceneObjectViewModel(
                     app.SceneManager
+                );
+
+            //var entity3 =
+            //    app.SceneManager.ModelImporter.LoadModel(
+            //        @"C:\Development\Test\Suzanne.stl",
+            //        assembly1
+            //    );
+            //entity3.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 180.0);
+
+            var entity3 =
+                app.SceneManager.ModelImporter.LoadModel(
+                    @"C:\Development\Test\robot.3ds",
+                    assembly1
                 );
 
             app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(entity2);

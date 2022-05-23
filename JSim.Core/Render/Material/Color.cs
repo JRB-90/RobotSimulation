@@ -5,6 +5,14 @@
     /// </summary>
     public struct Color
     {
+        public Color(Color color)
+        {
+            A = color.A;
+            R = color.R;
+            G = color.G;
+            B = color.B;
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -96,5 +104,16 @@
         /// Gets the blue element of this color.
         /// </summary>
         public float B { get; }
+
+        public static Color operator*(Color color, double scalar)
+        {
+            return
+                new Color(
+                    Math.Clamp(color.A * (float)scalar, 0.0f, 1.0f),
+                    Math.Clamp(color.R * (float)scalar, 0.0f, 1.0f), 
+                    Math.Clamp(color.G * (float)scalar, 0.0f, 1.0f),
+                    Math.Clamp(color.B * (float)scalar, 0.0f, 1.0f)
+                );
+        }
     }
 }

@@ -32,20 +32,31 @@ namespace AvaloniaOpenTK.ViewModels
             cubePoints.IsVisible = true;
             cubePoints.SetDrawingData(cube.Item1, cube.Item2);
             cubePoints.GeometryType = GeometryType.Points;
-            cubePoints.Material.Color = new JSim.Core.Render.Color(0.8f, 0.1f, 0.1f);
+            cubePoints.Material = 
+                JSim.Core.Render.Material.FromSingleColor(
+                    new JSim.Core.Render.Color(0.8f, 0.1f, 0.1f), 
+                    ShadingType.Solid
+                );
 
             var cubeLines = entity.GeometryContainer.Root.CreateChildGeometry("CubeLines");
             cubeLines.IsVisible = false;
             cubeLines.SetDrawingData(cube.Item1, cube.Item2);
             cubeLines.GeometryType = GeometryType.Wireframe;
-            cubeLines.Material.Color = new JSim.Core.Render.Color(0.5f, 0.5f, 0.5f);
+            cubeLines.Material =
+                JSim.Core.Render.Material.FromSingleColor(
+                    new JSim.Core.Render.Color(0.5f, 0.5f, 0.5f),
+                    ShadingType.Solid
+                );
 
             var cubeSolid = entity.GeometryContainer.Root.CreateChildGeometry("CubeSolid");
             cubeSolid.IsVisible = true;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
-            cubeSolid.Material.Color = new JSim.Core.Render.Color(0.2f, 0.7f, 0.2f);
-
+            cubeSolid.Material =
+                JSim.Core.Render.Material.FromSingleColor(
+                    new JSim.Core.Render.Color(0.2f, 0.7f, 0.2f),
+                    ShadingType.Flat
+                );
 
             GraphicsControl1 =
                 CreateGrpahicsControl(

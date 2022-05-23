@@ -47,7 +47,7 @@ namespace JSim.OpenTK
 
             SetUniformColor(
                 "modelColor",
-                material.Color
+                material.Diffuse
             );
         }
     }

@@ -66,12 +66,17 @@ namespace JSim.OpenTK
             int uniformID = GL.GetUniformLocation(program, name);
             if (uniformID == -1)
             {
-                logger.Log(
-                    $"Error adding uniform {name} : Location could not be found",
-                    LogLevel.Error
-                );
+                //logger.Log(
+                //    $"Error adding uniform {name} : Location could not be found",
+                //    LogLevel.Error
+                //);
 
-                return;
+                //return;
+
+                throw
+                    new InvalidOperationException(
+                        $"Error adding uniform {name} : Location could not be found"
+                    );
             }
             uniforms.Add(name, uniformID);
         }

@@ -112,7 +112,7 @@ namespace JSim.Importers
                     ToJSimColor(material.ColorDiffuse),
                     ToJSimColor(material.ColorSpecular),
                     material.Shininess,
-                    Core.Render.ShadingType.Flat
+                    Core.Render.ShadingType.Smooth
                 );
         }
 

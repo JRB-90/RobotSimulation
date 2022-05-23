@@ -11,15 +11,18 @@ namespace JSim.OpenTK
         const string BASIC_VERT = "basicVertexShader.glsl";
         const string BASIC_FRAG = "basicFragmentShader.glsl";
         const string FLAT_FRAG = "flatFragmentShader.glsl";
+        const string SMOOTH_FRAG = "smoothFragmentShader.glsl";
 
         readonly BasicShader basicShader;
         readonly FlatShader flatShader;
+        readonly SmoothShader smoothShader;
 
         public ShaderManager(ILogger logger)
         {
             string basicVert = LoadShaderFile(BASIC_VERT);
             string basicFrag = LoadShaderFile(BASIC_FRAG);
             string flatFrag = LoadShaderFile(FLAT_FRAG);
+            string smoothFrag = LoadShaderFile(SMOOTH_FRAG);
 
             basicShader =
                 new BasicShader(
@@ -34,6 +37,13 @@ namespace JSim.OpenTK
                     basicVert,
                     flatFrag
                 );
+
+            smoothShader =
+                new SmoothShader(
+                    logger,
+                    basicVert,
+                    smoothFrag
+                );
         }
 
         internal IShader FindShader(ShadingType shadingType)
@@ -46,8 +56,8 @@ namespace JSim.OpenTK
                     return basicShader;
                 case ShadingType.Flat:
                     return flatShader;
-                //case ShadingType.Smooth:
-                //    return smoothShader;
+                case ShadingType.Smooth:
+                    return smoothShader;
                 default:
                     return basicShader;
             }

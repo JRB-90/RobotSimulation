@@ -5,8 +5,6 @@
     /// </summary>
     public class SceneLighting
     {
-        public const int MAX_LIGHTS = 8;
-
         public SceneLighting()
         {
             ambientLight = new AmbientLight();
@@ -36,7 +34,7 @@
         /// <returns>True if successful.</returns>
         public bool AddLight(ILight light)
         {
-            if (lights.Count < MAX_LIGHTS)
+            if (!lights.Contains(light))
             {
                 lights.Add(light);
                 LightingChanged?.Invoke(this, new LightingChangedEventArgs());
@@ -82,10 +80,12 @@
             get
             {
                 var lighting = new SceneLighting();
+
                 lighting.AddLight(
                     new DirectionalLight(
-                        new Maths.Vector3D(-1, -1, -1), 
-                        new Color(1.0f, 1.0f, 1.0f, 1.0f)
+                        new Maths.Vector3D(-1, -1, -1),
+                        new Color(1.0f, 1.0f, 1.0f, 1.0f),
+                        new Attenuation(1.0, 1.0, 0.0)
                     )
                 );
 

@@ -226,6 +226,21 @@ namespace JSim.OpenTK
             }
         }
 
+        protected int ToLightTypeInt(LightType lightType)
+        {
+            switch (lightType)
+            {
+                case LightType.Directional:
+                    return 1;
+                case LightType.Point:
+                    return 2;
+                case LightType.Spot:
+                    return 3;
+                default:
+                    return 0;
+            }
+        }
+
         private void CompileProgram(
             string vsource,
             string fsource)

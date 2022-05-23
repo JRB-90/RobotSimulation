@@ -22,9 +22,14 @@ namespace JSim.OpenTK
         {
             AddUniform("modelMat");
             AddUniform("mvpMat");
+            AddUniform("activeLights");
             AddUniform("ambientLight");
-            AddUniform("light.color");
-            AddUniform("light.direction");
+
+            for (int i = 0; i < OpenTKRenderingEngine.MAX_LIGHTS; i++)
+            {
+                AddLightSourceUniform($"lights[{i}]");
+            }
+
             AddUniform("material.ambient");
             AddUniform("material.diffuse");
         }
@@ -50,39 +55,22 @@ namespace JSim.OpenTK
                 mvp
             );
 
+            SetUniformInt(
+                "activeLights",
+                sceneLighting.Lights.Count
+            );
+
             SetUniformColor(
                 "ambientLight",
                 sceneLighting.AmbientLight.Color
             );
 
-            var dir =
-                sceneLighting.Lights
-                .OfType<DirectionalLight>()
-                .FirstOrDefault();
-
-            if (dir != null)
+            for (int i = 0; i < sceneLighting.Lights.Count; i++)
             {
-                SetUniformColor(
-                        "light.color",
-                        dir.Color
-                    );
-
-                SetUniformVec3(
-                    "light.direction",
-                    dir.Direction
-                );
-            }
-            else
-            {
-                SetUniformColor(
-                        "light.color",
-                        new Color(0.0f, 0.0f, 0.0f, 0.0f)
-                    );
-
-                SetUniformVec3(
-                    "light.direction",
-                    new Vector3D(0, 0, 0)
-                );
+                if (i < OpenTKRenderingEngine.MAX_LIGHTS)
+                {
+                    SetLightUniforms($"lights[{i}]", sceneLighting.Lights[i]);
+                }
             }
 
             SetUniformColor(
@@ -91,9 +79,27 @@ namespace JSim.OpenTK
             );
 
             SetUniformColor(
-                "material.diffuse", 
+                "material.diffuse",
                 material.Diffuse
             );
+        }
+
+        private void AddLightSourceUniform(string name)
+        {
+            AddUniform(name + ".type");
+            AddUniform(name + ".color");
+            AddUniform(name + ".direction");
+            AddUniform(name + ".constantAttenuation");
+        }
+
+        private void SetLightUniforms(
+            string name,
+            ILight light)
+        {
+            SetUniformInt(name + ".type", ToLightTypeInt(light.LightType));
+            SetUniformColor(name + ".color", light.Color);
+            SetUniformVec3(name + ".direction", light.Direction);
+            SetUniformFloat(name + ".constantAttenuation", (float)light.Attenuation.Constant);
         }
     }
 }

@@ -5,7 +5,6 @@
     /// </summary>
     public enum LightType
     {
-        Ambient,
         Directional,
         Point,
         Spot

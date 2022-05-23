@@ -14,9 +14,11 @@ namespace JSim.OpenTK
     /// </summary>
     public class OpenTKRenderingEngine : IRenderingEngine
     {
+        public const int MAX_LIGHTS = 8;
         const float DEFAULT_POINT_SIZE = 5.0f;
         const float DEFAULT_LINE_WIDTH = 0.1f;
 
+        readonly ILogger logger;
         readonly IGlContextManager glContextManager;
 
         public OpenTKRenderingEngine(
@@ -97,6 +99,11 @@ namespace JSim.OpenTK
             SetDefaultOptions();
             SetViewport(surface);
             ClearScreen(surface);
+
+            if (surface.SceneLighting.Lights.Count > MAX_LIGHTS)
+            {
+                logger.Log($"Only {MAX_LIGHTS} lights supported", LogLevel.Error);
+            }
 
             if (scene != null)
             {

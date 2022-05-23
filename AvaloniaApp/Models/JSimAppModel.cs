@@ -104,18 +104,18 @@ namespace AvaloniaApp.Models
                     app.SceneManager
                 );
 
-            //var entity3 =
-            //    app.SceneManager.ModelImporter.LoadModel(
-            //        @"C:\Development\Test\Suzanne.stl",
-            //        assembly1
-            //    );
-            //entity3.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 180.0);
-
             var entity3 =
                 app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\robot.3ds",
+                    @"C:\Development\Test\Suzanne.stl",
                     assembly1
                 );
+            entity3.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 180.0);
+
+            //var entity3 =
+            //    app.SceneManager.ModelImporter.LoadModel(
+            //        @"C:\Development\Test\robot.3ds",
+            //        assembly1
+            //    );
 
             app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(entity2);
             app.SceneManager.CurrentSceneChanged += OnCurrentSceneChanged;

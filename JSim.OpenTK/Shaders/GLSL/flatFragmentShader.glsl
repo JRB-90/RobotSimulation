@@ -40,24 +40,14 @@ vec4 CalculateLight(LightSource light);
 
 void main()
 {
-	vec4 totalLighting = 
-		mix(
-			material.ambient,
-			ambientLight,
-			1.0
-		);
+	vec4 totalLighting = material.ambient * ambientLight;
 
 	for (int i = 0; i < activeLights; i++)
 	{
 		if (i < MAX_LIGHTS &&
 			lights[i].type == DIRECTIONAL_LIGHT)
 		{
-			totalLighting = 
-				mix(
-					totalLighting, 
-					CalculateLight(lights[i]), 
-					1.0
-				);
+			totalLighting += CalculateLight(lights[i]);
 		}
 	}
 

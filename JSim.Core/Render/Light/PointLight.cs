@@ -11,6 +11,7 @@ namespace JSim.Core.Render
           :
             base(LightType.Point)
         {
+            Direction = Vector3D.Origin;
             Position = position;
             SpotCutoff = 360.0;
             SpotExponent = 0.0;
@@ -22,6 +23,7 @@ namespace JSim.Core.Render
           :
             base(LightType.Point)
         {
+            Direction = Vector3D.Origin;
             Position = position;
             Color = color;
             SpotCutoff = 360.0;
@@ -34,6 +36,7 @@ namespace JSim.Core.Render
           :
             base(LightType.Point)
         {
+            Direction = Vector3D.Origin;
             Position = position;
             Attenuation = attenuation;
             SpotCutoff = 360.0;
@@ -47,6 +50,7 @@ namespace JSim.Core.Render
           :
             base(LightType.Point)
         {
+            Direction = Vector3D.Origin;
             Position = position;
             Color = color;
             Attenuation = attenuation;

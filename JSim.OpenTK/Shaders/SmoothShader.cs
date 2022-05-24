@@ -106,6 +106,7 @@ namespace JSim.OpenTK
         {
             AddUniform(name + ".type");
             AddUniform(name + ".color");
+            AddUniform(name + ".position");
             AddUniform(name + ".direction");
             AddUniform(name + ".constantAttenuation");
             AddUniform(name + ".linearAttenuation");
@@ -120,6 +121,7 @@ namespace JSim.OpenTK
         {
             SetUniformInt(name + ".type", ToLightTypeInt(light.LightType));
             SetUniformColor(name + ".color", light.Color);
+            SetUniformVec3(name + ".position", light.Position);
             SetUniformVec3(name + ".direction", light.Direction);
             SetUniformFloat(name + ".constantAttenuation", (float)light.Attenuation.Constant);
             SetUniformFloat(name + ".linearAttenuation", (float)light.Attenuation.Linear);

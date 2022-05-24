@@ -51,7 +51,7 @@ void main()
 
 	for (int i = 0; i < activeLights; i++)
 	{
-		if (i < MAX_LIGHTS && lights[i].type == DIRECTIONAL_LIGHT)
+		if (i < MAX_LIGHTS)
 		{
 			totalLighting += CalculateLight(lights[i]);
 		}
@@ -74,8 +74,9 @@ vec4 CalculateLight(LightSource light)
 	}
 	else
 	{
-		lightDirection = normalize(positionOut - light.position);
+		lightDirection = positionOut - light.position;
 		float dist = length(lightDirection);
+		lightDirection = normalize(lightDirection);
 
 		totalAttenuation =
 			light.constantAttenuation +
@@ -86,19 +87,20 @@ vec4 CalculateLight(LightSource light)
 
 		if (light.type == POINT_LIGHT)
 		{
+			
 		}
 		else if (light.type == SPOT_LIGHT)
 		{
-			float clampedCosine = max(0.0, dot(lightDirection, normalize(light.direction)));
-
-			if (clampedCosine < cos(radians(light.spotCutoff)))
-			{
-				totalAttenuation = 0.0;
-			}
-			else
-			{
-				totalAttenuation = totalAttenuation * pow(clampedCosine, light.spotExponent);
-			}
+//			float clampedCosine = max(0.0, dot(lightDirection, normalize(light.direction)));
+//
+//			if (clampedCosine < cos(radians(light.spotCutoff)))
+//			{
+//				totalAttenuation = 0.0;
+//			}
+//			else
+//			{
+//				totalAttenuation = totalAttenuation * pow(clampedCosine, light.spotExponent);
+//			}
 		}
 	}
 

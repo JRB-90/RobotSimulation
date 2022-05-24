@@ -89,6 +89,30 @@
                     )
                 );
 
+                lighting.AddLight(
+                    new DirectionalLight(
+                        new Maths.Vector3D(0, 0, -1),
+                        new Color(1.0f, 0.5f, 0.0f, 0.0f),
+                        new Attenuation(1.0, 1.0, 0.0)
+                    )
+                );
+
+                lighting.AddLight(
+                    new DirectionalLight(
+                        new Maths.Vector3D(0, 0, 1),
+                        new Color(1.0f, 0.3f, 0.0f, 0.3f),
+                        new Attenuation(1.0, 1.0, 0.0)
+                    )
+                );
+
+                lighting.AddLight(
+                    new DirectionalLight(
+                        new Maths.Vector3D(1, 1, 1),
+                        new Color(1.0f, 0.0f, 0.2f, 0.0f),
+                        new Attenuation(1.0, 1.0, 0.0)
+                    )
+                );
+
                 return lighting;
             }
         }

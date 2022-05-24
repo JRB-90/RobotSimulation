@@ -22,6 +22,7 @@ namespace JSim.OpenTK
         {
             AddUniform("modelMat");
             AddUniform("mvpMat");
+            AddUniform("eyePosition");
             AddUniform("activeLights");
             AddUniform("ambientLight");
 
@@ -31,7 +32,9 @@ namespace JSim.OpenTK
             }
 
             AddUniform("material.ambient");
-            //AddUniform("material.diffuse");
+            AddUniform("material.diffuse");
+            AddUniform("material.specular");
+            AddUniform("material.shininess");
         }
 
         public override void UpdateUniforms(
@@ -53,6 +56,11 @@ namespace JSim.OpenTK
             SetUniformMatrix4x4(
                 "mvpMat",
                 mvp
+            );
+
+            SetUniformVec3(
+                "eyePosition",
+                camera.PositionInWorld.Translation
             );
 
             SetUniformInt(
@@ -78,22 +86,32 @@ namespace JSim.OpenTK
                 material.Ambient
             );
 
-            //SetUniformColor(
-            //    "material.diffuse",
-            //    material.Diffuse
-            //);
+            SetUniformColor(
+                "material.diffuse",
+                material.Diffuse
+            );
+
+            SetUniformColor(
+                "material.specular",
+                material.Diffuse
+            );
+
+            SetUniformFloat(
+                "material.shininess",
+                (float)material.Shininess
+            );
         }
 
         private void AddLightSourceUniform(string name)
         {
             AddUniform(name + ".type");
             AddUniform(name + ".color");
-            //AddUniform(name + ".direction");
-            //AddUniform(name + ".constantAttenuation");
-            //AddUniform(name + ".linearAttenuation");
-            //AddUniform(name + ".quadraticAttenuation");
-            //AddUniform(name + ".spotCutoff");
-            //AddUniform(name + ".spotExponent");
+            AddUniform(name + ".direction");
+            AddUniform(name + ".constantAttenuation");
+            AddUniform(name + ".linearAttenuation");
+            AddUniform(name + ".quadraticAttenuation");
+            AddUniform(name + ".spotCutoff");
+            AddUniform(name + ".spotExponent");
         }
 
         private void SetLightUniforms(
@@ -102,12 +120,12 @@ namespace JSim.OpenTK
         {
             SetUniformInt(name + ".type", ToLightTypeInt(light.LightType));
             SetUniformColor(name + ".color", light.Color);
-            //SetUniformVec3(name + ".direction", light.Direction);
-            //SetUniformFloat(name + ".constantAttenuation", (float)light.Attenuation.Constant);
-            //SetUniformFloat(name + ".linearAttenuation", (float)light.Attenuation.Linear);
-            //SetUniformFloat(name + ".quadraticAttenuation", (float)light.Attenuation.Quadratic);
-            //SetUniformFloat(name + ".spotCutoff", (float)light.SpotCutoff);
-            //SetUniformFloat(name + ".spotExponent", (float)light.SpotExponent);
+            SetUniformVec3(name + ".direction", light.Direction);
+            SetUniformFloat(name + ".constantAttenuation", (float)light.Attenuation.Constant);
+            SetUniformFloat(name + ".linearAttenuation", (float)light.Attenuation.Linear);
+            SetUniformFloat(name + ".quadraticAttenuation", (float)light.Attenuation.Quadratic);
+            SetUniformFloat(name + ".spotCutoff", (float)light.SpotCutoff);
+            SetUniformFloat(name + ".spotExponent", (float)light.SpotExponent);
         }
     }
 }

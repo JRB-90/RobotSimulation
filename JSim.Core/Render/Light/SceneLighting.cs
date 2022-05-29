@@ -82,10 +82,29 @@
                 var lighting = new SceneLighting();
 
                 lighting.AddLight(
+                    new DirectionalLight(
+                        new Maths.Vector3D(-1, -1, -1),
+                        new Color(0.8f, 0.2f, 0.2f, 1.0f),
+                        new Attenuation(1.0, 0.0, 0.0)
+                    )
+                );
+
+                lighting.AddLight(
                     new PointLight(
                         new Maths.Vector3D(0, 0, 5),
-                        new Color(1.0f, 1.0f, 1.0f, 1.0f),
-                        new Attenuation(0.0, 0.25, 0.0)
+                        new Color(1.0f, 0.2f, 0.8f, 0.2f),
+                        new Attenuation(1.0, 0.0, 0.0)
+                    )
+                );
+
+                lighting.AddLight(
+                    new SpotLight(
+                        new Maths.Vector3D(0, 0, 5),
+                        new Maths.Vector3D(0, 0, -1),
+                        new Color(1.0f, 0.2f, 0.2f, 0.8f),
+                        new Attenuation(1.0, 0.0, 0.0),
+                        8.0,
+                        10.0
                     )
                 );
 

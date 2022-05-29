@@ -62,51 +62,41 @@ void main()
 
 vec4 CalculateLight(LightSource light)
 {
-	float totalAttenuation;
-	vec3 lightDirection;
 	vec3 diffuseOut;
 	vec3 specularOut;
 
+	vec3 lightDirection = positionOut - light.position;
+	float dist = length(lightDirection);
+	lightDirection = normalize(lightDirection);
+
+	float totalAttenuation =
+		light.constantAttenuation +
+		(light.linearAttenuation * dist) +
+		(light.quadraticAttenuation * dist * dist);
+
+	totalAttenuation = 1.0 / light.constantAttenuation;
+
 	if (light.type == DIRECTIONAL_LIGHT)
 	{
-		totalAttenuation = light.constantAttenuation;
 		lightDirection = normalize(light.direction);
 	}
-	else
+	else if (light.type == SPOT_LIGHT)
 	{
-		lightDirection = positionOut - light.position;
-		float dist = length(lightDirection);
-		lightDirection = normalize(lightDirection);
+		float clampedCosine = max(0.0, dot(lightDirection, normalize(light.direction)));
 
-		totalAttenuation =
-			light.constantAttenuation +
-			(light.linearAttenuation * dist) +
-			(light.quadraticAttenuation * dist * dist);
-
-		totalAttenuation = 1.0 / totalAttenuation;
-
-		if (light.type == POINT_LIGHT)
+		if (clampedCosine < cos(radians(light.spotCutoff)))
 		{
-			
+			totalAttenuation = 0.0;
 		}
-		else if (light.type == SPOT_LIGHT)
+		else
 		{
-//			float clampedCosine = max(0.0, dot(lightDirection, normalize(light.direction)));
-//
-//			if (clampedCosine < cos(radians(light.spotCutoff)))
-//			{
-//				totalAttenuation = 0.0;
-//			}
-//			else
-//			{
-//				totalAttenuation = totalAttenuation * pow(clampedCosine, light.spotExponent);
-//			}
+			totalAttenuation = totalAttenuation * pow(clampedCosine, light.spotExponent);
 		}
 	}
 
 	float normalToLightAngle = -dot(normalDirection, lightDirection);
-	float diffuseIntensity = (normalToLightAngle + 1) * 0.5;
-	//float diffuseIntensity = normalToLightAngle;
+	//float diffuseIntensity = (normalToLightAngle + 1) * 0.5;
+	float diffuseIntensity = normalToLightAngle;
 
 	diffuseOut =
 		light.color.xyz *

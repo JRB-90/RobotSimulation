@@ -8,17 +8,30 @@ namespace JSim.OpenTK
     public class ShaderManager
     {
         const string RES_ROOT = "JSim.OpenTK.Shaders.GLSL.";
-        const string BASIC_VERT = "basicVertexShader.glsl";
-        const string BASIC_FRAG = "basicFragmentShader.glsl";
-        const string FLAT_FRAG = "flatFragmentShader.glsl";
-        const string SMOOTH_FRAG = "smoothFragmentShader.glsl";
+        const string BASIC_VERT = "basicVertex.glsl";
+        const string BASIC_FRAG = "basicFragment.glsl";
+        const string FLAT_FRAG = "flatFragment.glsl";
+        const string SMOOTH_FRAG = "smoothFragment.glsl";
+
+        readonly string versionFolder;
 
         readonly BasicShader basicShader;
         readonly FlatShader flatShader;
         readonly SmoothShader smoothShader;
 
-        public ShaderManager(ILogger logger)
+        public ShaderManager(
+            ILogger logger,
+            GLVersion gLVersion)
         {
+            if (gLVersion <= new GLVersion(3, 0))
+            {
+                versionFolder = "V120.";
+            }
+            else
+            {
+                versionFolder = "V330.";
+            }
+
             string basicVert = LoadShaderFile(BASIC_VERT);
             string basicFrag = LoadShaderFile(BASIC_FRAG);
             string flatFrag = LoadShaderFile(FLAT_FRAG);
@@ -27,6 +40,7 @@ namespace JSim.OpenTK
             basicShader =
                 new BasicShader(
                     logger,
+                    gLVersion,
                     basicVert,
                     basicFrag
                 );
@@ -34,6 +48,7 @@ namespace JSim.OpenTK
             flatShader =
                 new FlatShader(
                     logger,
+                    gLVersion,
                     basicVert,
                     flatFrag
                 );
@@ -41,6 +56,7 @@ namespace JSim.OpenTK
             smoothShader =
                 new SmoothShader(
                     logger,
+                    gLVersion,
                     basicVert,
                     smoothFrag
                 );
@@ -63,11 +79,11 @@ namespace JSim.OpenTK
             }
         }
 
-        private static string LoadShaderFile(string name)
+        private string LoadShaderFile(string name)
         {
             return
                 EmbeddedResourceLoader.LoadEmbeddedFile(
-                    RES_ROOT,
+                    RES_ROOT + versionFolder,
                     name,
                     Assembly.GetExecutingAssembly()
                 );

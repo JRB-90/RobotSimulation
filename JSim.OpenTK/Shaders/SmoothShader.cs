@@ -12,11 +12,13 @@ namespace JSim.OpenTK
     {
         public SmoothShader(
             ILogger logger,
+            GLVersion gLVersion,
             string vsource,
             string fsource)
           :
             base(
                 logger,
+                gLVersion,
                 vsource,
                 fsource)
         {

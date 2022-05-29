@@ -28,7 +28,18 @@ namespace JSim.OpenTK
             this.glContextManager = glContextManager;
 
             glContextManager.RunOnResourceContext(
-                () => shaderManager = new ShaderManager(logger)
+                () =>
+                {
+                    GL.GetInteger(GetPName.MajorVersion, out int glMajor);
+                    GL.GetInteger(GetPName.MinorVersion, out int glMinor);
+                    gLVersion = new GLVersion(glMajor, glMinor);
+                    
+                    shaderManager = 
+                        new ShaderManager(
+                            logger,
+                            gLVersion
+                        );
+                }
             );
         }
 
@@ -207,12 +218,12 @@ namespace JSim.OpenTK
             GL.Enable(EnableCap.DepthClamp);
             GL.Enable(EnableCap.Texture2D);
 
-            //GL.Enable(EnableCap.PointSmooth);
-            //GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
+            GL.Enable(EnableCap.PointSmooth);
+            GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
             GL.Enable(EnableCap.LineSmooth);
             GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
-            GL.Enable(EnableCap.PolygonSmooth);
-            GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+            //GL.Enable(EnableCap.PolygonSmooth);
+            //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
 
             GL.PointSize(DEFAULT_POINT_SIZE);
@@ -280,7 +291,8 @@ namespace JSim.OpenTK
             }
         }
 
-        private ShaderManager? shaderManager;
         private static readonly Stopwatch _stopwatch = Stopwatch.StartNew();
+        private ShaderManager? shaderManager;
+        private GLVersion gLVersion;
     }
 }

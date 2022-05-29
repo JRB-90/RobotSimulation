@@ -11,16 +11,17 @@ namespace JSim.OpenTK
     internal class BasicShader : ShaderBase
     {
         public BasicShader(
-            ILogger logger, 
+            ILogger logger,
+            GLVersion glVersion,
             string vsource, 
             string fsource) 
           : 
             base(
-                logger, 
-                vsource, 
+                logger,
+                glVersion,
+                vsource,
                 fsource)
         {
-            AddUniform("modelMat");
             AddUniform("mvpMat");
             AddUniform("modelColor");
         }
@@ -35,11 +36,6 @@ namespace JSim.OpenTK
                 camera.GetProjectionMatrix() *
                 camera.GetViewMatrix() *
                 model.Matrix;
-
-            SetUniformMatrix4x4(
-                "modelMat",
-                model
-            );
 
             SetUniformMatrix4x4(
                 "mvpMat",

@@ -8,8 +8,8 @@
     {
         public Attenuation()
         {
-            Constant = 0.0;
-            Linear = 1.0;
+            Constant = 1.0;
+            Linear = 0.0;
             Quadratic = 0.0;
         }
 

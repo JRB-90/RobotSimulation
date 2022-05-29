@@ -15,10 +15,12 @@ namespace JSim.OpenTK
 
         public ShaderBase(
             ILogger logger,
+            GLVersion glVersion,
             string vsource,
             string fsource)
         {
             this.logger = logger;
+            this.gLVersion = glVersion;
             uniforms = new Dictionary<string, int>();
             CompileProgram(vsource, fsource);
         }
@@ -310,6 +312,7 @@ namespace JSim.OpenTK
         }
 
         private int program;
+        private GLVersion gLVersion;
         private Dictionary<string, int> uniforms;
     }
 }

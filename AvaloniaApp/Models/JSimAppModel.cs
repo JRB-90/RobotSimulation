@@ -39,6 +39,7 @@ namespace AvaloniaApp.Models
             var assembly1 = scene.Root.CreateNewAssembly("Assembly1");
             var entity1 = assembly1.CreateNewEntity("WorldFrame");
             var entity2 = assembly1.CreateNewEntity("Cube");
+            entity2.LocalFrame = new Transform3D(0, 0, 0, 0, 0, 15);
 
             double size = 1.0;
             var lineVerts =
@@ -77,7 +78,7 @@ namespace AvaloniaApp.Models
             var cube = CubeBuilder.Build(0.5, 0.5, 0.5);
             var cubeSolid = entity2.GeometryContainer.Root.CreateChildGeometry("Cube");
             entity2.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-            cubeSolid.IsVisible = true;
+            cubeSolid.IsVisible = false;
             cubeSolid.SetDrawingData(cube.Item1, cube.Item2);
             cubeSolid.GeometryType = GeometryType.Solid;
             cubeSolid.Material = JSim.Core.Render.Material.FromSingleColor(new Color(1.0f, 0.0f, 0.0f), ShadingType.Flat);
@@ -103,18 +104,18 @@ namespace AvaloniaApp.Models
                     app.SceneManager
                 );
 
-            //var entity3 =
-            //    app.SceneManager.ModelImporter.LoadModel(
-            //        @"C:\Development\Test\Suzanne.stl",
-            //        assembly1
-            //    );
-            //entity3.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 180.0);
-
             var entity3 =
                 app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\robot.3ds",
+                    @"C:\Development\Test\Suzanne.stl",
                     assembly1
                 );
+            entity3.LocalFrame = new Transform3D(0.0, 0.0, 0.0, 0.0, 0.0, 180.0);
+
+            //var entity3 =
+            //    app.SceneManager.ModelImporter.LoadModel(
+            //        @"C:\Development\Test\robot.3ds",
+            //        assembly1
+            //    );
 
             app.SceneManager.CurrentScene.SelectionManager.SetSingleSelection(entity2);
             app.SceneManager.CurrentSceneChanged += OnCurrentSceneChanged;

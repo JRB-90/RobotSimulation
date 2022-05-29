@@ -14,9 +14,11 @@ namespace JSim.OpenTK
     /// </summary>
     public class OpenTKRenderingEngine : IRenderingEngine
     {
+        public const int MAX_LIGHTS = 8;
         const float DEFAULT_POINT_SIZE = 5.0f;
         const float DEFAULT_LINE_WIDTH = 0.1f;
 
+        readonly ILogger logger;
         readonly IGlContextManager glContextManager;
 
         public OpenTKRenderingEngine(
@@ -26,7 +28,18 @@ namespace JSim.OpenTK
             this.glContextManager = glContextManager;
 
             glContextManager.RunOnResourceContext(
-                () => shaderManager = new ShaderManager(logger)
+                () =>
+                {
+                    GL.GetInteger(GetPName.MajorVersion, out int glMajor);
+                    GL.GetInteger(GetPName.MinorVersion, out int glMinor);
+                    gLVersion = new GLVersion(glMajor, glMinor);
+                    
+                    shaderManager = 
+                        new ShaderManager(
+                            logger,
+                            gLVersion
+                        );
+                }
             );
         }
 
@@ -97,6 +110,11 @@ namespace JSim.OpenTK
             SetDefaultOptions();
             SetViewport(surface);
             ClearScreen(surface);
+
+            if (surface.SceneLighting.Lights.Count > MAX_LIGHTS)
+            {
+                logger.Log($"Only {MAX_LIGHTS} lights supported", LogLevel.Error);
+            }
 
             if (scene != null)
             {
@@ -178,7 +196,8 @@ namespace JSim.OpenTK
                 shader.UpdateUniforms(
                     tkGeometry.WorldFrame,
                     surface.Camera,
-                    tkGeometry.Material
+                    tkGeometry.Material,
+                    surface.SceneLighting
                 );
 
                 VboUtils.Draw(
@@ -199,12 +218,12 @@ namespace JSim.OpenTK
             GL.Enable(EnableCap.DepthClamp);
             GL.Enable(EnableCap.Texture2D);
 
-            //GL.Enable(EnableCap.PointSmooth);
-            //GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
+            GL.Enable(EnableCap.PointSmooth);
+            GL.Hint(HintTarget.PointSmoothHint, HintMode.Nicest);
             GL.Enable(EnableCap.LineSmooth);
             GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
-            GL.Enable(EnableCap.PolygonSmooth);
-            GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+            //GL.Enable(EnableCap.PolygonSmooth);
+            //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
 
             GL.PointSize(DEFAULT_POINT_SIZE);
@@ -272,7 +291,8 @@ namespace JSim.OpenTK
             }
         }
 
-        private ShaderManager? shaderManager;
         private static readonly Stopwatch _stopwatch = Stopwatch.StartNew();
+        private ShaderManager? shaderManager;
+        private GLVersion gLVersion;
     }
 }

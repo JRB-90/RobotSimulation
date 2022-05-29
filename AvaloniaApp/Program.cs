@@ -25,7 +25,8 @@ namespace AvaloniaApp
                 .UseReactiveUI()
                 .With(new Win32PlatformOptions
                 {
-                    AllowEglInitialization = true
+                    AllowEglInitialization = true,
+                    UseWgl = false
                 });
     }
 }

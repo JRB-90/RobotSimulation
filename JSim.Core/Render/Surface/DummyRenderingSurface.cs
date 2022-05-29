@@ -10,6 +10,7 @@ namespace JSim.Core.Render
         public DummyRenderingSurface()
         {
             Camera = new StandardCamera(0, 0);
+            SceneLighting = new SceneLighting();
         }
 
         public int SurfaceWidth => 0;
@@ -19,6 +20,8 @@ namespace JSim.Core.Render
         public ICamera? Camera { get; set; }
 
         public IScene? Scene { get; set;}
+
+        public SceneLighting SceneLighting { get; }
 
         public void Dispose()
         {

@@ -6,11 +6,11 @@ using MathNet.Numerics.LinearAlgebra;
 namespace JSim.OpenTK
 {
     /// <summary>
-    /// Provides flat shading across all faces.
+    /// Provides smooth phong shading across all faces.
     /// </summary>
-    internal class FlatShader : ShaderBase
+    internal class SmoothShader : ShaderBase
     {
-        public FlatShader(
+        public SmoothShader(
             ILogger logger,
             GLVersion gLVersion,
             string vsource,
@@ -41,8 +41,8 @@ namespace JSim.OpenTK
         }
 
         public override void UpdateUniforms(
-            Transform3D model, 
-            ICamera camera, 
+            Transform3D model,
+            ICamera camera,
             IMaterial material,
             SceneLighting sceneLighting)
         {
@@ -63,7 +63,7 @@ namespace JSim.OpenTK
 
             SetUniformInt(
                 "useFlatNormals",
-                1
+                0
             );
 
             SetUniformVec3(

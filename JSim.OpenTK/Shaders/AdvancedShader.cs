@@ -6,15 +6,16 @@ using MathNet.Numerics.LinearAlgebra;
 namespace JSim.OpenTK
 {
     /// <summary>
-    /// Provides flat shading across all faces.
+    /// Provides advanced shading effects with multiple lights.
     /// </summary>
-    internal class FlatShader : ShaderBase
+    internal class AdvancedShader : ShaderBase
     {
-        public FlatShader(
+        public AdvancedShader(
             ILogger logger,
             GLVersion gLVersion,
             string vsource,
-            string fsource)
+            string fsource,
+            bool useFlatNormals = false)
           :
             base(
                 logger,
@@ -22,6 +23,8 @@ namespace JSim.OpenTK
                 vsource,
                 fsource)
         {
+            this.useFlatNormals = useFlatNormals;
+
             AddUniform("modelMat");
             AddUniform("mvpMat");
             AddUniform("useFlatNormals");
@@ -41,8 +44,8 @@ namespace JSim.OpenTK
         }
 
         public override void UpdateUniforms(
-            Transform3D model, 
-            ICamera camera, 
+            Transform3D model,
+            ICamera camera,
             IMaterial material,
             SceneLighting sceneLighting)
         {
@@ -63,7 +66,7 @@ namespace JSim.OpenTK
 
             SetUniformInt(
                 "useFlatNormals",
-                1
+                useFlatNormals ? 1 : 0
             );
 
             SetUniformVec3(
@@ -73,7 +76,7 @@ namespace JSim.OpenTK
 
             SetUniformInt(
                 "activeLights",
-                sceneLighting.Lights.Count
+                sceneLighting.Lights.Where(l => l.IsEnabled).Count()
             );
 
             SetUniformColor(
@@ -83,7 +86,8 @@ namespace JSim.OpenTK
 
             for (int i = 0; i < sceneLighting.Lights.Count; i++)
             {
-                if (i < OpenTKRenderingEngine.MAX_LIGHTS)
+                if (i < OpenTKRenderingEngine.MAX_LIGHTS &&
+                    sceneLighting.Lights[i].IsEnabled)
                 {
                     SetLightUniforms($"lights[{i}]", sceneLighting.Lights[i]);
                 }
@@ -137,5 +141,7 @@ namespace JSim.OpenTK
             SetUniformFloat(name + ".spotCutoff", (float)light.SpotCutoff);
             SetUniformFloat(name + ".spotExponent", (float)light.SpotExponent);
         }
+
+        private bool useFlatNormals;
     }
 }

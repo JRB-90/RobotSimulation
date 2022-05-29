@@ -15,10 +15,12 @@ namespace JSim.OpenTK
 
         public ShaderBase(
             ILogger logger,
+            GLVersion glVersion,
             string vsource,
             string fsource)
         {
             this.logger = logger;
+            this.gLVersion = glVersion;
             uniforms = new Dictionary<string, int>();
             CompileProgram(vsource, fsource);
         }
@@ -53,7 +55,8 @@ namespace JSim.OpenTK
         public abstract void UpdateUniforms(
             Transform3D model, 
             ICamera camera, 
-            IMaterial material
+            IMaterial material,
+            SceneLighting sceneLighting
         );
 
         /// <summary>
@@ -65,12 +68,17 @@ namespace JSim.OpenTK
             int uniformID = GL.GetUniformLocation(program, name);
             if (uniformID == -1)
             {
-                logger.Log(
-                    $"Error adding uniform {name} : Location could not be found",
-                    LogLevel.Error
-                );
+                //logger.Log(
+                //    $"Error adding uniform {name} : Location could not be found",
+                //    LogLevel.Error
+                //);
 
-                return;
+                //return;
+
+                throw
+                    new InvalidOperationException(
+                        $"Error adding uniform {name} : Location could not be found"
+                    );
             }
             uniforms.Add(name, uniformID);
         }
@@ -225,6 +233,21 @@ namespace JSim.OpenTK
             }
         }
 
+        protected int ToLightTypeInt(LightType lightType)
+        {
+            switch (lightType)
+            {
+                case LightType.Directional:
+                    return 1;
+                case LightType.Point:
+                    return 2;
+                case LightType.Spot:
+                    return 3;
+                default:
+                    return 0;
+            }
+        }
+
         private void CompileProgram(
             string vsource,
             string fsource)
@@ -289,6 +312,7 @@ namespace JSim.OpenTK
         }
 
         private int program;
+        private GLVersion gLVersion;
         private Dictionary<string, int> uniforms;
     }
 }

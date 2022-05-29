@@ -18,10 +18,6 @@ namespace JSim.Importers
         public ISceneObject LoadModel(string path, ISceneAssembly parent)
         {
             var importer = new AssimpContext();
-
-            var config = new NormalSmoothingAngleConfig(66.0f);
-            importer.SetConfig(config);
-
             var supported = importer.GetSupportedImportFormats();
 
             var logStream =
@@ -38,10 +34,15 @@ namespace JSim.Importers
                 importer.ImportFile(
                     path,
                     PostProcessSteps.FlipWindingOrder |
-                    PostProcessSteps.GenerateSmoothNormals
+                    PostProcessSteps.GenerateSmoothNormals |
+                    PostProcessSteps.ForceGenerateNormals
                 );
 
-            ISceneAssembly assembly = parent.CreateNewAssembly(Path.GetFileNameWithoutExtension(path));
+            ISceneAssembly assembly = 
+                parent.CreateNewAssembly(
+                    Path.GetFileNameWithoutExtension(path)
+                );
+            
             ProcessNode(model, model.RootNode, assembly);
             importer.Dispose();
 
@@ -81,7 +82,7 @@ namespace JSim.Importers
                         new Core.Render.Vertex(
                             i,
                             new Core.Maths.Vector3D(v.X, v.Y, v.Z),
-                            new Core.Maths.Vector3D(n.X, n.Y, n.Z)
+                            new Core.Maths.Vector3D(-n.X, -n.Y, -n.Z)
                         )
                     );
                 }
@@ -112,7 +113,7 @@ namespace JSim.Importers
                     ToJSimColor(material.ColorDiffuse),
                     ToJSimColor(material.ColorSpecular),
                     material.Shininess,
-                    Core.Render.ShadingType.Flat
+                    Core.Render.ShadingType.Smooth
                 );
         }
 

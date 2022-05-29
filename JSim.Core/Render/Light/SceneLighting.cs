@@ -108,7 +108,7 @@
                     )
                 );
 
-                
+                lighting.Lights[2].IsEnabled = false;
 
                 return lighting;
             }

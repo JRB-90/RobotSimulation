@@ -76,7 +76,7 @@ namespace JSim.OpenTK
 
             SetUniformInt(
                 "activeLights",
-                sceneLighting.Lights.Count
+                sceneLighting.Lights.Where(l => l.IsEnabled).Count()
             );
 
             SetUniformColor(
@@ -86,7 +86,8 @@ namespace JSim.OpenTK
 
             for (int i = 0; i < sceneLighting.Lights.Count; i++)
             {
-                if (i < OpenTKRenderingEngine.MAX_LIGHTS)
+                if (i < OpenTKRenderingEngine.MAX_LIGHTS &&
+                    sceneLighting.Lights[i].IsEnabled)
                 {
                     SetLightUniforms($"lights[{i}]", sceneLighting.Lights[i]);
                 }

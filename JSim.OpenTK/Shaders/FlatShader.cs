@@ -24,6 +24,8 @@ namespace JSim.OpenTK
         {
             AddUniform("modelMat");
             AddUniform("mvpMat");
+            AddUniform("useFlatNormals");
+            AddUniform("eyePosition");
             AddUniform("activeLights");
             AddUniform("ambientLight");
 
@@ -34,6 +36,8 @@ namespace JSim.OpenTK
 
             AddUniform("material.ambient");
             AddUniform("material.diffuse");
+            AddUniform("material.specular");
+            AddUniform("material.shininess");
         }
 
         public override void UpdateUniforms(
@@ -55,6 +59,16 @@ namespace JSim.OpenTK
             SetUniformMatrix4x4(
                 "mvpMat",
                 mvp
+            );
+
+            SetUniformInt(
+                "useFlatNormals",
+                1
+            );
+
+            SetUniformVec3(
+                "eyePosition",
+                camera.PositionInWorld.Translation
             );
 
             SetUniformInt(
@@ -84,14 +98,29 @@ namespace JSim.OpenTK
                 "material.diffuse",
                 material.Diffuse
             );
+
+            SetUniformColor(
+                "material.specular",
+                material.Diffuse
+            );
+
+            SetUniformFloat(
+                "material.shininess",
+                (float)material.Shininess
+            );
         }
 
         private void AddLightSourceUniform(string name)
         {
             AddUniform(name + ".type");
             AddUniform(name + ".color");
+            AddUniform(name + ".position");
             AddUniform(name + ".direction");
             AddUniform(name + ".constantAttenuation");
+            AddUniform(name + ".linearAttenuation");
+            AddUniform(name + ".quadraticAttenuation");
+            AddUniform(name + ".spotCutoff");
+            AddUniform(name + ".spotExponent");
         }
 
         private void SetLightUniforms(
@@ -100,8 +129,13 @@ namespace JSim.OpenTK
         {
             SetUniformInt(name + ".type", ToLightTypeInt(light.LightType));
             SetUniformColor(name + ".color", light.Color);
+            SetUniformVec3(name + ".position", light.Position);
             SetUniformVec3(name + ".direction", light.Direction);
             SetUniformFloat(name + ".constantAttenuation", (float)light.Attenuation.Constant);
+            SetUniformFloat(name + ".linearAttenuation", (float)light.Attenuation.Linear);
+            SetUniformFloat(name + ".quadraticAttenuation", (float)light.Attenuation.Quadratic);
+            SetUniformFloat(name + ".spotCutoff", (float)light.SpotCutoff);
+            SetUniformFloat(name + ".spotExponent", (float)light.SpotExponent);
         }
     }
 }

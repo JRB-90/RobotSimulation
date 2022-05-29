@@ -7,25 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shaders\GLSL\advancedFS.glsl" />
     <None Remove="Shaders\GLSL\basicFragment.glsl" />
+    <None Remove="Shaders\GLSL\basicFS.glsl" />
     <None Remove="Shaders\GLSL\basicVertex.glsl" />
+    <None Remove="Shaders\GLSL\basicVS.glsl" />
     <None Remove="Shaders\GLSL\flatFragment.glsl" />
     <None Remove="Shaders\GLSL\smoothFragment.glsl" />
-    <None Remove="Shaders\GLSL\V330\basicFragment.glsl" />
-    <None Remove="Shaders\GLSL\V330\basicVertex.glsl" />
-    <None Remove="Shaders\GLSL\V330\flatFragment.glsl" />
-    <None Remove="Shaders\GLSL\V330\smoothFragment.glsl" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Shaders\GLSL\V120\basicFragment.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V120\basicVertex.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V120\flatFragment.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V120\smoothFragment.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V330\basicFragment.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V330\basicVertex.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V330\flatFragment.glsl" />
-    <EmbeddedResource Include="Shaders\GLSL\V330\smoothFragment.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\advancedFS.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\basicFS.glsl" />
+    <EmbeddedResource Include="Shaders\GLSL\basicVS.glsl" />
   </ItemGroup>
 
   <ItemGroup>

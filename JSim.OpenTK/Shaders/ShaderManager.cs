@@ -1,6 +1,7 @@
 ﻿using JSim.Core;
 using JSim.Core.Common;
 using JSim.Core.Render;
+using OpenTK.Graphics.OpenGL;
 using System.Reflection;
 
 namespace JSim.OpenTK
@@ -8,57 +9,73 @@ namespace JSim.OpenTK
     public class ShaderManager
     {
         const string RES_ROOT = "JSim.OpenTK.Shaders.GLSL.";
-        const string BASIC_VERT = "basicVertex.glsl";
-        const string BASIC_FRAG = "basicFragment.glsl";
-        const string FLAT_FRAG = "flatFragment.glsl";
-        const string SMOOTH_FRAG = "smoothFragment.glsl";
-
-        readonly string versionFolder;
+        const string BASIC_VS = "basicVS.glsl";
+        const string BASIC_FS = "basicFS.glsl";
+        const string ADVANCED_FS = "advancedFS.glsl";
 
         readonly BasicShader basicShader;
-        readonly FlatShader flatShader;
-        readonly SmoothShader smoothShader;
+        readonly AdvancedShader flatShader;
+        readonly AdvancedShader smoothShader;
 
         public ShaderManager(
             ILogger logger,
             GLVersion gLVersion)
         {
+            GLVersion targetVersion;
             if (gLVersion <= new GLVersion(3, 0))
             {
-                versionFolder = "V120.";
+                targetVersion = new GLVersion(1, 2);
             }
             else
             {
-                versionFolder = "V330.";
+                targetVersion = new GLVersion(3, 3);
             }
 
-            string basicVert = LoadShaderFile(BASIC_VERT);
-            string basicFrag = LoadShaderFile(BASIC_FRAG);
-            string flatFrag = LoadShaderFile(FLAT_FRAG);
-            string smoothFrag = LoadShaderFile(SMOOTH_FRAG);
+            string basicVS =
+                ProcessShader(
+                    LoadShaderFile(BASIC_VS),
+                    ShaderType.VertexShader,
+                    targetVersion
+                );
+
+            string basicFS =
+                ProcessShader(
+                    LoadShaderFile(BASIC_FS),
+                    ShaderType.FragmentShader,
+                    targetVersion
+                );
+
+            string advancedFS =
+                ProcessShader(
+                    LoadShaderFile(ADVANCED_FS),
+                    ShaderType.FragmentShader,
+                    targetVersion
+                );
 
             basicShader =
                 new BasicShader(
                     logger,
                     gLVersion,
-                    basicVert,
-                    basicFrag
+                    basicVS,
+                    basicFS
                 );
 
             flatShader =
-                new FlatShader(
+                new AdvancedShader(
                     logger,
                     gLVersion,
-                    basicVert,
-                    flatFrag
+                    basicVS,
+                    advancedFS,
+                    true
                 );
 
             smoothShader =
-                new SmoothShader(
+                new AdvancedShader(
                     logger,
                     gLVersion,
-                    basicVert,
-                    smoothFrag
+                    basicVS,
+                    advancedFS,
+                    false
                 );
         }
 
@@ -83,10 +100,165 @@ namespace JSim.OpenTK
         {
             return
                 EmbeddedResourceLoader.LoadEmbeddedFile(
-                    RES_ROOT + versionFolder,
+                    RES_ROOT,
                     name,
                     Assembly.GetExecutingAssembly()
                 );
+        }
+
+        private string ProcessShader(
+            string shaderSource, 
+            ShaderType shaderType,
+            GLVersion targetVersion)
+        {
+            string[] lines = shaderSource.Split(Environment.NewLine);
+
+            int locationCount = 0;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("#version"))
+                {
+                    lines[i] = ProcessVersion(lines[i], targetVersion);
+                }
+                else if (lines[i].Contains("attribute"))
+                {
+                    lines[i] = ProcessAttribute(lines[i], targetVersion, locationCount);
+                    locationCount++;
+                }
+                else if (lines[i].Contains("layout"))
+                {
+                    lines[i] = ProcessLayout(lines[i], targetVersion, locationCount);
+                    locationCount++;
+                }
+                else if (lines[i].Contains("varying"))
+                {
+                    lines[i] = ProcessVarying(lines[i], targetVersion, shaderType);
+                }
+                else if (lines[i].Contains("out"))
+                {
+                    lines[i] = ProcessOut(lines[i], targetVersion);
+                }
+                else if (lines[i].Contains("//FRAG_OUT"))
+                {
+                    lines[i] = ProcessFragOut(lines[i], targetVersion);
+                }
+                else if (lines[i].Contains("gl_FragColor"))
+                {
+                    lines[i] = ProcessGlFragColor(lines[i], targetVersion);
+                }
+            }
+
+            return string.Join(Environment.NewLine, lines);
+        }
+
+        private string ProcessVersion(
+            string line,
+            GLVersion targetVersion)
+        {
+            return $"#version {targetVersion.Major}{targetVersion.Minor}0";
+        }
+
+        private string ProcessAttribute(
+            string line,
+            GLVersion targetVersion,
+            int locationCount)
+        {
+            if (targetVersion <= new GLVersion(1, 2))
+            {
+                return line;
+            }
+            else
+            {
+                return line.Replace("attribute", $"layout (location = {locationCount}) in");
+            }
+        }
+
+        private string ProcessLayout(
+            string line,
+            GLVersion targetVersion,
+            int locationCount)
+        {
+            if (targetVersion > new GLVersion(1, 2))
+            {
+                return line;
+            }
+            else
+            {
+                int start = -1;
+                int end = -1;
+
+                start = line.IndexOf("layout");
+                end = line.IndexOf("in") + 2;
+                
+                var trimmedString = line.Remove(start, end - start);
+
+                return "attribute" + trimmedString;
+            }
+        }
+
+        private string ProcessVarying(
+            string line,
+            GLVersion targetVersion,
+            ShaderType shaderType)
+        {
+            if (targetVersion <= new GLVersion(1, 2))
+            {
+                return line;
+            }
+            else
+            {
+                if (shaderType == ShaderType.VertexShader)
+                {
+                    return line.Replace("varying", "out");
+                }
+                else
+                {
+                    return line.Replace("varying", "in");
+                }
+            }
+        }
+
+        private string ProcessOut(
+            string line,
+            GLVersion targetVersion)
+        {
+            if (targetVersion > new GLVersion(1, 2))
+            {
+                return line;
+            }
+            else
+            {
+                return line.Replace("out", "varying");
+            }
+        }
+
+        private string ProcessFragOut(
+            string line,
+            GLVersion targetVersion)
+        {
+            if (targetVersion <= new GLVersion(1, 2))
+            {
+                return line;
+            }
+            else
+            {
+                return "out vec4 fragColor;";
+            }
+        }
+
+        private string ProcessGlFragColor(
+            string line,
+            GLVersion targetVersion)
+        {
+            if (targetVersion <= new GLVersion(1, 2))
+            {
+                return line;
+            }
+            else
+            {
+                return line.Replace("gl_FragColor", "fragColor");
+            }
         }
     }
 }

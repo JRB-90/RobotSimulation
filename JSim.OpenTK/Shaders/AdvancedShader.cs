@@ -6,15 +6,16 @@ using MathNet.Numerics.LinearAlgebra;
 namespace JSim.OpenTK
 {
     /// <summary>
-    /// Provides smooth phong shading across all faces.
+    /// Provides advanced shading effects with multiple lights.
     /// </summary>
-    internal class SmoothShader : ShaderBase
+    internal class AdvancedShader : ShaderBase
     {
-        public SmoothShader(
+        public AdvancedShader(
             ILogger logger,
             GLVersion gLVersion,
             string vsource,
-            string fsource)
+            string fsource,
+            bool useFlatNormals = false)
           :
             base(
                 logger,
@@ -22,6 +23,8 @@ namespace JSim.OpenTK
                 vsource,
                 fsource)
         {
+            this.useFlatNormals = useFlatNormals;
+
             AddUniform("modelMat");
             AddUniform("mvpMat");
             AddUniform("useFlatNormals");
@@ -63,7 +66,7 @@ namespace JSim.OpenTK
 
             SetUniformInt(
                 "useFlatNormals",
-                0
+                useFlatNormals ? 1 : 0
             );
 
             SetUniformVec3(
@@ -137,5 +140,7 @@ namespace JSim.OpenTK
             SetUniformFloat(name + ".spotCutoff", (float)light.SpotCutoff);
             SetUniformFloat(name + ".spotExponent", (float)light.SpotExponent);
         }
+
+        private bool useFlatNormals;
     }
 }

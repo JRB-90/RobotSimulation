@@ -5,6 +5,8 @@ varying vec3 normalOut;
 varying vec4 colorOut;
 varying vec2 texCoordOut;
 
+//FRAG_OUT
+
 const int MAX_LIGHTS = 8;
 const int DIRECTIONAL_LIGHT = 1;
 const int POINT_LIGHT = 2;
@@ -31,6 +33,7 @@ struct MaterialData
 	float shininess;
 };
 
+uniform int useFlatNormals;
 uniform vec3 eyePosition;
 uniform int activeLights;
 uniform vec4 ambientLight;
@@ -44,7 +47,21 @@ vec3 viewDirection;
 
 void main()
 {
-	normalDirection = normalize(normalOut);
+	if (useFlatNormals > 0)
+	{
+		normalDirection =
+			normalize(
+				cross(
+					dFdx(positionOut), 
+					dFdy(positionOut)
+				)
+			);
+	}
+	else
+	{
+		normalDirection = normalize(normalOut);
+	}
+
 	viewDirection = normalize(positionOut - eyePosition);
 
 	vec4 totalLighting = material.ambient * ambientLight;

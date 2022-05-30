@@ -10,17 +10,25 @@ namespace JSimControlGallery.Controls
 {
     public partial class MaterialControl : UserControl
     {
-        readonly ColorButton ambientColorButton;
-        readonly ColorButton diffuseColorButton;
-        readonly ColorButton specularColorButton;
+        readonly Grid mainGrid;
+        readonly ColorButton<RGBColorPickerWindow> ambientColorButton;
+        readonly ColorButton<RGBColorPickerWindow> diffuseColorButton;
+        readonly ColorButton<RGBColorPickerWindow> specularColorButton;
 
         public MaterialControl()
         {
             InitializeComponent();
 
-            ambientColorButton = this.FindControl<ColorButton>("AmbientColorButton");
-            diffuseColorButton = this.FindControl<ColorButton>("DiffuseColorButton");
-            specularColorButton = this.FindControl<ColorButton>("SpecularColorButton");
+            mainGrid = this.FindControl<Grid>("MainGrid");
+
+            ambientColorButton = new ColorButton<RGBColorPickerWindow>();
+            diffuseColorButton = new ColorButton<RGBColorPickerWindow>();
+            specularColorButton = new ColorButton<RGBColorPickerWindow>();
+
+            AddColorButtonToGrid(ambientColorButton, 0, 1);
+            AddColorButtonToGrid(diffuseColorButton, 1, 1);
+            AddColorButtonToGrid(specularColorButton, 2, 1);
+
             ambientColorButton.PropertyChanged += OnAmbientColorChanged;
             diffuseColorButton.PropertyChanged += OnDiffuseColorChanged;
             specularColorButton.PropertyChanged += OnSpecularColorChanged;
@@ -29,15 +37,15 @@ namespace JSimControlGallery.Controls
             Material.MaterialModified += OnMaterialModified;
         }
 
-        public static readonly StyledProperty<Material> MaterialProperty =
-            AvaloniaProperty.Register<MaterialControl, Material>(
+        public static readonly StyledProperty<IMaterial> MaterialProperty =
+            AvaloniaProperty.Register<MaterialControl, IMaterial>(
                 nameof(Material),
                 new Material(),
                 false,
                 BindingMode.TwoWay
            );
 
-        public Material Material
+        public IMaterial Material
         {
             get => GetValue(MaterialProperty);
             set => SetValue(MaterialProperty, value);
@@ -142,6 +150,47 @@ namespace JSimControlGallery.Controls
                 );
         }
 
+        private void AddColorButtonToGrid(
+            ColorButton<RGBColorPickerWindow> control,
+            int row, 
+            int column)
+        {
+            control.Margin = new Thickness(5);
+            Grid.SetRow(control, row);
+            Grid.SetColumn(control, column);
+            mainGrid.Children.Add(control);
+        }
+
         private double shininess;
+
+        private class RGBColorPickerWindow : ColorPickerWindow
+        {
+            public RGBColorPickerWindow()
+              :
+                base()
+            {
+                SetProperties();
+            }
+
+            public RGBColorPickerWindow(Avalonia.Media.Color? previousColour)
+              :
+                base(previousColour)
+            {
+                SetProperties();
+            }
+
+            private void SetProperties()
+            {
+                ColorSpace = ColorPicker.ColorSpaces.RGB;
+                IsColourSpaceSelectorVisible = false;
+                IsColourBlindnessSelectorVisible = false;
+                IsPaletteVisible = false;
+                IsHSBSelectable = false;
+                IsHSBVisible = false;
+                IsCIELABSelectable = false;
+                IsCIELABVisible = false;
+                Color = Color;
+            }
+        }
     }
 }

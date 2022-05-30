@@ -14,7 +14,12 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <controls:MaterialControl
-		Margin="10"/>
+    <!--<controls:MaterialControl
+		Margin="10"
+		Material="{Binding Material}"/>-->
+	
+	<ContentControl
+		Margin="10"
+		Content="{Binding MaterialControl}"/>
 
 </Window>

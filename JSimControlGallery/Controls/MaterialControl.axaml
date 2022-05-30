@@ -8,6 +8,7 @@
 			 DataContext="{Binding $self}">
 
 	<Grid
+		x:Name="MainGrid"
 		ColumnDefinitions="Auto, Auto"
 		RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 		
@@ -18,11 +19,6 @@
 			VerticalAlignment="Center"
 			TextAlignment="Right"
 			Text="Ambient"/>
-		<color:ColorButton
-			x:Name="AmbientColorButton"
-			Grid.Column="1"
-			Grid.Row="0"
-			Margin="5"/>
 
 		<TextBlock
 			Grid.Column="0"
@@ -31,11 +27,6 @@
 			VerticalAlignment="Center"
 			TextAlignment="Right"
 			Text="Diffuse"/>
-		<color:ColorButton
-			x:Name="DiffuseColorButton"
-			Grid.Column="1"
-			Grid.Row="1"
-			Margin="5"/>
 
 		<TextBlock
 			Grid.Column="0"
@@ -44,11 +35,6 @@
 			VerticalAlignment="Center"
 			TextAlignment="Right"
 			Text="Specular"/>
-		<color:ColorButton
-			x:Name="SpecularColorButton"
-			Grid.Column="1"
-			Grid.Row="2"
-			Margin="5"/>
 
 		<TextBlock
 			Grid.Column="0"

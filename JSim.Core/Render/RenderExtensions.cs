@@ -3,7 +3,7 @@
     /// <summary>
     /// Utility class to hold extension methods used in rendering.
     /// </summary>
-    internal static class RenderExtensions
+    public static class RenderExtensions
     {
         /// <summary>
         /// Converts an ARGB color byte to a equivalent float.

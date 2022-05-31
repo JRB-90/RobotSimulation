@@ -50,7 +50,7 @@
 
 				<ContentControl
 					Margin="10"
-					Content="{Binding MaterialControl}"/>
+					Content="{Binding GeometryControl}"/>
 			</Grid>
 			
 			<Button

@@ -48,6 +48,26 @@
 			Grid.Row="3"
 			Margin="5"
 			Text="{Binding Shininess}"/>
+
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="4"
+			Margin="5"
+			VerticalAlignment="Center"
+			TextAlignment="Right"
+			Text="Shading"/>
+		<ComboBox
+			x:Name="ShadingComboBox"
+			Grid.Column="1"
+			Grid.Row="4"
+			Width="100"
+			Margin="5">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 		
 	</Grid>
 </UserControl>

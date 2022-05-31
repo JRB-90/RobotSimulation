@@ -7,19 +7,58 @@
         mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
 		Width="300" Height="400"
         x:Class="JSimControlGallery.Views.MainWindow"
+		x:Name="w"
         Icon="/Assets/avalonia-logo.ico"
-        Title="JSimControlGallery">
+        Title="JSim Control Gallery"
+		TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+		ExtendClientAreaToDecorationsHint="True">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <!--<controls:MaterialControl
-		Margin="10"
-		Material="{Binding Material}"/>-->
-	
-	<ContentControl
-		Margin="10"
-		Content="{Binding MaterialControl}"/>
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.65"/>
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Grid
+			RowDefinitions="30, Auto">
+
+			<StackPanel
+				Grid.Row="0"
+				VerticalAlignment="Center"
+				IsHitTestVisible="False">
+				
+				
+				<TextBlock
+					Margin="5"
+					VerticalAlignment="Center"
+					FontWeight="Bold"
+					Text="{Binding Title, ElementName=w}"/>
+			</StackPanel>
+			
+			<Grid
+				Grid.Row="1">
+
+				<!--<controls:MaterialControl
+					Margin="10"
+					Material="{Binding Material}"/>-->
+
+				<ContentControl
+					Margin="10"
+					Content="{Binding MaterialControl}"/>
+				
+			</Grid>
+		</Grid>
+		
+	</Panel>
 
 </Window>

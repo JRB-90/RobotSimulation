@@ -4,7 +4,9 @@ using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using AvaloniaColorPicker;
 using JSim.Core.Render;
+using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace JSimControlGallery.Controls
 {
@@ -14,6 +16,7 @@ namespace JSimControlGallery.Controls
         readonly ColorButton<RGBColorPickerWindow> ambientColorButton;
         readonly ColorButton<RGBColorPickerWindow> diffuseColorButton;
         readonly ColorButton<RGBColorPickerWindow> specularColorButton;
+        readonly ComboBox shadingComboBox;
 
         public MaterialControl()
         {
@@ -33,6 +36,11 @@ namespace JSimControlGallery.Controls
             diffuseColorButton.PropertyChanged += OnDiffuseColorChanged;
             specularColorButton.PropertyChanged += OnSpecularColorChanged;
 
+            shadingComboBox = this.FindControl<ComboBox>("ShadingComboBox");
+            shadingComboBox.Items = Enum.GetValues(typeof(ShadingType)).Cast<ShadingType>();
+            shadingComboBox.SelectedItem = ShadingType.Solid;
+            shadingComboBox.SelectionChanged += OnShadingTypeChanged;
+
             PropertyChanged += OnPropertyChanged;
             Material.MaterialModified += OnMaterialModified;
         }
@@ -48,7 +56,14 @@ namespace JSimControlGallery.Controls
         public IMaterial Material
         {
             get => GetValue(MaterialProperty);
-            set => SetValue(MaterialProperty, value);
+            set
+            {
+                SetValue(MaterialProperty, value);
+                if (Material != null)
+                {
+                    Material.MaterialModified += OnMaterialModified;
+                }
+            }
         }
 
         public static readonly DirectProperty<MaterialControl, double> ShininessProperty =
@@ -118,6 +133,16 @@ namespace JSimControlGallery.Controls
             }
         }
 
+        private void OnShadingTypeChanged(
+            object? sender, 
+            SelectionChangedEventArgs e)
+        {
+            if (shadingComboBox.SelectedItem != null)
+            {
+                Material.Shading = (ShadingType)shadingComboBox.SelectedItem;
+            }
+        }
+
         private void OnPropertyChanged(
             object? sender,
             AvaloniaPropertyChangedEventArgs e)
@@ -128,7 +153,7 @@ namespace JSimControlGallery.Controls
             }
         }
 
-        private Color ToJSimColor(Avalonia.Media.Color color)
+        private static Color ToJSimColor(Avalonia.Media.Color color)
         {
             return
                 new Color(
@@ -139,7 +164,7 @@ namespace JSimControlGallery.Controls
                 );
         }
 
-        private Avalonia.Media.Color ToAvaloniaColor(Color color)
+        private static Avalonia.Media.Color ToAvaloniaColor(Color color)
         {
             return
                 new Avalonia.Media.Color(

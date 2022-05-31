@@ -5,7 +5,7 @@
     /// </summary>
     public class Material : IMaterial
     {
-        const double DEFAULT_SHININESS = 1.0;
+        const double DEFAULT_SHININESS = 0.0;
         const ShadingType DEFAULT_SHADING_TYPE = ShadingType.Solid;
 
         public Material()

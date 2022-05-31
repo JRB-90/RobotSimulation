@@ -22,6 +22,8 @@ namespace JSimControlGallery.Controls
         {
             InitializeComponent();
 
+            material = new Material();
+
             mainGrid = this.FindControl<Grid>("MainGrid");
 
             ambientColorButton = new ColorButton<RGBColorPickerWindow>();
@@ -40,29 +42,22 @@ namespace JSimControlGallery.Controls
             shadingComboBox.Items = Enum.GetValues(typeof(ShadingType)).Cast<ShadingType>();
             shadingComboBox.SelectedItem = ShadingType.Solid;
             shadingComboBox.SelectionChanged += OnShadingTypeChanged;
-
-            PropertyChanged += OnPropertyChanged;
-            Material.MaterialModified += OnMaterialModified;
         }
 
-        public static readonly StyledProperty<IMaterial> MaterialProperty =
-            AvaloniaProperty.Register<MaterialControl, IMaterial>(
+        public static readonly DirectProperty<MaterialControl, IMaterial> MaterialProperty =
+            AvaloniaProperty.RegisterDirect<MaterialControl, IMaterial>(
                 nameof(Material),
-                new Material(),
-                false,
-                BindingMode.TwoWay
+                o => o.Material,
+                (o, v) => o.Material = v
            );
 
         public IMaterial Material
         {
-            get => GetValue(MaterialProperty);
+            get => material;
             set
             {
-                SetValue(MaterialProperty, value);
-                if (Material != null)
-                {
-                    Material.MaterialModified += OnMaterialModified;
-                }
+                SetAndRaise(MaterialProperty, ref material, value);
+                UpdateDisplayedValues();
             }
         }
 
@@ -98,16 +93,11 @@ namespace JSimControlGallery.Controls
             Trace.WriteLine("Updated displayed material properties");
         }
 
-        private void OnMaterialModified(object sender, MaterialModifiedEventArgs e)
-        {
-            Trace.WriteLine("Material modified");
-        }
-
         private void OnAmbientColorChanged(
             object? sender,
             AvaloniaPropertyChangedEventArgs e)
         {
-            if (e.Property == ColorButton.ColorProperty)
+            if (e.Property.Name == nameof(ColorButton.Color))
             {
                 Material.Ambient = ToJSimColor(ambientColorButton.Color);
             }
@@ -117,7 +107,7 @@ namespace JSimControlGallery.Controls
             object? sender, 
             AvaloniaPropertyChangedEventArgs e)
         {
-            if (e.Property == ColorButton.ColorProperty)
+            if (e.Property.Name == nameof(ColorButton.Color))
             {
                 Material.Diffuse = ToJSimColor(diffuseColorButton.Color);
             }
@@ -127,7 +117,7 @@ namespace JSimControlGallery.Controls
             object? sender,
             AvaloniaPropertyChangedEventArgs e)
         {
-            if (e.Property == ColorButton.ColorProperty)
+            if (e.Property.Name == nameof(ColorButton.Color))
             {
                 Material.Specular = ToJSimColor(specularColorButton.Color);
             }
@@ -140,16 +130,6 @@ namespace JSimControlGallery.Controls
             if (shadingComboBox.SelectedItem != null)
             {
                 Material.Shading = (ShadingType)shadingComboBox.SelectedItem;
-            }
-        }
-
-        private void OnPropertyChanged(
-            object? sender,
-            AvaloniaPropertyChangedEventArgs e)
-        {
-            if (e.Property == MaterialProperty)
-            {
-                UpdateDisplayedValues();
             }
         }
 
@@ -187,6 +167,7 @@ namespace JSimControlGallery.Controls
         }
 
         private double shininess;
+        private IMaterial material;
 
         private class RGBColorPickerWindow : ColorPickerWindow
         {

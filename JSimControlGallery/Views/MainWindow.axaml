@@ -30,7 +30,7 @@
 		</ExperimentalAcrylicBorder>
 
 		<Grid
-			RowDefinitions="30, Auto">
+			RowDefinitions="30, Auto, *, Auto">
 
 			<StackPanel
 				Grid.Row="0"
@@ -48,15 +48,18 @@
 			<Grid
 				Grid.Row="1">
 
-				<!--<controls:MaterialControl
-					Margin="10"
-					Material="{Binding Material}"/>-->
-
 				<ContentControl
 					Margin="10"
 					Content="{Binding MaterialControl}"/>
-				
 			</Grid>
+			
+			<Button
+				Grid.Row="3"
+				Margin="5"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Content="Check"
+				Command="{Binding Check}"/>
 		</Grid>
 		
 	</Panel>

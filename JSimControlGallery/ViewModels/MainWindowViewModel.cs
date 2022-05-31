@@ -6,6 +6,8 @@ using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 using JSimControlGallery.Controls;
+using ReactiveUI;
+using System.Diagnostics;
 using System.Linq;
 
 namespace JSimControlGallery.ViewModels
@@ -24,7 +26,7 @@ namespace JSimControlGallery.ViewModels
                     @"C:\Development\Test\Suzanne.stl",
                     scene.Root
                 );
-            Material =
+            material =
                 ((ISceneAssembly)suzanne)
                 .Children
                 .OfType<ISceneAssembly>()
@@ -52,12 +54,27 @@ namespace JSimControlGallery.ViewModels
             //    .First()
             //    .Material;
 
-            MaterialControl = new MaterialControl() {  Material = Material };
+            material.MaterialModified += Material_MaterialModified;
+            MaterialControl = new MaterialControl() { Material = Material};
         }
 
-        public IMaterial Material { get; }
+        public IMaterial Material
+        {
+            get => material;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref material, value);
+                material.MaterialModified += Material_MaterialModified;
+                MaterialControl.Material = Material;
+            }
+        }
 
         public MaterialControl MaterialControl { get; }
+
+        public void Check()
+        {
+            Material = new Material();
+        }
 
         private static IWindsorContainer BootstrapContainer()
         {
@@ -72,5 +89,12 @@ namespace JSimControlGallery.ViewModels
 
             return container;
         }
+
+        private void Material_MaterialModified(object sender, MaterialModifiedEventArgs e)
+        {
+            Trace.WriteLine("Material modified");
+        }
+
+        private IMaterial material;
     }
 }

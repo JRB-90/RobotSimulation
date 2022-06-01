@@ -8,7 +8,7 @@
 
 	<Grid
 		x:Name="MainGrid"
-		ColumnDefinitions="Auto, Auto"
+		ColumnDefinitions="65, Auto"
 		RowDefinitions="Auto, Auto, Auto, Auto, Auto">
 		
 		<TextBlock

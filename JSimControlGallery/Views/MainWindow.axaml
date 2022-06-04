@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:JSimControlGallery.Controls;assembly=JSimControlGallery"
+		xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
 		Width="800" Height="600"
         x:Class="JSimControlGallery.Views.MainWindow"
@@ -34,10 +35,13 @@
 
 			<StackPanel
 				Grid.Row="0"
+				Orientation="Horizontal"
 				VerticalAlignment="Center"
 				IsHitTestVisible="False">
-				
-				
+
+				<i:Icon
+					Margin="10, 4, 5, 5"
+					Value="fa-light fa-robot"/>
 				<TextBlock
 					Margin="5"
 					VerticalAlignment="Center"

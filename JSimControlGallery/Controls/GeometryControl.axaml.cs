@@ -21,6 +21,7 @@ namespace JSimControlGallery.Controls
             isHighlightedCheckBox.PropertyChanged += OnIsHighlightedChanged;
 
             MaterialControl = new MaterialControl() { };
+            UpdateDisplayedValues();
         }
 
         public static readonly DirectProperty<GeometryControl, IGeometry?> GeometryProperty =
@@ -79,14 +80,18 @@ namespace JSimControlGallery.Controls
         {
             if (geometry != null)
             {
+                isVisibleCheckBox.IsEnabled = true;
                 isVisibleCheckBox.IsChecked = geometry.IsVisible;
+                isHighlightedCheckBox.IsEnabled = true;
                 isHighlightedCheckBox.IsChecked = geometry.IsHighlighted;
                 MaterialControl = new MaterialControl() { Material = geometry.Material };
             }
             else
             {
+                isVisibleCheckBox.IsEnabled = false;
                 isVisibleCheckBox.IsChecked = false;
                 isHighlightedCheckBox.IsChecked = false;
+                isHighlightedCheckBox.IsEnabled = false;
                 MaterialControl = null;
             }
 

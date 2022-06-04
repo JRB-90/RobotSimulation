@@ -9,7 +9,6 @@ using JSimControlGallery.Controls;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace JSimControlGallery.ViewModels
@@ -30,7 +29,7 @@ namespace JSimControlGallery.ViewModels
             //        @"C:\Development\Test\Suzanne.stl",
             //        scene.Root
             //    );
-            //geometry =
+            //var geometry =
             //    ((ISceneAssembly)suzanne)
             //    .Children
             //    .OfType<ISceneAssembly>()
@@ -40,25 +39,21 @@ namespace JSimControlGallery.ViewModels
             //    .GeometryContainer.Root.Children
             //    .First();
 
-            var fanuc =
-                app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\robot.3ds",
-                    scene.Root
-                );
-            geometry =
-                ((ISceneAssembly)fanuc)
-                .Children
-                .OfType<ISceneAssembly>()
-                .Skip(1)
-                .First()
-                .OfType<ISceneEntity>()
-                .First()
-                .GeometryContainer.Root.Children
-                .First();
-
-            material = geometry.Material;
-            material.MaterialModified += Material_MaterialModified;
-            geometry.GeometryModified += Geometry_GeometryModified;
+            //var fanuc =
+            //    app.SceneManager.ModelImporter.LoadModel(
+            //        @"C:\Development\Test\robot.3ds",
+            //        scene.Root
+            //    );
+            //var geometry =
+            //    ((ISceneAssembly)fanuc)
+            //    .Children
+            //    .OfType<ISceneAssembly>()
+            //    .Skip(1)
+            //    .First()
+            //    .OfType<ISceneEntity>()
+            //    .First()
+            //    .GeometryContainer.Root.Children
+            //    .First();
 
             entity = scene.Root.CreateNewEntity("Entity");
             var geo1 = entity.GeometryContainer.Root.CreateChildGeometry("Geo1");
@@ -67,33 +62,9 @@ namespace JSimControlGallery.ViewModels
             var geo4 = geo3.CreateChildGeometry("Geo4");
             var geo5 = geo3.CreateChildGeometry("Geo5");
 
-            MaterialControl = new MaterialControl() { Material = Material };
-            GeometryControl = new GeometryControl() { Geometry = Geometry };
+            GeometryControl = new GeometryControl() { };
             GeometryTree = new GeometryTree() { GeometryContainer = Entity.GeometryContainer };
-
             GeometryTree.SelectedGeometry.Subscribe(g => OnGeometrySelectionChanged(g));
-        }
-
-        public IMaterial Material
-        {
-            get => material;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref material, value);
-                material.MaterialModified += Material_MaterialModified;
-                MaterialControl.Material = Material;
-            }
-        }
-
-        public IGeometry Geometry
-        {
-            get => geometry;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref geometry, value);
-                geometry.GeometryModified += Geometry_GeometryModified;
-                GeometryControl.Geometry = Geometry;
-            }
         }
 
         public ISceneEntity Entity
@@ -106,30 +77,9 @@ namespace JSimControlGallery.ViewModels
             }
         }
 
-        public MaterialControl MaterialControl { get; }
-
         public GeometryControl GeometryControl { get; }
 
         public GeometryTree GeometryTree { get; }
-
-        public void Check()
-        {
-            var suzanne =
-                app.SceneManager.ModelImporter.LoadModel(
-                    @"C:\Development\Test\Suzanne.stl",
-                    app.SceneManager.CurrentScene.Root
-                );
-            Geometry =
-                ((ISceneAssembly)suzanne)
-                .Children
-                .OfType<ISceneAssembly>()
-                .First()
-                .OfType<ISceneEntity>()
-                .First()
-                .GeometryContainer.Root.Children
-                .First();
-            Material = Geometry.Material;
-        }
 
         private static IWindsorContainer BootstrapContainer()
         {
@@ -145,23 +95,14 @@ namespace JSimControlGallery.ViewModels
             return container;
         }
 
-        private void Material_MaterialModified(object sender, MaterialModifiedEventArgs e)
+        private void OnGeometrySelectionChanged(IReadOnlyCollection<IGeometry>? selectedGeometry)
         {
-            Trace.WriteLine("Material modified");
+            if (selectedGeometry != null)
+            {
+                GeometryControl.Geometry = selectedGeometry.FirstOrDefault();
+            }
         }
 
-        private void Geometry_GeometryModified(object sender, GeometryModifiedEventArgs e)
-        {
-            Trace.WriteLine("Geometry modified");
-        }
-
-        private void OnGeometrySelectionChanged(IReadOnlyCollection<IGeometry> selectedGeometry)
-        {
-            Trace.WriteLine($"{selectedGeometry.Count} items selected");
-        }
-
-        private IMaterial material;
-        private IGeometry geometry;
         private ISceneEntity entity;
     }
 }

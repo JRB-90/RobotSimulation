@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using JSim.Core.Render;
 
@@ -78,12 +79,19 @@ namespace JSimControlGallery.Controls
         {
             if (geometry != null)
             {
-                RaisePropertyChanged(GeometryNameProperty, "", geometry.Name);
-                RaisePropertyChanged(GeometryIDProperty, "", geometry.ID.ToString());
                 isVisibleCheckBox.IsChecked = geometry.IsVisible;
                 isHighlightedCheckBox.IsChecked = geometry.IsHighlighted;
                 MaterialControl = new MaterialControl() { Material = geometry.Material };
             }
+            else
+            {
+                isVisibleCheckBox.IsChecked = false;
+                isHighlightedCheckBox.IsChecked = false;
+                MaterialControl = null;
+            }
+
+            RaisePropertyChanged(GeometryNameProperty, Optional<string?>.Empty, BindingValue<string?>.DoNothing);
+            RaisePropertyChanged(GeometryIDProperty, Optional<string?>.Empty, BindingValue<string?>.DoNothing);
         }
 
         private void OnIsVisibleChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
@@ -105,7 +113,7 @@ namespace JSimControlGallery.Controls
                 if (Geometry != null &&
                     isHighlightedCheckBox.IsChecked != null)
                 {
-                    Geometry.IsVisible = isHighlightedCheckBox.IsChecked.Value;
+                    Geometry.IsHighlighted = isHighlightedCheckBox.IsChecked.Value;
                 }
             }
         }

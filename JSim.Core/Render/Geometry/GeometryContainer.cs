@@ -13,6 +13,7 @@ namespace JSim.Core.Render
         {
             creator = geometryCreatorFactory.CreateGeometryCreator();
             Root = creator.CreateGeometry(null);
+            Root.Name = "Root";
         }
 
         public IGeometry Root { get; }

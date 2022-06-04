@@ -12,15 +12,7 @@ namespace JSimControlGallery.Models
         public GeometryModel(IGeometry geometry)
         {
             Geometry = geometry;
-
-            if (geometry.ParentGeometry == null)
-            {
-                Name = "Root";
-            }
-            else
-            {
-                Name = geometry.Name;
-            }
+            Name = geometry.Name;
 
             Children =
                 new ObservableCollection<GeometryModel>(

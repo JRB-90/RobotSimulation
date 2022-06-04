@@ -89,6 +89,7 @@ namespace JSimControlGallery.Controls
             diffuseColorButton.Color = ToAvaloniaColor(Material.Diffuse);
             specularColorButton.Color = ToAvaloniaColor(Material.Specular);
             Shininess = Material.Shininess;
+            shadingComboBox.SelectedItem = Material.Shading;
 
             Trace.WriteLine("Updated displayed material properties");
         }

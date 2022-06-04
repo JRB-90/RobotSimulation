@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:JSimControlGallery.Controls;assembly=JSimControlGallery"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
-		Width="400" Height="500"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+		Width="800" Height="600"
         x:Class="JSimControlGallery.Views.MainWindow"
 		x:Name="w"
         Icon="/Assets/avalonia-logo.ico"
@@ -30,7 +30,7 @@
 		</ExperimentalAcrylicBorder>
 
 		<Grid
-			RowDefinitions="30, Auto, *, Auto">
+			RowDefinitions="30, Auto, *">
 
 			<StackPanel
 				Grid.Row="0"
@@ -44,22 +44,21 @@
 					FontWeight="Bold"
 					Text="{Binding Title, ElementName=w}"/>
 			</StackPanel>
-			
+
 			<Grid
-				Grid.Row="1">
+				Grid.Row="1"
+				ColumnDefinitions="*, *">
 
 				<ContentControl
+					Grid.Column="0"
 					Margin="10"
 					Content="{Binding GeometryTree}"/>
+				
+				<ContentControl
+					Grid.Column="1"
+					Margin="10"
+					Content="{Binding GeometryControl}"/>
 			</Grid>
-			
-			<Button
-				Grid.Row="3"
-				Margin="5"
-				HorizontalAlignment="Center"
-				VerticalAlignment="Center"
-				Content="Check"
-				Command="{Binding Check}"/>
 		</Grid>
 	</Panel>
 </Window>

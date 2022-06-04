@@ -50,7 +50,7 @@
 
 				<ContentControl
 					Margin="10"
-					Content="{Binding GeometryControl}"/>
+					Content="{Binding GeometryTree}"/>
 			</Grid>
 			
 			<Button
@@ -61,7 +61,5 @@
 				Content="Check"
 				Command="{Binding Check}"/>
 		</Grid>
-		
 	</Panel>
-
 </Window>

@@ -7,6 +7,8 @@ using JSim.Core.SceneGraph;
 using JSim.Logging;
 using JSimControlGallery.Controls;
 using ReactiveUI;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -58,8 +60,18 @@ namespace JSimControlGallery.ViewModels
             material.MaterialModified += Material_MaterialModified;
             geometry.GeometryModified += Geometry_GeometryModified;
 
+            entity = scene.Root.CreateNewEntity("Entity");
+            var geo1 = entity.GeometryContainer.Root.CreateChildGeometry("Geo1");
+            var geo2 = entity.GeometryContainer.Root.CreateChildGeometry("Geo2");
+            var geo3 = geo2.CreateChildGeometry("Geo3");
+            var geo4 = geo3.CreateChildGeometry("Geo4");
+            var geo5 = geo3.CreateChildGeometry("Geo5");
+
             MaterialControl = new MaterialControl() { Material = Material };
             GeometryControl = new GeometryControl() { Geometry = Geometry };
+            GeometryTree = new GeometryTree() { GeometryContainer = Entity.GeometryContainer };
+
+            GeometryTree.SelectedGeometry.Subscribe(g => OnGeometrySelectionChanged(g));
         }
 
         public IMaterial Material
@@ -84,9 +96,21 @@ namespace JSimControlGallery.ViewModels
             }
         }
 
+        public ISceneEntity Entity
+        {
+            get => entity;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref entity, value);
+                GeometryTree.GeometryContainer = entity.GeometryContainer;
+            }
+        }
+
         public MaterialControl MaterialControl { get; }
 
         public GeometryControl GeometryControl { get; }
+
+        public GeometryTree GeometryTree { get; }
 
         public void Check()
         {
@@ -131,7 +155,13 @@ namespace JSimControlGallery.ViewModels
             Trace.WriteLine("Geometry modified");
         }
 
+        private void OnGeometrySelectionChanged(IReadOnlyCollection<IGeometry> selectedGeometry)
+        {
+            Trace.WriteLine($"{selectedGeometry.Count} items selected");
+        }
+
         private IMaterial material;
         private IGeometry geometry;
+        private ISceneEntity entity;
     }
 }

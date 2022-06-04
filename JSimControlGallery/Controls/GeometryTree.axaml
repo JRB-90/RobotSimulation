@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:models="clr-namespace:JSimControlGallery.Models;assembly=JSimControlGallery"
+			 xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400" 
+             x:Class="JSimControlGallery.Controls.GeometryTree"
+			 x:Name="uc"
+			 DataContext="{Binding $self}"> 
+	<TreeView
+		x:Name="GeometryTreeView"
+		SelectionMode="Multiple">
+
+		<TreeView.Styles>
+			<Style Selector="TreeViewItem">
+				<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+			</Style>
+		</TreeView.Styles>
+		
+		<TreeView.DataTemplates>
+			<TreeDataTemplate
+				DataType="models:GeometryModel"
+				ItemsSource="{Binding Children}">
+				<StackPanel
+					Orientation="Horizontal">
+					<StackPanel.ContextMenu>
+						<ContextMenu>
+							<MenuItem
+								Header="Remove"
+								Command="{Binding Remove}"/>
+							<MenuItem
+								Header="Create">
+								<MenuItem
+									Header="Cube"
+									Command="{Binding CreateCube}"/>
+								<MenuItem
+									Header="Frame"
+									Command="{Binding CreateFrame}"/>
+							</MenuItem>
+						</ContextMenu>
+					</StackPanel.ContextMenu>
+					
+					<i:Icon
+						Margin="0, 0, 10, 0"
+						Value="fa-light fa-cube"/>
+					<TextBlock
+						Text="{Binding Name}"/>
+				</StackPanel>
+			</TreeDataTemplate>
+		</TreeView.DataTemplates>
+	</TreeView>
+</UserControl>

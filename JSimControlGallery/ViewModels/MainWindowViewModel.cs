@@ -6,6 +6,7 @@ using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 using JSimControlGallery.Controls;
+using JSimControlGallery.GL;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -71,12 +72,15 @@ namespace JSimControlGallery.ViewModels
             SceneTree.SelectedObjects.Subscribe(o => OnSceneObjectSelectionChanged(o));
 
             DisplayedObjectControl = SceneObjectControl;
+
+            OpenGLControl = new OpenGLControl();
         }
 
         public GeometryControl GeometryControl { get; }
         public SceneObjectControl SceneObjectControl { get; }
         public GeometryTree GeometryTree { get; }
         public SceneTree SceneTree { get; }
+        public OpenGLControl OpenGLControl { get;}
 
         public object? DisplayedObjectControl
         {

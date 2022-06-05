@@ -22,6 +22,7 @@ namespace JSimControlGallery
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI()
+                .With(new Win32PlatformOptions() { UseWgl = true })
                 .WithIcons(container => container
                     .Register<FontAwesomeIconProvider>()
                     .Register<MaterialDesignIconProvider>()

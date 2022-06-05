@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:JSimControlGallery.Controls;assembly=JSimControlGallery"
+		xmlns:gl="clr-namespace:JSimControlGallery.GL;assembly=JSimControlGallery"
 		xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
-		Width="800" Height="600"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="600"
+		Width="1200" Height="600"
         x:Class="JSimControlGallery.Views.MainWindow"
 		x:Name="w"
         Icon="/Assets/avalonia-logo.ico"
@@ -31,7 +32,7 @@
 		</ExperimentalAcrylicBorder>
 
 		<Grid
-			RowDefinitions="30, Auto, *">
+			RowDefinitions="30, *">
 
 			<StackPanel
 				Grid.Row="0"
@@ -51,17 +52,7 @@
 
 			<Grid
 				Grid.Row="1"
-				ColumnDefinitions="*, *">
-				
-				<!--<ContentControl
-					Grid.Column="0"
-					Margin="10"
-					Content="{Binding SceneTree}"/>
-				
-				<ContentControl
-					Grid.Column="1"
-					Margin="10"
-					Content="{Binding GeometryControl}"/>-->
+				ColumnDefinitions="350, *, 350">
 
 				<TabControl
 					Grid.Column="0"
@@ -84,8 +75,12 @@
 					</TabItem>
 				</TabControl>
 
+				<ContentControl
+					Grid.Column="1"
+					Content="{Binding OpenGLControl}"/>
+				
 				<Grid
-					Grid.Column="1">
+					Grid.Column="2">
 					<ContentControl
 						Grid.Column="1"
 						Margin="5"

@@ -45,6 +45,16 @@ namespace JSimControlGallery.Models
 
         public ObservableCollection<SceneObjectModel> Children { get; }
 
+        public void CreateAssembly()
+        {
+            SceneAssembly.CreateNewAssembly();
+        }
+
+        public void CreateEntity()
+        {
+            SceneAssembly.CreateNewEntity();
+        }
+
         public override bool MoveAssembly(SceneAssemblyModel parentAssembly)
         {
             if (SceneAssembly.MoveAssembly(parentAssembly.SceneAssembly))

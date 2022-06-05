@@ -36,6 +36,16 @@ namespace JSimControlGallery.Models
             }
         }
 
+        public void Remove()
+        {
+            SceneObject.ParentAssembly?.DetachObject(SceneObject);
+        }
+
+        public bool CanRemove(object parameter)
+        {
+            return SceneObject.ParentAssembly != null;
+        }
+
         private bool isExpanded;
     }
 }

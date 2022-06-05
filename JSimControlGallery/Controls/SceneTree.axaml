@@ -26,7 +26,60 @@
 				<StackPanel
 					Orientation="Horizontal">
 					<StackPanel.ContextMenu>
+						<ContextMenu>
+							<MenuItem
+								Command="{Binding Remove}">
+								<MenuItem.Header>
+									<StackPanel
+										Orientation="Horizontal">
+										<i:Icon
+											Margin="0, 0, 10, 0"
+											Value="fa-light fa-trash"/>
+										<TextBlock
+											Text="Remove"/>
+									</StackPanel>
+								</MenuItem.Header>
+							</MenuItem>
+							<MenuItem>
+								<MenuItem.Header>
+									<StackPanel
+											Orientation="Horizontal">
+										<i:Icon
+											Margin="0, 0, 10, 0"
+											Value="fa-light fa-plus"/>
+										<TextBlock
+											Text="Create"/>
+									</StackPanel>
+								</MenuItem.Header>
 
+								<MenuItem
+									Command="{Binding CreateAssembly}">
+									<MenuItem.Header>
+										<StackPanel
+											Orientation="Horizontal">
+											<i:Icon
+												Margin="0, 0, 10, 0"
+												Value="fa-light fa-object-group"/>
+											<TextBlock
+												Text="Create Assembly"/>
+										</StackPanel>
+									</MenuItem.Header>
+								</MenuItem>
+								<MenuItem
+									Command="{Binding CreateEntity}">
+									<MenuItem.Header>
+										<StackPanel
+											Orientation="Horizontal">
+											<i:Icon
+												Margin="0, 0, 10, 0"
+												Value="fa-light fa-object-ungroup"/>
+											<TextBlock
+												Text="Create Entity"/>
+										</StackPanel>
+									</MenuItem.Header>
+								</MenuItem>
+							</MenuItem>
+						</ContextMenu>
 					</StackPanel.ContextMenu>
 
 					<i:Icon
@@ -42,7 +95,21 @@
 				<StackPanel
 					Orientation="Horizontal">
 					<StackPanel.ContextMenu>
-
+						<ContextMenu>
+							<MenuItem
+								Command="{Binding Remove}">
+								<MenuItem.Header>
+									<StackPanel
+										Orientation="Horizontal">
+										<i:Icon
+											Margin="0, 0, 10, 0"
+											Value="fa-light fa-trash"/>
+										<TextBlock
+											Text="Remove"/>
+									</StackPanel>
+								</MenuItem.Header>
+							</MenuItem>
+						</ContextMenu>
 					</StackPanel.ContextMenu>
 
 					<i:Icon
@@ -58,7 +125,21 @@
 				<StackPanel
 					Orientation="Horizontal">
 					<StackPanel.ContextMenu>
-
+						<ContextMenu>
+							<MenuItem
+								Command="{Binding Remove}">
+								<MenuItem.Header>
+									<StackPanel
+										Orientation="Horizontal">
+										<i:Icon
+											Margin="0, 0, 10, 0"
+											Value="fa-light fa-trash"/>
+										<TextBlock
+											Text="Remove"/>
+									</StackPanel>
+								</MenuItem.Header>
+							</MenuItem>
+						</ContextMenu>
 					</StackPanel.ContextMenu>
 
 					<i:Icon

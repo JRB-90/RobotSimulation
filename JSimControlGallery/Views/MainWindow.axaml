@@ -52,8 +52,8 @@
 			<Grid
 				Grid.Row="1"
 				ColumnDefinitions="*, *">
-
-				<ContentControl
+				
+				<!--<ContentControl
 					Grid.Column="0"
 					Margin="10"
 					Content="{Binding SceneTree}"/>
@@ -61,7 +61,35 @@
 				<ContentControl
 					Grid.Column="1"
 					Margin="10"
-					Content="{Binding GeometryControl}"/>
+					Content="{Binding GeometryControl}"/>-->
+
+				<TabControl
+					Grid.Column="0">
+					<TabItem
+						Header="Scene"
+						VerticalContentAlignment="Center">
+						<ContentControl
+							Grid.Column="0"
+							Margin="5"
+							Content="{Binding SceneTree}"/>
+					</TabItem>
+					<TabItem
+						Header="Geometry"
+						VerticalContentAlignment="Center">
+						<ContentControl
+							Grid.Column="0"
+							Margin="5"
+							Content="{Binding GeometryTree}"/>
+					</TabItem>
+				</TabControl>
+
+				<Grid
+					Grid.Column="1">
+					<ContentControl
+						Grid.Column="1"
+						Margin="5"
+						Content="{Binding GeometryControl}"/>
+				</Grid>
 			</Grid>
 		</Grid>
 	</Panel>

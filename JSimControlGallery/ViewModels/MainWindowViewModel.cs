@@ -99,7 +99,17 @@ namespace JSimControlGallery.ViewModels
 
         private void OnSceneObjectSelectionChanged(IReadOnlyCollection<ISceneObject>? sceneObjects)
         {
+            if (sceneObjects != null)
+            {
+                var sceneObject = sceneObjects.FirstOrDefault();
 
+                if (sceneObject != null &&
+                    sceneObject is ISceneEntity entity)
+                {
+                    GeometryTree.GeometryContainer = entity.GeometryContainer;
+                    GeometryControl.Geometry = entity.GeometryContainer.Root;
+                }
+            }
         }
 
         private ISceneEntity entity;

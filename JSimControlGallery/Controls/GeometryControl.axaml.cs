@@ -65,6 +65,15 @@ namespace JSimControlGallery.Controls
                 o => o.MaterialControl
             );
 
+        public static readonly DirectProperty<GeometryControl, int?> VertexCountProperty =
+            AvaloniaProperty.RegisterDirect<GeometryControl, int?>(
+                nameof(VertexCount),
+                o => o.VertexCount
+            );
+
+        public int? VertexCount =>
+            Geometry?.Vertices.Count;
+
         public MaterialControl? MaterialControl
         {
             get => materialControl;
@@ -97,6 +106,7 @@ namespace JSimControlGallery.Controls
 
             RaisePropertyChanged(GeometryNameProperty, Optional<string?>.Empty, BindingValue<string?>.DoNothing);
             RaisePropertyChanged(GeometryIDProperty, Optional<string?>.Empty, BindingValue<string?>.DoNothing);
+            RaisePropertyChanged(VertexCountProperty, Optional<int?>.Empty, BindingValue<int?>.DoNothing);
         }
 
         private void OnIsVisibleChanged(object? sender, AvaloniaPropertyChangedEventArgs e)

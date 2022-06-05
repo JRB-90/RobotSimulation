@@ -79,6 +79,22 @@
 			VerticalAlignment="Center"
 			HorizontalAlignment="Left"/>
 
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="4"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="Vertices"/>
+		<TextBlock
+			Grid.Column="1"
+			Grid.Row="4"
+			Grid.ColumnSpan="2"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Left"
+			Text="{Binding VertexCount}"/>
+
 		<Expander
 			Grid.Column="1"
 			Grid.Row="5"

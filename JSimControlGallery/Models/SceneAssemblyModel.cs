@@ -1,4 +1,5 @@
-﻿using JSim.Core.Common;
+﻿using Avalonia.Controls;
+using JSim.Core.Common;
 using JSim.Core.SceneGraph;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

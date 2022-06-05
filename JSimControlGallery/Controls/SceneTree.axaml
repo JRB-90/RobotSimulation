@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:models="clr-namespace:JSimControlGallery.Models;assembly=JSimControlGallery"
+			 xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
+             x:Class="JSimControlGallery.Controls.SceneTree"
+			 x:Name="uc"
+			 DataContext="{Binding $self}">
+
+	<TreeView
+		x:Name="SceneTreeView"
+		SelectionMode="Multiple">
+
+		<TreeView.Styles>
+			<Style Selector="TreeViewItem">
+				<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+			</Style>
+		</TreeView.Styles>
+
+		<TreeView.DataTemplates>
+			<TreeDataTemplate
+				DataType="models:SceneAssemblyModel"
+				ItemsSource="{Binding Children}">
+				<StackPanel
+					Orientation="Horizontal">
+					<StackPanel.ContextMenu>
+
+					</StackPanel.ContextMenu>
+
+					<i:Icon
+						Margin="0, 0, 10, 0"
+						Value="{Binding Icon}"/>
+					<TextBlock
+						Text="{Binding Name}"/>
+				</StackPanel>
+			</TreeDataTemplate>
+
+			<DataTemplate
+				DataType="models:SceneEntityModel">
+				<StackPanel
+					Orientation="Horizontal">
+					<StackPanel.ContextMenu>
+
+					</StackPanel.ContextMenu>
+
+					<i:Icon
+						Margin="0, 0, 10, 0"
+						Value="{Binding Icon}"/>
+					<TextBlock
+						Text="{Binding Name}"/>
+				</StackPanel>
+			</DataTemplate>
+
+			<DataTemplate
+				DataType="models:SceneObjectModel">
+				<StackPanel
+					Orientation="Horizontal">
+					<StackPanel.ContextMenu>
+
+					</StackPanel.ContextMenu>
+
+					<i:Icon
+						Margin="0, 0, 10, 0"
+						Value="{Binding Icon}"/>
+					<TextBlock
+						Text="{Binding Name}"/>
+				</StackPanel>
+			</DataTemplate>
+		</TreeView.DataTemplates>
+	</TreeView>
+</UserControl>

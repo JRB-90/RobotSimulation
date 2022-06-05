@@ -56,7 +56,7 @@
 				<ContentControl
 					Grid.Column="0"
 					Margin="10"
-					Content="{Binding GeometryTree}"/>
+					Content="{Binding SceneTree}"/>
 				
 				<ContentControl
 					Grid.Column="1"

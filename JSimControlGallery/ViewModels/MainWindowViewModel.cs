@@ -24,20 +24,20 @@ namespace JSimControlGallery.ViewModels
             ISceneManager sceneManager = app.SceneManager;
             IScene scene = sceneManager.CurrentScene;
 
-            //var suzanne =
-            //    app.SceneManager.ModelImporter.LoadModel(
-            //        @"C:\Development\Test\Suzanne.stl",
-            //        scene.Root
-            //    );
-            //var geometry =
-            //    ((ISceneAssembly)suzanne)
-            //    .Children
-            //    .OfType<ISceneAssembly>()
-            //    .First()
-            //    .OfType<ISceneEntity>()
-            //    .First()
-            //    .GeometryContainer.Root.Children
-            //    .First();
+            var suzanne =
+                app.SceneManager.ModelImporter.LoadModel(
+                    @"C:\Development\Test\Suzanne.stl",
+                    scene.Root
+                );
+            var geometry =
+                ((ISceneAssembly)suzanne)
+                .Children
+                .OfType<ISceneAssembly>()
+                .First()
+                .OfType<ISceneEntity>()
+                .First()
+                .GeometryContainer.Root.Children
+                .First();
 
             //var fanuc =
             //    app.SceneManager.ModelImporter.LoadModel(
@@ -63,23 +63,17 @@ namespace JSimControlGallery.ViewModels
             var geo5 = geo3.CreateChildGeometry("Geo5");
 
             GeometryControl = new GeometryControl() { };
-            GeometryTree = new GeometryTree() { GeometryContainer = Entity.GeometryContainer };
+            GeometryTree = new GeometryTree() { GeometryContainer = entity.GeometryContainer };
             GeometryTree.SelectedGeometry.Subscribe(g => OnGeometrySelectionChanged(g));
-        }
-
-        public ISceneEntity Entity
-        {
-            get => entity;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref entity, value);
-                GeometryTree.GeometryContainer = entity.GeometryContainer;
-            }
+            SceneTree = new SceneTree() { Scene = scene };
+            SceneTree.SelectedObjects.Subscribe(o => OnSceneObjectSelectionChanged(o));
         }
 
         public GeometryControl GeometryControl { get; }
 
         public GeometryTree GeometryTree { get; }
+
+        public SceneTree SceneTree { get; }
 
         private static IWindsorContainer BootstrapContainer()
         {
@@ -101,6 +95,11 @@ namespace JSimControlGallery.ViewModels
             {
                 GeometryControl.Geometry = selectedGeometry.FirstOrDefault();
             }
+        }
+
+        private void OnSceneObjectSelectionChanged(IReadOnlyCollection<ISceneObject>? sceneObjects)
+        {
+
         }
 
         private ISceneEntity entity;

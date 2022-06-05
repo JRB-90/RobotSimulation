@@ -65,15 +65,42 @@ namespace JSimControlGallery.ViewModels
             GeometryControl = new GeometryControl() { };
             GeometryTree = new GeometryTree() { GeometryContainer = entity.GeometryContainer };
             GeometryTree.SelectedGeometry.Subscribe(g => OnGeometrySelectionChanged(g));
+
+            SceneObjectControl = new SceneObjectControl() { };
             SceneTree = new SceneTree() { Scene = scene };
             SceneTree.SelectedObjects.Subscribe(o => OnSceneObjectSelectionChanged(o));
+
+            DisplayedObjectControl = SceneObjectControl;
         }
 
         public GeometryControl GeometryControl { get; }
-
+        public SceneObjectControl SceneObjectControl { get; }
         public GeometryTree GeometryTree { get; }
-
         public SceneTree SceneTree { get; }
+
+        public object? DisplayedObjectControl
+        {
+            get => displayedObjectControl;
+            set => this.RaiseAndSetIfChanged(ref displayedObjectControl, value);
+        }
+
+        public int SelectedTab
+        {
+            get => selectedTab;
+            set
+            {
+                selectedTab = value;
+
+                if (selectedTab == 0)
+                {
+                    DisplayedObjectControl = SceneObjectControl;
+                }
+                else
+                {
+                    DisplayedObjectControl = GeometryControl;
+                }
+            }
+        }
 
         private static IWindsorContainer BootstrapContainer()
         {
@@ -102,6 +129,7 @@ namespace JSimControlGallery.ViewModels
             if (sceneObjects != null)
             {
                 var sceneObject = sceneObjects.FirstOrDefault();
+                SceneObjectControl.SceneObject = sceneObject;
 
                 if (sceneObject != null &&
                     sceneObject is ISceneEntity entity)
@@ -109,9 +137,16 @@ namespace JSimControlGallery.ViewModels
                     GeometryTree.GeometryContainer = entity.GeometryContainer;
                     GeometryControl.Geometry = entity.GeometryContainer.Root;
                 }
+                else
+                {
+                    GeometryTree.GeometryContainer = null;
+                    GeometryControl.Geometry = null;
+                }
             }
         }
 
         private ISceneEntity entity;
+        private int selectedTab;
+        private object? displayedObjectControl;
     }
 }

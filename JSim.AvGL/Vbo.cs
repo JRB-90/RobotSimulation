@@ -1,4 +1,4 @@
-﻿namespace JSimControlGallery.GL
+﻿namespace JSim.AvGL
 {
     /// <summary>
     /// Struct representing an OpenGL VBO.

@@ -5,7 +5,7 @@ using JSim.Core.Render;
 using System.Diagnostics;
 using static Avalonia.OpenGL.GlConsts;
 
-namespace JSimControlGallery.GL
+namespace JSim.AvGL
 {
     public class OpenGLControl : OpenGlControlBase
     {

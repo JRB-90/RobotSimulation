@@ -1,13 +1,11 @@
 ﻿using Avalonia.OpenGL;
 using Avalonia.Platform.Interop;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Avalonia.OpenGL.GlConsts;
 using static Avalonia.OpenGL.GlInterface;
 
-namespace JSimControlGallery.GL
+namespace JSim.AvGL
 {
     public unsafe class GLBindingsInterface : GlInterfaceBase<GlInterface.GlContextInfo>
     {

@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Avalonia.OpenGL.GlConsts;
 
-namespace JSimControlGallery.GL
+namespace JSim.AvGL
 {
     /// <summary>
     /// Static class to provide static VBO helper functions to aid building and drawing VBO's.

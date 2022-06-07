@@ -2,6 +2,7 @@
 using JSim.Core.Common;
 using JSim.Core.Render;
 using System.Reflection;
+using static Avalonia.OpenGL.GlConsts;
 
 namespace JSim.AvGL
 {
@@ -110,7 +111,7 @@ namespace JSim.AvGL
 
         private string ProcessShader(
             string shaderSource, 
-            ShaderType shaderType,
+            int shaderType,
             GLVersion targetVersion)
         {
             string[] lines = shaderSource.Split(Environment.NewLine);
@@ -202,7 +203,7 @@ namespace JSim.AvGL
         private string ProcessVarying(
             string line,
             GLVersion targetVersion,
-            ShaderType shaderType)
+            int shaderType)
         {
             if (targetVersion <= new GLVersion(1, 2))
             {
@@ -210,7 +211,7 @@ namespace JSim.AvGL
             }
             else
             {
-                if (shaderType == ShaderType.VertexShader)
+                if (shaderType == GL_VERTEX_SHADER)
                 {
                     return line.Replace("varying", "out");
                 }

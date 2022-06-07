@@ -228,100 +228,7 @@ namespace JSim.AvGL
         [GlEntryPoint("glFramebufferTexture2D")]
         public GlFramebufferTexture2D FramebufferTexture2D { get; }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate int GlCreateShader(int shaderType);
-        [GlEntryPoint("glCreateShader")]
-        public GlCreateShader CreateShader { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlShaderSource(int shader, int count, IntPtr strings, IntPtr lengths);
-        [GlEntryPoint("glShaderSource")]
-        public GlShaderSource ShaderSource { get; }
-
-        public void ShaderSourceString(int shader, string source)
-        {
-            using (var b = new Utf8Buffer(source))
-            {
-                var ptr = b.DangerousGetHandle();
-                var len = new IntPtr(b.ByteLen);
-                ShaderSource(shader, 1, new IntPtr(&ptr), new IntPtr(&len));
-            }
-        }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlCompileShader(int shader);
-        [GlEntryPoint("glCompileShader")]
-        public GlCompileShader CompileShader { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlGetShaderiv(int shader, int name, int* parameters);
-        [GlEntryPoint("glGetShaderiv")]
-        public GlGetShaderiv GetShaderiv { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlGetShaderInfoLog(int shader, int maxLength, out int length, void* infoLog);
-        [GlEntryPoint("glGetShaderInfoLog")]
-        public GlGetShaderInfoLog GetShaderInfoLog { get; }
-
-        public unsafe string CompileShaderAndGetError(int shader, string source)
-        {
-            ShaderSourceString(shader, source);
-            CompileShader(shader);
-            int compiled;
-            GetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-            if (compiled != 0)
-                return null;
-            int logLength;
-            GetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
-            if (logLength == 0)
-                logLength = 4096;
-            var logData = new byte[logLength];
-            int len;
-            fixed (void* ptr = logData)
-                GetShaderInfoLog(shader, logLength, out len, ptr);
-            return Encoding.UTF8.GetString(logData, 0, len);
-        }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate int GlCreateProgram();
-        [GlEntryPoint("glCreateProgram")]
-        public GlCreateProgram CreateProgram { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlAttachShader(int program, int shader);
-        [GlEntryPoint("glAttachShader")]
-        public GlAttachShader AttachShader { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlLinkProgram(int program);
-        [GlEntryPoint("glLinkProgram")]
-        public GlLinkProgram LinkProgram { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlGetProgramiv(int program, int name, int* parameters);
-        [GlEntryPoint("glGetProgramiv")]
-        public GlGetProgramiv GetProgramiv { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlGetProgramInfoLog(int program, int maxLength, out int len, void* infoLog);
-        [GlEntryPoint("glGetProgramInfoLog")]
-        public GlGetProgramInfoLog GetProgramInfoLog { get; }
-
-        public unsafe string LinkProgramAndGetError(int program)
-        {
-            LinkProgram(program);
-            int compiled;
-            GetProgramiv(program, GL_LINK_STATUS, &compiled);
-            if (compiled != 0)
-                return null;
-            int logLength;
-            GetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-            var logData = new byte[logLength];
-            int len;
-            fixed (void* ptr = logData)
-                GetProgramInfoLog(program, logLength, out len, ptr);
-            return Encoding.UTF8.GetString(logData, 0, len);
-        }
+        
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlBindAttribLocation(int program, int index, IntPtr name);
@@ -394,27 +301,6 @@ namespace JSim.AvGL
         public GlDrawElements DrawElements { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate int GlGetUniformLocation(int program, IntPtr name);
-        [GlEntryPoint("glGetUniformLocation")]
-        public GlGetUniformLocation GetUniformLocation { get; }
-
-        public int GetUniformLocationString(int program, string name)
-        {
-            using (var b = new Utf8Buffer(name))
-                return GetUniformLocation(program, b.DangerousGetHandle());
-        }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlUniform1f(int location, float falue);
-        [GlEntryPoint("glUniform1f")]
-        public GlUniform1f Uniform1f { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlUniformMatrix4fv(int location, int count, bool transpose, void* value);
-        [GlEntryPoint("glUniformMatrix4fv")]
-        public GlUniformMatrix4fv UniformMatrix4fv { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlEnable(int what);
         [GlEntryPoint("glEnable")]
         public GlEnable Enable { get; }
@@ -438,6 +324,228 @@ namespace JSim.AvGL
         public delegate void GLGetRenderbufferParameteriv(int target, int name, int[] value);
         [GlEntryPoint("glGetRenderbufferParameteriv")]
         public GLGetRenderbufferParameteriv GetRenderbufferParameteriv { get; }
+
+        #endregion
+
+        #region Shaders
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate int GlCreateShader(int shaderType);
+        [GlEntryPoint("glCreateShader")]
+        public GlCreateShader CreateShader { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlShaderSource(int shader, int count, IntPtr strings, IntPtr lengths);
+        [GlEntryPoint("glShaderSource")]
+        public GlShaderSource ShaderSource { get; }
+
+        public void ShaderSourceString(int shader, string source)
+        {
+            using (var b = new Utf8Buffer(source))
+            {
+                var ptr = b.DangerousGetHandle();
+                var len = new IntPtr(b.ByteLen);
+                ShaderSource(shader, 1, new IntPtr(&ptr), new IntPtr(&len));
+            }
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlCompileShader(int shader);
+        [GlEntryPoint("glCompileShader")]
+        public GlCompileShader CompileShader { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlGetShaderiv(int shader, int name, int* parameters);
+        [GlEntryPoint("glGetShaderiv")]
+        public GlGetShaderiv GetShaderiv { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlGetShaderInfoLog(int shader, int maxLength, out int length, void* infoLog);
+        [GlEntryPoint("glGetShaderInfoLog")]
+        public GlGetShaderInfoLog GetShaderInfoLog { get; }
+
+        //public unsafe string CompileShaderAndGetError(int shader, string source)
+        //{
+        //    ShaderSourceString(shader, source);
+        //    CompileShader(shader);
+        //    int compiled;
+        //    GetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+        //    if (compiled != 0)
+        //        return null;
+        //    int logLength;
+        //    GetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+        //    if (logLength == 0)
+        //        logLength = 4096;
+        //    var logData = new byte[logLength];
+        //    int len;
+        //    fixed (void* ptr = logData)
+        //        GetShaderInfoLog(shader, logLength, out len, ptr);
+        //    return Encoding.UTF8.GetString(logData, 0, len);
+        //}
+
+        public unsafe bool CompileShaderAndGetError(int shader, string source, out string errorString)
+        {
+            int compiled;
+            ShaderSourceString(shader, source);
+            CompileShader(shader);
+            GetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
+            if (compiled != 0)
+            {
+                errorString = "";
+
+                return false;
+            }
+
+            int logLength;
+            GetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+
+            if (logLength == 0)
+            {
+                logLength = 4096;
+            }
+
+            int len;
+            var logData = new byte[logLength];
+
+            fixed (void* ptr = logData)
+            {
+                GetShaderInfoLog(shader, logLength, out len, ptr);
+            }
+
+            errorString = Encoding.UTF8.GetString(logData, 0, len);
+
+            return true;
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate int GlCreateProgram();
+        [GlEntryPoint("glCreateProgram")]
+        public GlCreateProgram CreateProgram { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlAttachShader(int program, int shader);
+        [GlEntryPoint("glAttachShader")]
+        public GlAttachShader AttachShader { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlLinkProgram(int program);
+        [GlEntryPoint("glLinkProgram")]
+        public GlLinkProgram LinkProgram { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlGetProgramiv(int program, int name, int* parameters);
+        [GlEntryPoint("glGetProgramiv")]
+        public GlGetProgramiv GetProgramiv { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlGetProgramInfoLog(int program, int maxLength, out int len, void* infoLog);
+        [GlEntryPoint("glGetProgramInfoLog")]
+        public GlGetProgramInfoLog GetProgramInfoLog { get; }
+
+        //public unsafe string LinkProgramAndGetError(int program)
+        //{
+        //    LinkProgram(program);
+        //    int compiled;
+        //    GetProgramiv(program, GL_LINK_STATUS, &compiled);
+        //    if (compiled != 0)
+        //        return null;
+        //    int logLength;
+        //    GetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+        //    var logData = new byte[logLength];
+        //    int len;
+        //    fixed (void* ptr = logData)
+        //        GetProgramInfoLog(program, logLength, out len, ptr);
+        //    return Encoding.UTF8.GetString(logData, 0, len);
+        //}
+
+        public unsafe bool LinkProgramAndGetError(int program, out string errorString)
+        {
+            int compiled;
+            LinkProgram(program);
+            GetProgramiv(program, GL_LINK_STATUS, &compiled);
+
+            if (compiled != 0)
+            {
+                errorString = "";
+
+                return false;
+            }
+
+            int logLength;
+            int len;
+            GetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+            var logData = new byte[logLength];
+
+            fixed (void* ptr = logData)
+            {
+                GetProgramInfoLog(program, logLength, out len, ptr);
+            }
+
+            errorString = Encoding.UTF8.GetString(logData, 0, len);
+
+            return true;
+        }
+
+        #endregion
+
+        #region Uniforms
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate int GlGetUniformLocation(int program, IntPtr name);
+        [GlEntryPoint("glGetUniformLocation")]
+        public GlGetUniformLocation GetUniformLocation { get; }
+
+        public int GetUniformLocationString(int program, string name)
+        {
+            using (var b = new Utf8Buffer(name))
+                return GetUniformLocation(program, b.DangerousGetHandle());
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform1i(int location, int v1);
+        [GlEntryPoint("Uniform1i")]
+        public GlUniform1i Uniform1i { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform2i(int location, int v1, int v2);
+        [GlEntryPoint("Uniform2i")]
+        public GlUniform2i Uniform2i { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform3i(int location, int v1, int v2, int v3);
+        [GlEntryPoint("Uniform3i")]
+        public GlUniform3i Uniform3i { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform4i(int location, int v1, int v2, int v3, int v4);
+        [GlEntryPoint("Uniform4i")]
+        public GlUniform4i Uniform4i { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform1f(int location, float v1);
+        [GlEntryPoint("glUniform1f")]
+        public GlUniform1f Uniform1f { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform2f(int location, float v1, float v2);
+        [GlEntryPoint("glUniform2f")]
+        public GlUniform2f Uniform2f { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform3f(int location, float v1, float v2, float v3);
+        [GlEntryPoint("glUniform3f")]
+        public GlUniform3f Uniform3f { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniform4f(int location, float v1, float v2, float v3, float v4);
+        [GlEntryPoint("glUniform4f")]
+        public GlUniform4f Uniform4f { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUniformMatrix4fv(int location, int count, bool transpose, void* value);
+        [GlEntryPoint("glUniformMatrix4fv")]
+        public GlUniformMatrix4fv UniformMatrix4fv { get; }
 
         #endregion
 

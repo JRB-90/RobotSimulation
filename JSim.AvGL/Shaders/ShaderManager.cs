@@ -13,9 +13,9 @@ namespace JSim.AvGL
         const string BASIC_FS = "basicFS.glsl";
         const string ADVANCED_FS = "advancedFS.glsl";
 
-        //readonly BasicShader basicShader;
-        //readonly AdvancedShader flatShader;
-        //readonly AdvancedShader smoothShader;
+        readonly BasicShader basicShader;
+        readonly AdvancedShader flatShader;
+        readonly AdvancedShader smoothShader;
 
         public ShaderManager(
             ILogger logger,
@@ -32,52 +32,55 @@ namespace JSim.AvGL
                 targetVersion = new GLVersion(3, 3);
             }
 
-            //string basicVS =
-            //    ProcessShader(
-            //        LoadShaderFile(BASIC_VS),
-            //        ShaderType.VertexShader,
-            //        targetVersion
-            //    );
+            string basicVS =
+                ProcessShader(
+                    LoadShaderFile(BASIC_VS),
+                    GL_VERTEX_SHADER,
+                    targetVersion
+                );
 
-            //string basicFS =
-            //    ProcessShader(
-            //        LoadShaderFile(BASIC_FS),
-            //        ShaderType.FragmentShader,
-            //        targetVersion
-            //    );
+            string basicFS =
+                ProcessShader(
+                    LoadShaderFile(BASIC_FS),
+                    GL_FRAGMENT_SHADER,
+                    targetVersion
+                );
 
-            //string advancedFS =
-            //    ProcessShader(
-            //        LoadShaderFile(ADVANCED_FS),
-            //        ShaderType.FragmentShader,
-            //        targetVersion
-            //    );
+            string advancedFS =
+                ProcessShader(
+                    LoadShaderFile(ADVANCED_FS),
+                    GL_FRAGMENT_SHADER,
+                    targetVersion
+                );
 
-            //basicShader =
-            //    new BasicShader(
-            //        logger,
-            //        gLVersion,
-            //        basicVS,
-            //        basicFS
-            //    );
+            basicShader =
+                new BasicShader(
+                    logger,
+                    gLVersion,
+                    gl,
+                    basicVS,
+                    basicFS
+                );
 
-            //flatShader =
-            //    new AdvancedShader(
-            //        logger,
-            //        gLVersion,
-            //        basicVS,
-            //        advancedFS,
-            //        true
-            //    );
+            flatShader =
+                new AdvancedShader(
+                    logger,
+                    gLVersion,
+                    gl,
+                    basicVS,
+                    advancedFS,
+                    true
+                );
 
-            //smoothShader =
-            //    new AdvancedShader(
-            //        logger,
-            //        gLVersion,
-            //        basicVS,
-            //        advancedFS,
-            //        false
-            //    );
+            smoothShader =
+                new AdvancedShader(
+                    logger,
+                    gLVersion,
+                    gl,
+                    basicVS,
+                    advancedFS,
+                    false
+                );
         }
 
         internal IShader FindShader(ShadingType shadingType)
@@ -86,14 +89,14 @@ namespace JSim.AvGL
             {
                 //case ShadingType.Wire:
                 //    return wireShader;
-                //case ShadingType.Solid:
-                //    return basicShader;
-                //case ShadingType.Flat:
-                //    return flatShader;
-                //case ShadingType.Smooth:
-                //    return smoothShader;
-                //default:
-                //    return basicShader;
+                case ShadingType.Solid:
+                    return basicShader;
+                case ShadingType.Flat:
+                    return flatShader;
+                case ShadingType.Smooth:
+                    return smoothShader;
+                default:
+                    return basicShader;
             }
 
             throw new NotImplementedException();

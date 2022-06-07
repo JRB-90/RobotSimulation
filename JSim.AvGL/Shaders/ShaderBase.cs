@@ -68,9 +68,7 @@ namespace JSim.AvGL
         /// <param name="name">Name of the uniform.</param>
         protected void AddUniform(string name)
         {
-            IntPtr namePtr = Marshal.StringToHGlobalUni(name);
-            int uniformID = gl.GetUniformLocation(program, namePtr);
-            Marshal.FreeHGlobal(namePtr);
+            int uniformID = gl.GetUniformLocationString(program, name);
 
             if (uniformID == -1)
             {

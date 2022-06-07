@@ -32,6 +32,8 @@ namespace JSim.AvGL
 
             vbo = VboUtils.CreateVbo(glb, vertices, indices);
 
+            ShaderManager sm = new ShaderManager(new AvaloniaLogger(), glb, new GLVersion(4, 0));
+
             CheckError();
         }
 

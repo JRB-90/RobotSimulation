@@ -394,7 +394,7 @@ namespace JSim.AvGL
             {
                 errorString = "";
 
-                return false;
+                return true;
             }
 
             int logLength;
@@ -415,7 +415,7 @@ namespace JSim.AvGL
 
             errorString = Encoding.UTF8.GetString(logData, 0, len);
 
-            return true;
+            return false;
         }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -469,7 +469,7 @@ namespace JSim.AvGL
             {
                 errorString = "";
 
-                return false;
+                return true;
             }
 
             int logLength;
@@ -484,7 +484,7 @@ namespace JSim.AvGL
 
             errorString = Encoding.UTF8.GetString(logData, 0, len);
 
-            return true;
+            return false;
         }
 
         #endregion
@@ -504,22 +504,22 @@ namespace JSim.AvGL
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlUniform1i(int location, int v1);
-        [GlEntryPoint("Uniform1i")]
+        [GlEntryPoint("glUniform1i")]
         public GlUniform1i Uniform1i { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlUniform2i(int location, int v1, int v2);
-        [GlEntryPoint("Uniform2i")]
+        [GlEntryPoint("glUniform2i")]
         public GlUniform2i Uniform2i { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlUniform3i(int location, int v1, int v2, int v3);
-        [GlEntryPoint("Uniform3i")]
+        [GlEntryPoint("glUniform3i")]
         public GlUniform3i Uniform3i { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlUniform4i(int location, int v1, int v2, int v3, int v4);
-        [GlEntryPoint("Uniform4i")]
+        [GlEntryPoint("glUniform4i")]
         public GlUniform4i Uniform4i { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]

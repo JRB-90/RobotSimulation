@@ -58,19 +58,18 @@ namespace JSim.AvGL
             return new GLBindingsInterface(version, getProcAddress);
         }
 
-        #region Properties
-
         public string Version { get; }
-        public string Vendor { get; }
-        public string Renderer { get; }
-        public GlContextInfo ContextInfo { get; }
 
-        #endregion
+        public string Vendor { get; }
+
+        public string Renderer { get; }
+
+        public GlContextInfo ContextInfo { get; }
 
         public T GetProcAddress<T>(string proc) => 
             Marshal.GetDelegateForFunctionPointer<T>(GetProcAddress(proc));
 
-        #region GL Invokes
+        #region Misc GL
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate int GlGetError();
@@ -96,15 +95,6 @@ namespace JSim.AvGL
         public delegate void GlViewport(int x, int y, int width, int height);
         [GlEntryPoint("glViewport")]
         public GlViewport Viewport { get; }
-
-        [GlEntryPoint("glFlush")]
-        public UnmanagedAction Flush { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void UnmanagedAction();
-
-        [GlEntryPoint("glFinish")]
-        public UnmanagedAction Finish { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr GlGetString(int v);
@@ -228,8 +218,6 @@ namespace JSim.AvGL
         [GlEntryPoint("glFramebufferTexture2D")]
         public GlFramebufferTexture2D FramebufferTexture2D { get; }
 
-        
-
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlBindAttribLocation(int program, int index, IntPtr name);
         [GlEntryPoint("glBindAttribLocation")]
@@ -286,11 +274,6 @@ namespace JSim.AvGL
         public GlEnableVertexAttribArray EnableVertexAttribArray { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlUseProgram(int program);
-        [GlEntryPoint("glUseProgram")]
-        public GlUseProgram UseProgram { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlDrawArrays(int mode, int first, IntPtr count);
         [GlEntryPoint("glDrawArrays")]
         public GlDrawArrays DrawArrays { get; }
@@ -301,29 +284,62 @@ namespace JSim.AvGL
         public GlDrawElements DrawElements { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlEnable(int what);
-        [GlEntryPoint("glEnable")]
-        public GlEnable Enable { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlDeleteBuffers(int count, int[] buffers);
         [GlEntryPoint("glDeleteBuffers")]
         public GlDeleteBuffers DeleteBuffers { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlDeleteProgram(int program);
-        [GlEntryPoint("glDeleteProgram")]
-        public GlDeleteProgram DeleteProgram { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlDeleteShader(int shader);
-        [GlEntryPoint("glDeleteShader")]
-        public GlDeleteShader DeleteShader { get; }
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GLGetRenderbufferParameteriv(int target, int name, int[] value);
         [GlEntryPoint("glGetRenderbufferParameteriv")]
         public GLGetRenderbufferParameteriv GetRenderbufferParameteriv { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlDisableVertexAttribArray(int index);
+        [GlEntryPoint("glDisableVertexAttribArray")]
+        public GlDisableVertexAttribArray DisableVertexAttribArray { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlGetBufferParameter(int target, int value, out int data);
+        [GlEntryPoint("glGetBufferParameteriv")]
+        public GlGetBufferParameter GetBufferParameter { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlStencilFunc(int func, int reference, int mask);
+        [GlEntryPoint("glStencilFunc")]
+        public GlStencilFunc StencilFunc { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlStencilOp(int sfail, int dpfail, int dppass);
+        [GlEntryPoint("glStencilOp")]
+        public GlStencilOp StencilOp { get; }
+
+        #endregion
+
+        #region GL State
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlEnable(int what);
+        [GlEntryPoint("glEnable")]
+        public GlEnable Enable { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlDisable(int what);
+        [GlEntryPoint("glDisable")]
+        public GlDisable Disable { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlHint(int hintTarget, int value);
+        [GlEntryPoint("glHint")]
+        public GlHint Hint { get; }
+
+        [GlEntryPoint("glFlush")]
+        public UnmanagedAction Flush { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void UnmanagedAction();
+
+        [GlEntryPoint("glFinish")]
+        public UnmanagedAction Finish { get; }
 
         #endregion
 
@@ -363,25 +379,6 @@ namespace JSim.AvGL
         public delegate void GlGetShaderInfoLog(int shader, int maxLength, out int length, void* infoLog);
         [GlEntryPoint("glGetShaderInfoLog")]
         public GlGetShaderInfoLog GetShaderInfoLog { get; }
-
-        //public unsafe string CompileShaderAndGetError(int shader, string source)
-        //{
-        //    ShaderSourceString(shader, source);
-        //    CompileShader(shader);
-        //    int compiled;
-        //    GetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-        //    if (compiled != 0)
-        //        return null;
-        //    int logLength;
-        //    GetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
-        //    if (logLength == 0)
-        //        logLength = 4096;
-        //    var logData = new byte[logLength];
-        //    int len;
-        //    fixed (void* ptr = logData)
-        //        GetShaderInfoLog(shader, logLength, out len, ptr);
-        //    return Encoding.UTF8.GetString(logData, 0, len);
-        //}
 
         public unsafe bool CompileShaderAndGetError(int shader, string source, out string errorString)
         {
@@ -439,25 +436,14 @@ namespace JSim.AvGL
         public GlGetProgramiv GetProgramiv { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlUseProgram(int program);
+        [GlEntryPoint("glUseProgram")]
+        public GlUseProgram UseProgram { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void GlGetProgramInfoLog(int program, int maxLength, out int len, void* infoLog);
         [GlEntryPoint("glGetProgramInfoLog")]
         public GlGetProgramInfoLog GetProgramInfoLog { get; }
-
-        //public unsafe string LinkProgramAndGetError(int program)
-        //{
-        //    LinkProgram(program);
-        //    int compiled;
-        //    GetProgramiv(program, GL_LINK_STATUS, &compiled);
-        //    if (compiled != 0)
-        //        return null;
-        //    int logLength;
-        //    GetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-        //    var logData = new byte[logLength];
-        //    int len;
-        //    fixed (void* ptr = logData)
-        //        GetProgramInfoLog(program, logLength, out len, ptr);
-        //    return Encoding.UTF8.GetString(logData, 0, len);
-        //}
 
         public unsafe bool LinkProgramAndGetError(int program, out string errorString)
         {
@@ -486,6 +472,16 @@ namespace JSim.AvGL
 
             return false;
         }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlDeleteProgram(int program);
+        [GlEntryPoint("glDeleteProgram")]
+        public GlDeleteProgram DeleteProgram { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlDeleteShader(int shader);
+        [GlEntryPoint("glDeleteShader")]
+        public GlDeleteShader DeleteShader { get; }
 
         #endregion
 
@@ -549,17 +545,32 @@ namespace JSim.AvGL
 
         #endregion
 
-        #region JSim GL Invokes
+        #region Drawing
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlDisableVertexAttribArray(int index);
-        [GlEntryPoint("glDisableVertexAttribArray")]
-        public GlDisableVertexAttribArray DisableVertexAttribArray { get; }
+        public delegate void GlPolygonMode(int face, int mode);
+        [GlEntryPoint("glPolygonMode")]
+        public GlPolygonMode PolygonMode { get; }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void GlGetBufferParameter(int target, int value, out int data);
-        [GlEntryPoint("glGetBufferParameteriv")]
-        public GlGetBufferParameter GetBufferParameter { get; }
+        public delegate void GlFrontFace(int face);
+        [GlEntryPoint("glFrontFace")]
+        public GlFrontFace FrontFace { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlCullFace(int face);
+        [GlEntryPoint("glCullFace")]
+        public GlCullFace CullFace { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlPointSize(float size);
+        [GlEntryPoint("glPointSize")]
+        public GlPointSize PointSize { get; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void GlLineWidth(float size);
+        [GlEntryPoint("glLineWidth")]
+        public GlLineWidth LineWidth { get; }
 
         #endregion
 
@@ -574,8 +585,8 @@ namespace JSim.AvGL
         [GlMinVersionEntryPoint("glBindVertexArray", 3, 0)]
         [GlExtensionEntryPoint("glBindVertexArrayOES", "GL_OES_vertex_array_object")]
         public GlBindVertexArray BindVertexArray { get; }
+        
         public delegate void GlGenVertexArrays(int n, int[] rv);
-
         [GlMinVersionEntryPoint("glGenVertexArrays", 3, 0)]
         [GlExtensionEntryPoint("glGenVertexArraysOES", "GL_OES_vertex_array_object")]
         public GlGenVertexArrays GenVertexArrays { get; }

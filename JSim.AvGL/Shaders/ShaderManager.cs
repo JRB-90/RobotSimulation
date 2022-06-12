@@ -6,7 +6,7 @@ using static Avalonia.OpenGL.GlConsts;
 
 namespace JSim.AvGL
 {
-    public class ShaderManager
+    public class ShaderManager : IDisposable
     {
         const string RES_ROOT = "JSim.AvGL.Shaders.GLSL.";
         const string BASIC_VS = "basicVS.glsl";
@@ -81,6 +81,11 @@ namespace JSim.AvGL
                     advancedFS,
                     false
                 );
+        }
+
+        public void Dispose()
+        {
+            // TODO
         }
 
         internal IShader FindShader(ShadingType shadingType)

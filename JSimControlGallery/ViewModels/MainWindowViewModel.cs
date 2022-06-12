@@ -1,3 +1,4 @@
+using Avalonia.Media;
 using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using JSim.AvGL;
@@ -17,11 +18,13 @@ namespace JSimControlGallery.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         readonly ISimApplication app;
+        readonly IOpenGLControlFactory controlFactory;
 
         public MainWindowViewModel()
         {
             IWindsorContainer container = BootstrapContainer();
             app = container.Resolve<ISimApplication>();
+            controlFactory = container.Resolve<IOpenGLControlFactory>();
             ISceneManager sceneManager = app.SceneManager;
             IScene scene = sceneManager.CurrentScene;
 
@@ -73,7 +76,8 @@ namespace JSimControlGallery.ViewModels
 
             DisplayedObjectControl = SceneObjectControl;
 
-            OpenGLControl = new OpenGLControl();
+            OpenGLControl = controlFactory.CreateControl();
+            OpenGLControl.ClearColor = SolidColorBrush.Parse("#323256");
         }
 
         public GeometryControl GeometryControl { get; }
@@ -114,7 +118,7 @@ namespace JSimControlGallery.ViewModels
                 new BasicApplicationInstaller(),
                 Log4NetInstaller.FromEmbedded("log4netconsole.config"),
                 new BasicSceneManagerInstaller(),
-                new DummyRenderingManagerInstaller()
+                new OpenGLInstaller()
             );
 
             return container;

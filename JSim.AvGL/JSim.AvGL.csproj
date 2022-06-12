@@ -24,6 +24,7 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.15" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.15" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.15" />
+    <PackageReference Include="Castle.Windsor" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>

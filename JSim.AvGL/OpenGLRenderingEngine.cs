@@ -1,5 +1,7 @@
 ﻿using Avalonia.Media;
+using Avalonia.OpenGL;
 using JSim.Core;
+using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using System.Diagnostics;
@@ -14,18 +16,68 @@ namespace JSim.AvGL
         const float DEFAULT_LINE_WIDTH = 0.1f;
 
         readonly ILogger logger;
-        readonly GLBindingsInterface gl;
+        readonly IGlContextManager contextManager;
 
         public OpenGLRenderingEngine(
             ILogger logger,
-            GLBindingsInterface gl)
+            IGlContextManager contextManager)
         {
             this.logger = logger;
-            this.gl = gl;
+            this.contextManager = contextManager;
+
+            contextManager.RunOnResourceContext((g) =>
+            {
+                gl = new GLBindingsInterface(g);
+
+                Trace.WriteLine($"Renderer: {gl.GetString(GL_RENDERER)} Version: {gl.GetString(GL_VERSION)}");
+
+                shaderManager = 
+                    new ShaderManager(
+                        logger, 
+                        gl, 
+                        new GLVersion(4, 0)
+                    );
+
+                var vertices1 =
+                    new Vertex[]
+                    {
+                        new Vertex(0, new Vector3D(0.0, 0.0, 0.0)),
+                        new Vertex(0, new Vector3D(1.0, 0.0, 0.0)),
+                        new Vertex(0, new Vector3D(0.0, 1.0, 0.0)),
+                    };
+
+                var indices1 =
+                    new ushort[]
+                    {
+                        0, 1, 1, 2, 2, 0
+                    };
+
+                vao1 = VAO.CreateVAO(gl, vertices1, indices1);
+
+                var vertices2 =
+                    new Vertex[]
+                    {
+                        new Vertex(0, new Vector3D(-0.3, 0.0, 0.0)),
+                        new Vertex(0, new Vector3D(-0.3, -1.5, 0.0)),
+                        new Vertex(0, new Vector3D(-0.6, -1.5, 0.0)),
+                    };
+
+                var indices2 =
+                    new ushort[]
+                    {
+                        0, 1, 2
+                    };
+
+                vao2 = VAO.CreateVAO(gl, vertices2, indices2);
+
+            });
         }
 
         public void Dispose()
         {
+            shaderManager.Dispose();
+            VAO.DeleteVAO(gl, vao1);
+            VAO.DeleteVAO(gl, vao2);
         }
 
         /// <summary>
@@ -38,32 +90,64 @@ namespace JSim.AvGL
             IRenderingSurface surface,
             IScene? scene)
         {
-            var sw = new Stopwatch();
-            sw.Start();
+            SetDefaultOptions();
 
-            //if (surface is OpenTKControl openTKSurface)
-            //{
-            //    RenderScene(openTKSurface, scene);
-            //}
-            //else
-            //{
-            //    throw new InvalidOperationException("Can only render to OpenTKControl rendering surface");
-            //}
+            GLUtils.CheckError(gl);
 
-            sw.Stop();
-            var elapsedNS = (double)sw.ElapsedTicks / ((double)TimeSpan.TicksPerMillisecond / 1000.0);
-            //Trace.WriteLine($"Render time {elapsedNS / 1000.0:F3}ms", "Debug");
+            if (surface is OpenGLControl glSurface)
+            {
+                ClearScreen(glSurface);
+                SetViewport(glSurface);
+            }
+            else
+            {
+                return;
+            }
+
+            var material1 = Material.FromSingleColor(new Core.Render.Color(1.0f, 0.0f, 0.0f, 1.0f));
+            var material2 = Material.FromSingleColor(new Core.Render.Color(1.0f, 1.0f, 0.0f, 0.0f));
+
+            if (surface.Camera == null)
+            {
+                return;
+            }
+
+            IShader shader = shaderManager.FindShader(ShadingType.Solid);
+            shader.Bind();
+
+            shader.UpdateUniforms(
+                Transform3D.Identity, 
+                surface.Camera, 
+                material1, 
+                surface.SceneLighting
+            );
+
+            VAO.DrawVAO(gl, vao1, GL_LINES);
+
+            shader.UpdateUniforms(
+                Transform3D.Identity,
+                surface.Camera,
+                material2,
+                surface.SceneLighting
+            );
+
+            VAO.DrawVAO(gl, vao2, GL_TRIANGLES);
+
+            shader.Unbind();
+            gl.Flush();
+
+            GLUtils.CheckError(gl);
         }
 
-        //private void SetViewport(OpenGLControl surface)
-        //{
-        //    gl.Viewport(
-        //        0,
-        //        0,
-        //        surface.SurfaceWidth,
-        //        surface.SurfaceHeight
-        //    );
-        //}
+        private void SetViewport(OpenGLControl surface)
+        {
+            gl.Viewport(
+                0,
+                0,
+                surface.SurfaceWidth,
+                surface.SurfaceHeight
+            );
+        }
 
         private void SetDefaultOptions()
         {
@@ -72,15 +156,17 @@ namespace JSim.AvGL
             gl.Enable(GL_CULL_FACE);
             gl.Enable(GL_DEPTH_TEST);
             gl.Enable(GL_DEPTH_CLAMP);
-            //gl.Enable(EnableCap.Texture2D);
 
-            gl.Enable(GL_POINT_SMOOTH);
-            gl.Hint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-            gl.Enable(GL_LINE_SMOOTH);
-            gl.Hint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+            // TODO - Find right enum
+            //gl.Enable(GL_TEXTURE_2D);
+
+            //gl.Enable(GL_POINT_SMOOTH);
+            //gl.Hint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+            //gl.Enable(GL_LINE_SMOOTH);
+            //gl.Hint(GL_LINE_SMOOTH_HINT, GL_NICEST);
             //gl.Enable(GL_POLYGON_SMOOTH);
             //gl.Hint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-            gl.PolygonMode(GL_FRONT, GL_FILL);
+            //gl.PolygonMode(GL_FRONT, GL_FILL);
 
             gl.PointSize(DEFAULT_POINT_SIZE);
             gl.LineWidth(DEFAULT_LINE_WIDTH);
@@ -97,28 +183,28 @@ namespace JSim.AvGL
             gl.StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
         }
 
-        //private void ClearScreen(OpenGLControl surface)
-        //{
-        //    if (surface.ClearColor is ISolidColorBrush solidColorBrush)
-        //    {
-        //        gl.ClearColor(
-        //            solidColorBrush.Color.R.ArgbByteToFloat(),
-        //            solidColorBrush.Color.G.ArgbByteToFloat(),
-        //            solidColorBrush.Color.B.ArgbByteToFloat(),
-        //            solidColorBrush.Color.A.ArgbByteToFloat()
-        //        );
-        //    }
-        //    else
-        //    {
-        //        gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        //    }
+        private void ClearScreen(OpenGLControl surface)
+        {
+            if (surface.ClearColor is ISolidColorBrush solidColorBrush)
+            {
+                gl.ClearColor(
+                    solidColorBrush.Color.R.ArgbByteToFloat(),
+                    solidColorBrush.Color.G.ArgbByteToFloat(),
+                    solidColorBrush.Color.B.ArgbByteToFloat(),
+                    solidColorBrush.Color.A.ArgbByteToFloat()
+                );
+            }
+            else
+            {
+                gl.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            }
 
-        //    gl.Clear(
-        //        GL_COLOR_BUFFER_BIT |
-        //        GL_DEPTH_BUFFER_BIT |
-        //        GL_STENCIL_BUFFER_BIT
-        //    );
-        //}
+            gl.Clear(
+                GL_COLOR_BUFFER_BIT |
+                GL_DEPTH_BUFFER_BIT |
+                GL_STENCIL_BUFFER_BIT
+            );
+        }
 
         private int ToPrimitiveType(GeometryType geometryType)
         {
@@ -134,5 +220,10 @@ namespace JSim.AvGL
                     return GL_POINTS;
             }
         }
+
+        private VAO vao1;
+        private VAO vao2;
+        private GLBindingsInterface gl;
+        private ShaderManager shaderManager;
     }
 }

@@ -7,6 +7,8 @@ namespace JSim.AvGL
     public class VAO
     {
         public int Handle;
+        public int VBO;
+        public int EBO;
         public int ElementCount;
 
         public static VAO CreateVAO(
@@ -19,17 +21,8 @@ namespace JSim.AvGL
             vao.Handle = gl.GenVertexArray();
             gl.BindVertexArray(vao.Handle);
 
-            int vbo = CreateVBO(gl, vertices);
-            int ebo = CreateEBO(gl, indices);
-
-            gl.EnableVertexAttribArray(0);
-            gl.VertexAttribPointer(0, 3, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(0));
-            gl.EnableVertexAttribArray(1);
-            gl.VertexAttribPointer(1, 3, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(12));
-            gl.EnableVertexAttribArray(2);
-            gl.VertexAttribPointer(2, 4, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(24));
-            gl.EnableVertexAttribArray(3);
-            gl.VertexAttribPointer(3, 2, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(40));
+            vao.VBO = CreateVBO(gl, vertices);
+            vao.EBO = CreateEBO(gl, indices);
 
             gl.BindVertexArray(0);
             gl.BindBuffer(GL_ARRAY_BUFFER, 0);
@@ -122,9 +115,25 @@ namespace JSim.AvGL
             VAO vao,
             int primitiveType)
         {
-            gl.BindVertexArray(vao.Handle);
+            var tempVao = gl.GenVertexArray();
+            gl.BindVertexArray(tempVao);
+            gl.BindBuffer(GL_ARRAY_BUFFER, vao.VBO);
+
+            gl.EnableVertexAttribArray(0);
+            gl.VertexAttribPointer(0, 3, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(0));
+            gl.EnableVertexAttribArray(1);
+            gl.VertexAttribPointer(1, 3, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(12));
+            gl.EnableVertexAttribArray(2);
+            gl.VertexAttribPointer(2, 4, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(24));
+            gl.EnableVertexAttribArray(3);
+            gl.VertexAttribPointer(3, 2, GL_FLOAT, 0, Vertex.SizeInBytes, new IntPtr(40));
+
+            gl.BindBuffer(GL_ELEMENT_ARRAY_BUFFER, vao.EBO);
             gl.DrawElements(primitiveType, vao.ElementCount, GL_UNSIGNED_SHORT, IntPtr.Zero);
+
             gl.BindVertexArray(0);
+            gl.BindBuffer(GL_ARRAY_BUFFER, 0);
+            gl.BindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         }
     }
 }

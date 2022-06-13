@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj" />
     <ProjectReference Include="..\JSim.Logging\JSim.Logging.csproj" />
-    <ProjectReference Include="..\JSim.OpenTK\JSim.OpenTK.csproj" />
   </ItemGroup>
 
 </Project>

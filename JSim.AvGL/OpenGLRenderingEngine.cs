@@ -90,53 +90,128 @@ namespace JSim.AvGL
             IRenderingSurface surface,
             IScene? scene)
         {
-            SetDefaultOptions();
+            var sw = new Stopwatch();
+            sw.Start();
 
-            GLUtils.CheckError(gl);
-
-            if (surface is OpenGLControl glSurface)
+            if (surface is OpenGLControl openTKSurface)
             {
-                ClearScreen(glSurface);
-                SetViewport(glSurface);
+                RenderScene(openTKSurface, scene);
             }
             else
             {
-                return;
+                throw new InvalidOperationException("Can only render to OpenGLControl rendering surface");
             }
 
-            var material1 = Material.FromSingleColor(new Core.Render.Color(1.0f, 0.0f, 0.0f, 1.0f));
-            var material2 = Material.FromSingleColor(new Core.Render.Color(1.0f, 1.0f, 0.0f, 0.0f));
+            sw.Stop();
+            var elapsedNS = (double)sw.ElapsedTicks / ((double)TimeSpan.TicksPerMillisecond / 1000.0);
+            //Trace.WriteLine($"Render time {elapsedNS / 1000.0:F3}ms", "Debug");
+        }
 
-            if (surface.Camera == null)
+        private void RenderScene(
+            OpenGLControl surface,
+            IScene? scene)
+        {
+            SetDefaultOptions();
+            SetViewport(surface);
+            ClearScreen(surface);
+
+            if (surface.SceneLighting.Lights.Count > MAX_LIGHTS)
+            {
+                logger.Log($"Only {MAX_LIGHTS} lights supported", LogLevel.Error);
+            }
+
+            if (scene != null)
+            {
+                RenderSceneAssembly(
+                    surface,
+                    scene.Root
+                );
+            }
+
+            gl.Flush();
+        }
+
+        private void RenderSceneAssembly(
+            OpenGLControl surface,
+            ISceneAssembly assembly)
+        {
+            foreach (ISceneAssembly childAssembly in assembly.OfType<ISceneAssembly>())
+            {
+                RenderSceneAssembly(
+                    surface,
+                    childAssembly
+                );
+            }
+
+            foreach (ISceneEntity entity in assembly.OfType<ISceneEntity>())
+            {
+                RenderSceneEntity(
+                    surface,
+                    entity
+                );
+            }
+        }
+
+        private void RenderSceneEntity(
+            OpenGLControl surface,
+            ISceneEntity entity)
+        {
+            RenderGeometryRecursive(
+                surface,
+                entity.GeometryContainer.Root
+            );
+        }
+
+        private void RenderGeometryRecursive(
+            OpenGLControl surface,
+            IGeometry geometry)
+        {
+            foreach (IGeometry childGeometry in geometry.Children)
+            {
+                RenderGeometryRecursive(
+                    surface,
+                    childGeometry
+                );
+            }
+
+            RenderGeometry(
+                surface,
+                geometry
+            );
+        }
+
+        private void RenderGeometry(
+            OpenGLControl surface,
+            IGeometry geometry)
+        {
+            if (!geometry.IsVisible ||
+                shaderManager == null)
             {
                 return;
             }
 
-            IShader shader = shaderManager.FindShader(ShadingType.Solid);
-            shader.Bind();
+            if (geometry is OpenGLGeometry glGeometry &&
+                surface.Camera != null)
+            {
 
-            shader.UpdateUniforms(
-                Transform3D.Identity, 
-                surface.Camera, 
-                material1, 
-                surface.SceneLighting
-            );
+                IShader shader = shaderManager.FindShader(glGeometry.Material.Shading);
+                shader.Bind();
 
-            VAO.DrawVAO(gl, vao1, GL_LINES);
+                shader.UpdateUniforms(
+                    glGeometry.WorldFrame,
+                    surface.Camera,
+                    glGeometry.Material,
+                    surface.SceneLighting
+                );
 
-            shader.UpdateUniforms(
-                Transform3D.Identity,
-                surface.Camera,
-                material2,
-                surface.SceneLighting
-            );
+                VAO.DrawVAO(
+                    gl,
+                    glGeometry.VAO,
+                    ToPrimitiveType(glGeometry.GeometryType)
+                );
 
-            VAO.DrawVAO(gl, vao2, GL_TRIANGLES);
-
-            shader.Unbind();
-            gl.Flush();
-
-            GLUtils.CheckError(gl);
+                shader.Unbind();
+            }
         }
 
         private void SetViewport(OpenGLControl surface)

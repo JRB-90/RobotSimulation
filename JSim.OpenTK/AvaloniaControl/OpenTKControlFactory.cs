@@ -21,11 +21,15 @@ namespace JSim.OpenTK
 
         public OpenTKControl CreateControl()
         {
-            return 
+            var control = 
                 new OpenTKControl(
                     glContextFactory,
                     renderingEngine
                 );
+
+            // TODO - Add to display manager
+
+            return control;
         }
 
         public void Destroy(OpenTKControl control)

@@ -4,6 +4,7 @@ using Castle.Windsor;
 using JSim.AvGL;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
@@ -33,6 +34,7 @@ namespace JSimControlGallery.ViewModels
                     @"C:\Development\Test\Suzanne.stl",
                     scene.Root
                 );
+            suzanne.LocalFrame = new Transform3D(0, 0, 0, 0, 0, 180);
             var geometry =
                 ((ISceneAssembly)suzanne)
                 .Children
@@ -78,6 +80,9 @@ namespace JSimControlGallery.ViewModels
 
             OpenGLControl = controlFactory.CreateControl();
             OpenGLControl.ClearColor = SolidColorBrush.Parse("#323256");
+            OpenGLControl.Scene = scene;
+            OpenGLControl.Camera.PositionInWorld = new Transform3D(0, 3, 0, 0, 0, 0);
+            OpenGLControl.Camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
         }
 
         public GeometryControl GeometryControl { get; }

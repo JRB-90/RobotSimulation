@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.Threading;
+using JSim.Core.Input;
 using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
@@ -18,14 +19,29 @@ namespace JSim.AvGL
         {
             this.renderingEngine = renderingEngine;
 
+            RenderTransform =
+                new TransformGroup()
+                {
+                    Children = new Transforms()
+                    {
+                        new ScaleTransform(1.0, -1.0)
+                    }
+                };
+
             camera =
                 new StandardCamera(
                     (int)Bounds.Width,
                     (int)Bounds.Height
                 );
 
+            camera.CameraController =
+                new MouseOrbitController(
+                    new MouseInputProvider(this)
+                );
+
             camera.PositionInWorld = new Transform3D(4, 4, 4, 0, 0, 0);
             camera.LookAtPoint(Vector3D.Origin, Vector3D.UnitZ);
+            camera.CameraModified += OnCameraModified;
 
             SceneLighting = SceneLighting.Default;
 

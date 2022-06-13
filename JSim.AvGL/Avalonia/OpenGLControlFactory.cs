@@ -21,6 +21,8 @@ namespace JSim.AvGL
 
         public OpenGLControl CreateControl()
         {
+            // TODO - Add to display manager
+
             return
                 new OpenGLControl(
                     renderingEngine

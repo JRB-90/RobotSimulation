@@ -1,16 +1,14 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using JSim.Av.Models;
+using JSim.Av.Shared;
 using JSim.Core.Render;
-using JSimControlGallery.Models;
-using JSimControlGallery.Shared;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace JSimControlGallery.Controls
+namespace JSim.Av.Controls
 {
     public partial class GeometryTree : UserControl
     {

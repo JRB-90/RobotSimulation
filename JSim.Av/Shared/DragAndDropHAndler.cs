@@ -1,10 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using System;
-using System.Linq;
 
-namespace JSimControlGallery.Shared
+namespace JSim.Av.Shared
 {
     internal class DragAndDropHandler<T> where T : class
     {

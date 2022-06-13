@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace JSimControlGallery.Models
+namespace JSim.Av.Models
 {
     internal class SceneAssemblyModel : SceneObjectModel
     {

@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:models="clr-namespace:JSimControlGallery.Models;assembly=JSimControlGallery"
+			 xmlns:models="clr-namespace:JSim.Av.Models;assembly=JSim.Av"
 			 xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
-             x:Class="JSimControlGallery.Controls.SceneTree"
+             x:Class="JSim.Av.Controls.SceneTree"
 			 x:Name="uc"
 			 DataContext="{Binding $self}">
 

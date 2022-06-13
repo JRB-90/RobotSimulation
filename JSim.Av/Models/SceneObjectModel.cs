@@ -1,7 +1,7 @@
 ﻿using JSim.Core.SceneGraph;
 using ReactiveUI;
 
-namespace JSimControlGallery.Models
+namespace JSim.Av.Models
 {
     internal class SceneObjectModel : ReactiveObject
     {

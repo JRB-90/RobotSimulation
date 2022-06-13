@@ -8,7 +8,7 @@ using JSim.Core.Maths;
 using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
-using JSimControlGallery.Controls;
+using JSim.Av.Controls;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;

@@ -6,7 +6,7 @@ using JSim.Core.Render;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
 
-namespace JSimControlGallery.Design
+namespace JSim.Av.Design
 {
     internal static class DesignData
     {

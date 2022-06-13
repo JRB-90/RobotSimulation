@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:models="clr-namespace:JSimControlGallery.Models;assembly=JSimControlGallery"
+			 xmlns:models="clr-namespace:JSim.Av.Models;assembly=JSim.Av"
 			 xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400" 
-             x:Class="JSimControlGallery.Controls.GeometryTree"
+             x:Class="JSim.Av.Controls.GeometryTree"
 			 x:Name="uc"
 			 DataContext="{Binding $self}"> 
 	<TreeView

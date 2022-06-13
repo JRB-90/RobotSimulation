@@ -4,7 +4,7 @@ using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using JSim.Core.SceneGraph;
 
-namespace JSimControlGallery.Controls
+namespace JSim.Av.Controls
 {
     public partial class SceneObjectControl : UserControl
     {

@@ -4,11 +4,9 @@ using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using AvaloniaColorPicker;
 using JSim.Core.Render;
-using System;
 using System.Diagnostics;
-using System.Linq;
 
-namespace JSimControlGallery.Controls
+namespace JSim.Av.Controls
 {
     public partial class MaterialControl : UserControl
     {

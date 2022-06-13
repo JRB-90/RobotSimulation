@@ -1,6 +1,6 @@
 ﻿using JSim.Core.SceneGraph;
 
-namespace JSimControlGallery.Models
+namespace JSim.Av.Models
 {
     internal class SceneEntityModel : SceneObjectModel
     {

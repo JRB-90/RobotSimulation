@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-			 xmlns:design="clr-namespace:JSimControlGallery.Design;assembly=JSimControlGallery"
+			 xmlns:design="clr-namespace:JSim.Av.Design;assembly=JSim.Av"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
-             x:Class="JSimControlGallery.Controls.GeometryControl"
+             x:Class="JSim.Av.Controls.GeometryControl"
 			 DataContext="{Binding $self}">
 
 	<Grid

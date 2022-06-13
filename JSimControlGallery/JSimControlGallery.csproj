@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JSim.AvGL\JSim.AvGL.csproj" />
+    <ProjectReference Include="..\JSim.Av\JSim.Av.csproj" />
     <ProjectReference Include="..\JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj" />
     <ProjectReference Include="..\JSim.Core\JSim.Core.csproj" />
     <ProjectReference Include="..\JSim.Logging\JSim.Logging.csproj" />

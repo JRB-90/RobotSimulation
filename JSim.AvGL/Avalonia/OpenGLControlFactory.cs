@@ -6,13 +6,16 @@ namespace JSim.AvGL
     {
         readonly ISharedGlContextFactory glContextFactory;
         readonly IRenderingEngine renderingEngine;
+        readonly ISurfaceManager surfaceManager;
 
         public OpenGLControlFactory(
             ISharedGlContextFactory glContextFactory,
-            IRenderingEngine renderingEngine)
+            IRenderingEngine renderingEngine,
+            ISurfaceManager surfaceManager)
         {
             this.glContextFactory = glContextFactory;
             this.renderingEngine = renderingEngine;
+            this.surfaceManager = surfaceManager;
         }
 
         public void Dispose()
@@ -21,16 +24,19 @@ namespace JSim.AvGL
 
         public OpenGLControl CreateControl()
         {
-            // TODO - Add to display manager
-
-            return
+            var surface =
                 new OpenGLControl(
                     renderingEngine
                 );
+
+            surfaceManager.AddSurface(surface);
+
+            return surface;
         }
 
         public void Destroy(OpenGLControl control)
         {
+            surfaceManager.RemoveSurface(control);
             control.Dispose();
         }
     }

@@ -22,6 +22,7 @@ namespace JSim.Core.SceneGraph
                 nameRoot)
         {
             GeometryContainer = geometryContainer;
+            GeometryContainer.Root.GeometryModified += Root_GeometryModified;
             SceneObjectMoved += SceneEntity_SceneObjectMoved;
         }
 
@@ -41,9 +42,15 @@ namespace JSim.Core.SceneGraph
                 parentAssembly)
         {
             GeometryContainer = geometryContainer;
+            GeometryContainer.Root.GeometryModified += Root_GeometryModified;
         }
 
         public IGeometryContainer GeometryContainer { get; }
+
+        private void Root_GeometryModified(object sender, GeometryModifiedEventArgs e)
+        {
+            RaiseSceneObjectChangedEvent();
+        }
 
         private void SceneEntity_SceneObjectMoved(object sender, SceneObjectMovedEventArgs e)
         {

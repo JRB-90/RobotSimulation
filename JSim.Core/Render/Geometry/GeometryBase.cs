@@ -34,8 +34,9 @@ namespace JSim.Core.Render
             children = new List<IGeometry>();
             vertices = new List<Vertex>();
             indices = new List<uint>();
-            material = new Material();
             geometryType = GeometryType.Solid;
+            material = new Material();
+            material.MaterialModified += OnMaterialModified;
         }
 
         public GeometryBase(
@@ -59,9 +60,10 @@ namespace JSim.Core.Render
             localFrame = Transform3D.Identity;
             vertices = new List<Vertex>();
             indices = new List<uint>();
-            material = new Material();
             geometryType = GeometryType.Solid;
-            
+            material = new Material();
+            material.MaterialModified += OnMaterialModified;
+
             if (parentGeometry != null)
             {
                 worldFrame = parentGeometry.WorldFrame;
@@ -108,6 +110,7 @@ namespace JSim.Core.Render
             this.indices = indices;
             this.material = material;
             this.geometryType = geometryType;
+            material.MaterialModified += OnMaterialModified;
 
             ID = id;
             isSelected = false;
@@ -284,6 +287,7 @@ namespace JSim.Core.Render
             set
             {
                 material = value;
+                material.MaterialModified += OnMaterialModified;
                 FireGeometryModifiedEvent();
             }
         }
@@ -455,6 +459,11 @@ namespace JSim.Core.Render
         private void OnParentGeometryModified(object sender, GeometryModifiedEventArgs e)
         {
             LocalFrame = LocalFrame;
+        }
+
+        private void OnMaterialModified(object sender, MaterialModifiedEventArgs e)
+        {
+            FireGeometryModifiedEvent();
         }
 
         private string name;

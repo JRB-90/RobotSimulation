@@ -92,7 +92,7 @@ namespace JSim.AvGL
                     scene = value;
                     if (scene != null)
                     {
-                        scene.SceneObjectModified += OnSceneObjectModified;
+                        scene.SceneTreeModified += OnSceneTreeModified; ;
                     }
                 }
                 RequestRender();
@@ -127,12 +127,12 @@ namespace JSim.AvGL
 
         protected override void OnOpenGlRender(GlInterface gl, int fb)
         {
+            Camera?.Update(this);
             renderingEngine?.Render(this, Scene);
         }
 
         private void OpenGLControl_EffectiveViewportChanged(object? sender, EffectiveViewportChangedEventArgs e)
         {
-            Camera?.Update(this);
             RequestRender();
         }
 
@@ -141,7 +141,7 @@ namespace JSim.AvGL
             RequestRender();
         }
 
-        private void OnSceneObjectModified(object sender, SceneObjectModifiedEventArgs e)
+        private void OnSceneTreeModified(object sender, SceneTreeModifiedEventArgs e)
         {
             RequestRender();
         }

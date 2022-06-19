@@ -8,9 +8,7 @@ namespace JSim.Core.SceneGraph
     /// functionality for interacting with it, such as iterators etc.
     /// </summary>
     public interface IScene : 
-        IEnumerable<ISceneObject>, 
-        IMessageHandler<SceneObjectModified>, 
-        IMessageHandler<SceneStructureChanged>,
+        IEnumerable<ISceneObject>,
         IDisposable
     {
         /// <summary>
@@ -34,14 +32,9 @@ namespace JSim.Core.SceneGraph
         event SceneNameChangedEventHandler NameChanged;
 
         /// <summary>
-        /// Event fired when a scene object in the scene has been modified.
+        /// Event fired when an object in the scene tree has been modifed.
         /// </summary>
-        event SceneObjectModifiedEventHandler SceneObjectModified;
-
-        /// <summary>
-        /// Event fired when the structure of the scene graph has changed.
-        /// </summary>
-        event SceneStructureChangedEventHandler SceneStructureChanged;
+        event SceneTreeModifiedEventHandler? SceneTreeModified;
 
         /// <summary>
         /// Attempts to find an object in the scene by its ID.

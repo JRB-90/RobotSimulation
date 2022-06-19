@@ -9,10 +9,12 @@ namespace JSim.Core.Render
         public DummyGeometry(
             ILogger logger,
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator)
           :
             base(
-                nameRepository, 
+                nameRepository,
+                messageCollator,
                 creator)
         {
             this.logger = logger;
@@ -21,11 +23,13 @@ namespace JSim.Core.Render
         public DummyGeometry(
             ILogger logger,
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator,
             IGeometry? parentGeometry)
           :
             base(
                 nameRepository,
+                messageCollator,
                 creator,
                 parentGeometry)
         {

@@ -41,7 +41,7 @@ namespace JSim.Core.SceneGraph
             if (parentAssembly != null)
             {
                 worldFrame = parentAssembly.WorldFrame;
-                parentAssembly.SceneObjectMoved += OnParentAssemblyMoved;
+                parentAssembly.SceneObjectModified += OnParentAssemblyModified;
             }
             else
             {
@@ -74,7 +74,7 @@ namespace JSim.Core.SceneGraph
             if (parentAssembly != null)
             {
                 worldFrame = parentAssembly.WorldFrame;
-                parentAssembly.SceneObjectMoved += OnParentAssemblyMoved;
+                parentAssembly.SceneObjectModified += OnParentAssemblyModified;
             }
             else
             {
@@ -121,7 +121,7 @@ namespace JSim.Core.SceneGraph
                 if (parentAssembly != null)
                 {
                     LocalFrame = new Transform3D(localFrame);
-                    parentAssembly.SceneObjectMoved += OnParentAssemblyMoved;
+                    parentAssembly.SceneObjectModified += OnParentAssemblyModified;
                 }
                 else
                 {
@@ -155,7 +155,6 @@ namespace JSim.Core.SceneGraph
                     localFrame = worldFrame;
                 }
 
-                RaiseSceneObjectMovedEvent();
                 RaiseSceneObjectChangedEvent();
             }
         }
@@ -180,7 +179,6 @@ namespace JSim.Core.SceneGraph
                     worldFrame = localFrame;
                 }
 
-                RaiseSceneObjectMovedEvent();
                 RaiseSceneObjectChangedEvent();
             }
         }
@@ -202,11 +200,6 @@ namespace JSim.Core.SceneGraph
         /// Event fired when this scene object has been modified.
         /// </summary>
         public event SceneObjectModifiedEventHandler? SceneObjectModified;
-
-        /// <summary>
-        /// Event fired when this scene object has moved.
-        /// </summary>
-        public event SceneObjectMovedEventHandler? SceneObjectMoved;
 
         /// <summary>
         /// Event fired when the selection state of this object has changed.
@@ -257,16 +250,7 @@ namespace JSim.Core.SceneGraph
             SceneObjectModified?.Invoke(this, new SceneObjectModifiedEventArgs(this));
         }
 
-        /// <summary>
-        /// Raises a SceneObjectMoved event for this object.
-        /// </summary>
-        protected void RaiseSceneObjectMovedEvent()
-        {
-            collator.Publish(new SceneObjectMoved(this));
-            SceneObjectMoved?.Invoke(this, new SceneObjectMovedEventArgs(this));
-        }
-
-        private void OnParentAssemblyMoved(object sender, SceneObjectMovedEventArgs e)
+        private void OnParentAssemblyModified(object sender, SceneObjectModifiedEventArgs e)
         {
             LocalFrame = LocalFrame;
         }

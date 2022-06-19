@@ -14,11 +14,13 @@ namespace JSim.AvGL
 
         public OpenGLGeometry(
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator,
             IGlContextManager glContextManager)
           :
             base(
                 nameRepository,
+                messageCollator,
                 creator)
         {
             this.glContextManager = glContextManager;
@@ -27,12 +29,14 @@ namespace JSim.AvGL
 
         public OpenGLGeometry(
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator,
             IGlContextManager glContextManager,
             IGeometry? parentGeometry)
           :
             base(
                 nameRepository,
+                messageCollator,
                 creator,
                 parentGeometry)
         {

@@ -1,6 +1,7 @@
 ﻿using JSim.Core.Common;
 using JSim.Core.Maths;
 using JSim.Core.SceneGraph;
+using System.Collections;
 
 namespace JSim.Core.Render
 {
@@ -10,13 +11,16 @@ namespace JSim.Core.Render
     public abstract class GeometryBase : IGeometry
     {
         readonly INameRepository nameRepository;
+        readonly IMessageCollator messageCollator;
         readonly IGeometryCreator creator;
 
         public GeometryBase(
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator)
         {
             this.nameRepository = nameRepository;
+            this.messageCollator = messageCollator;
             this.creator = creator;
             name = nameRepository.GenerateUniqueName("Geometry");
             ID = Guid.NewGuid();
@@ -36,10 +40,12 @@ namespace JSim.Core.Render
 
         public GeometryBase(
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator,
             IGeometry? parentGeometry)
         {
             this.nameRepository = nameRepository;
+            this.messageCollator = messageCollator;
             this.creator = creator;
             this.parentGeometry = parentGeometry;
 
@@ -69,6 +75,7 @@ namespace JSim.Core.Render
 
         public GeometryBase(
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator,
             Guid id,
             string name,
@@ -89,6 +96,7 @@ namespace JSim.Core.Render
             }
 
             this.nameRepository = nameRepository;
+            this.messageCollator = messageCollator;
             this.creator = creator;
             this.name = name;
             this.isVisible = isVisible;
@@ -380,6 +388,18 @@ namespace JSim.Core.Render
             return geometry;
         }
 
+        public void RecalculateWorldPosition(Transform3D parentWorldPosition)
+        {
+            worldFrame =
+                parentWorldPosition *
+                localFrame;
+
+            foreach (IGeometry child in Children)
+            {
+                child.RecalculateWorldPosition(worldFrame);
+            }
+        }
+
         public override string ToString()
         {
             return $"{GetType().Name}:{Name}";
@@ -393,6 +413,7 @@ namespace JSim.Core.Render
         protected void FireGeometryModifiedEvent()
         {
             GeometryModified?.Invoke(this, new GeometryModifiedEventArgs());
+            messageCollator.Publish(new GeometryModified());
         }
 
         protected void FireSelectionStateChangedEvent()
@@ -404,6 +425,32 @@ namespace JSim.Core.Render
         /// Causes all rendering engine specific resources to be rebuilt.
         /// </summary>
         protected abstract void Rebuild();
+
+        public IEnumerator<IGeometry> GetEnumerator()
+        {
+            foreach (IGeometry geometry in IterateGeometry(this))
+            {
+                yield return geometry;
+            }
+        }
+
+        private IEnumerable<IGeometry> IterateGeometry(IGeometry parentGeometry)
+        {
+            foreach (IGeometry childGeometry in parentGeometry.Children)
+            {
+                foreach (IGeometry geometry in IterateGeometry(childGeometry))
+                {
+                    yield return geometry;
+                }
+
+                yield return childGeometry;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         private void OnParentGeometryModified(object sender, GeometryModifiedEventArgs e)
         {

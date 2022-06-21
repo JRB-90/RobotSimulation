@@ -10,6 +10,7 @@ namespace JSim.Av.Controls
     {
         readonly CheckBox isVisibleCheckBox;
         readonly CheckBox isHighlightedCheckBox;
+        readonly TransformControl transformControl;
 
         public SceneObjectControl()
         {
@@ -17,8 +18,10 @@ namespace JSim.Av.Controls
 
             isVisibleCheckBox = this.FindControl<CheckBox>("IsVisibleCheckBox");
             isHighlightedCheckBox = this.FindControl<CheckBox>("IsHighlightedCheckBox");
+            transformControl = this.FindControl<TransformControl>("TransformControl");
             isVisibleCheckBox.PropertyChanged += OnIsVisibleChanged;
             isHighlightedCheckBox.PropertyChanged += OnIsHighlightedChanged;
+            transformControl.TransformUpdated += OnWorldTransformUpdated;
 
             UpdateDisplayedValues();
         }
@@ -37,6 +40,10 @@ namespace JSim.Av.Controls
             {
                 SetAndRaise(SceneObjectProperty, ref sceneObject, value);
                 UpdateDisplayedValues();
+                if (sceneObject != null)
+                {
+                    sceneObject.SceneObjectModified += SceneObject_SceneObjectModified;
+                }
             }
         }
 
@@ -71,6 +78,8 @@ namespace JSim.Av.Controls
                 //isVisibleCheckBox.IsChecked = sceneObject.IsVisible; TODO
                 isHighlightedCheckBox.IsEnabled = true;
                 //isHighlightedCheckBox.IsChecked = sceneObject.IsSelected; TODO
+
+                transformControl.Transform = sceneObject.WorldFrame;
             }
             else
             {
@@ -107,6 +116,20 @@ namespace JSim.Av.Controls
                     // TODO
                     //SceneObject.IsHighlighted = isHighlightedCheckBox.IsChecked.Value;
                 }
+            }
+        }
+
+        private void SceneObject_SceneObjectModified(object sender, SceneObjectModifiedEventArgs e)
+        {
+            UpdateDisplayedValues();
+        }
+
+        private void OnWorldTransformUpdated(object sender, TransformUpdatedEventArgs e)
+        {
+            if (e.Transform != null &&
+                SceneObject != null)
+            {
+                SceneObject.WorldFrame = e.Transform;
             }
         }
 

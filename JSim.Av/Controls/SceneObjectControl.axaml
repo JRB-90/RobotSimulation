@@ -2,12 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:JSim.Av.Controls;assembly=JSim.Av"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
              x:Class="JSim.Av.Controls.SceneObjectControl"
 			 DataContext="{Binding $self}">
 	<Grid
 		ColumnDefinitions="65, Auto"
-		RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+		RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
 
 		<TextBlock
 			Grid.Column="0"
@@ -75,5 +76,20 @@
 			VerticalAlignment="Center"
 			HorizontalAlignment="Left"/>
 
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="4"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="Location"/>
+
+		<controls:TransformControl
+			x:Name="TransformControl"
+			Grid.Column="1"
+			Grid.Row="4"
+			Width="250"
+			Margin="5"/>
+		
 	</Grid>
 </UserControl>

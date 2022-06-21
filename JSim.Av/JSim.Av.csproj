@@ -44,4 +44,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Controls\TransformControl.axaml" />
+  </ItemGroup>
+
 </Project>

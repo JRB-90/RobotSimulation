@@ -1,0 +1,129 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:JSim.Av.Controls;assembly=JSim.Av"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
+             x:Class="JSim.Av.Controls.TransformControl"
+			 DataContext="{Binding $self}">
+	
+	<Grid
+		ColumnDefinitions="*, *, *"
+		RowDefinitions="Auto, Auto, Auto, Auto">
+
+		<Border
+			Grid.Column="0"
+			Grid.Row="0"
+			Background="Red">
+			<TextBlock
+				Margin="3"
+				Text="X"/>
+		</Border>
+
+		<Border
+			Grid.Column="1"
+			Grid.Row="0"
+			Background="Green">
+			<TextBlock
+				Margin="3"
+				Text="Y"/>
+		</Border>
+
+		<Border
+			Grid.Column="2"
+			Grid.Row="0"
+			Background="Blue">
+			<TextBlock
+				Margin="3"
+				Text="Z"/>
+		</Border>
+
+		<Border
+			Grid.Column="0"
+			Grid.Row="2"
+			Background="Red">
+			<TextBlock
+				Margin="3"
+				Text="Rx"/>
+		</Border>
+
+		<Border
+			Grid.Column="1"
+			Grid.Row="2"
+			Background="Green">
+			<TextBlock
+				Margin="3"
+				Text="Ry"/>
+		</Border>
+
+		<Border
+			Grid.Column="2"
+			Grid.Row="2"
+			Background="Blue">
+			<TextBlock
+				Margin="3"
+				Text="Rz"/>
+		</Border>
+
+		<controls:LateValidationTextBox
+			x:Name="XTextBox"
+			Grid.Column="0"
+			Grid.Row="1"
+			FontSize="12"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			BorderThickness="0"
+			ValidatedText="{Binding X}"/>
+
+		<controls:LateValidationTextBox
+			x:Name="YTextBox"
+			Grid.Column="1"
+			Grid.Row="1"
+			FontSize="12"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			BorderThickness="0"
+			ValidatedText="{Binding Y}"/>
+
+		<controls:LateValidationTextBox
+			x:Name="ZTextBox"
+			Grid.Column="2"
+			Grid.Row="1"
+			FontSize="12"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			BorderThickness="0"
+			ValidatedText="{Binding Z}"/>
+
+		<controls:LateValidationTextBox
+			x:Name="RxTextBox"
+			Grid.Column="0"
+			Grid.Row="3"
+			FontSize="12"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			BorderThickness="0"
+			ValidatedText="{Binding Rx}"/>
+		
+		<controls:LateValidationTextBox
+			x:Name="RyTextBox"
+			Grid.Column="1"
+			Grid.Row="3"
+			FontSize="12"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			BorderThickness="0"
+			ValidatedText="{Binding Ry}"/>
+
+		<controls:LateValidationTextBox
+			x:Name="RzTextBox"
+			Grid.Column="2"
+			Grid.Row="3"
+			FontSize="12"
+			VerticalAlignment="Center"
+			VerticalContentAlignment="Center"
+			BorderThickness="0"
+			ValidatedText="{Binding Rz}"/>
+		
+	</Grid>
+</UserControl>

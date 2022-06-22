@@ -11,17 +11,22 @@ namespace JSim.Av.Controls
         readonly CheckBox isVisibleCheckBox;
         readonly CheckBox isHighlightedCheckBox;
         readonly TransformControl transformControl;
+        readonly RadioButton localRadioButton;
 
         public SceneObjectControl()
         {
-            InitializeComponent();
+            AvaloniaXamlLoader.Load(this);
 
             isVisibleCheckBox = this.FindControl<CheckBox>("IsVisibleCheckBox");
             isHighlightedCheckBox = this.FindControl<CheckBox>("IsHighlightedCheckBox");
             transformControl = this.FindControl<TransformControl>("TransformControl");
+            localRadioButton = this.FindControl<RadioButton>("LocalRadioButton");
             isVisibleCheckBox.PropertyChanged += OnIsVisibleChanged;
             isHighlightedCheckBox.PropertyChanged += OnIsHighlightedChanged;
-            transformControl.TransformUpdated += OnWorldTransformUpdated;
+            transformControl.TransformUpdated += OnTransformUpdated;
+            localRadioButton.PropertyChanged += OnPropertyChanged;
+
+            isLocalSelected = localRadioButton.IsChecked.Value;
 
             UpdateDisplayedValues();
         }
@@ -39,6 +44,7 @@ namespace JSim.Av.Controls
             set
             {
                 SetAndRaise(SceneObjectProperty, ref sceneObject, value);
+                localRadioButton.IsChecked = isLocalSelected;
                 UpdateDisplayedValues();
                 if (sceneObject != null)
                 {
@@ -65,11 +71,6 @@ namespace JSim.Av.Controls
         public string? SceneObjectID =>
             SceneObject?.ID.ToString();
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
-
         private void UpdateDisplayedValues()
         {
             if (sceneObject != null)
@@ -79,7 +80,14 @@ namespace JSim.Av.Controls
                 isHighlightedCheckBox.IsEnabled = true;
                 //isHighlightedCheckBox.IsChecked = sceneObject.IsSelected; TODO
 
-                transformControl.Transform = sceneObject.WorldFrame;
+                if (isLocalSelected)
+                {
+                    transformControl.Transform = sceneObject.LocalFrame;
+                }
+                else
+                {
+                    transformControl.Transform = sceneObject.WorldFrame;
+                }
             }
             else
             {
@@ -87,6 +95,7 @@ namespace JSim.Av.Controls
                 isVisibleCheckBox.IsChecked = false;
                 isHighlightedCheckBox.IsChecked = false;
                 isHighlightedCheckBox.IsEnabled = false;
+                transformControl.Transform = null;
             }
 
             RaisePropertyChanged(SceneObjectNameProperty, Optional<string?>.Empty, BindingValue<string?>.DoNothing);
@@ -124,15 +133,32 @@ namespace JSim.Av.Controls
             UpdateDisplayedValues();
         }
 
-        private void OnWorldTransformUpdated(object sender, TransformUpdatedEventArgs e)
+        private void OnTransformUpdated(object sender, TransformUpdatedEventArgs e)
         {
             if (e.Transform != null &&
                 SceneObject != null)
             {
-                SceneObject.WorldFrame = e.Transform;
+                if (isLocalSelected)
+                {
+                    SceneObject.LocalFrame = e.Transform;
+                }
+                else
+                {
+                    SceneObject.WorldFrame = e.Transform;
+                }
+            }
+        }
+
+        private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (e.Property.Name == nameof(RadioButton.IsChecked))
+            {
+                isLocalSelected = localRadioButton.IsChecked.Value;
+                UpdateDisplayedValues();
             }
         }
 
         private ISceneObject? sceneObject;
+        private bool isLocalSelected;
     }
 }

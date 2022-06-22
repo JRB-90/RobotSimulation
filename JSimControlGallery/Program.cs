@@ -25,6 +25,7 @@ namespace JSimControlGallery
                     .UsePlatformDetect()
                     .LogToTrace()
                     .UseReactiveUI()
+                    .With(new SkiaOptions { MaxGpuResourceSizeBytes = 8096000 })
                     .With(new Win32PlatformOptions() { UseWgl = true })
                     .WithIcons(container => container
                         .Register<FontAwesomeIconProvider>()

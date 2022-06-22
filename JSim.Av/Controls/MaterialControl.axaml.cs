@@ -40,6 +40,16 @@ namespace JSim.Av.Controls
             shadingComboBox.Items = Enum.GetValues(typeof(ShadingType)).Cast<ShadingType>();
             shadingComboBox.SelectedItem = ShadingType.Solid;
             shadingComboBox.SelectionChanged += OnShadingTypeChanged;
+
+            PropertyChanged += OnPropertyChanged;
+        }
+
+        private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (e.Property.Name == nameof(Material))
+            {
+                UpdateDisplayedValues();
+            }
         }
 
         public static readonly DirectProperty<MaterialControl, IMaterial> MaterialProperty =
@@ -52,11 +62,7 @@ namespace JSim.Av.Controls
         public IMaterial Material
         {
             get => material;
-            set
-            {
-                SetAndRaise(MaterialProperty, ref material, value);
-                UpdateDisplayedValues();
-            }
+            set => SetAndRaise(MaterialProperty, ref material, value);
         }
 
         public static readonly DirectProperty<MaterialControl, double> ShininessProperty =

@@ -10,16 +10,22 @@ namespace JSim.Av.Controls
     {
         readonly CheckBox isVisibleCheckBox;
         readonly CheckBox isHighlightedCheckBox;
+        readonly TransformControl transformControl;
+        readonly RadioButton localRadioButton;
 
         public GeometryControl()
         {
-            InitializeComponent();
+            AvaloniaXamlLoader.Load(this);
 
             isVisibleCheckBox = this.FindControl<CheckBox>("IsVisibleCheckBox");
             isHighlightedCheckBox = this.FindControl<CheckBox>("IsHighlightedCheckBox");
+            transformControl = this.FindControl<TransformControl>("TransformControl");
+            localRadioButton = this.FindControl<RadioButton>("LocalRadioButton");
             isVisibleCheckBox.PropertyChanged += OnIsVisibleChanged;
             isHighlightedCheckBox.PropertyChanged += OnIsHighlightedChanged;
+            localRadioButton.PropertyChanged += OnPropertyChanged;
 
+            isLocalSelected = localRadioButton.IsChecked.Value;
             MaterialControl = new MaterialControl() { };
             UpdateDisplayedValues();
         }
@@ -37,6 +43,7 @@ namespace JSim.Av.Controls
             set
             {
                 SetAndRaise(GeometryProperty, ref geometry, value);
+                localRadioButton.IsChecked = isLocalSelected;
                 UpdateDisplayedValues();
             }
         }
@@ -80,11 +87,6 @@ namespace JSim.Av.Controls
             private set => SetAndRaise(MaterialControlProperty, ref materialControl, value);
         }
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
-
         private void UpdateDisplayedValues()
         {
             if (geometry != null)
@@ -94,6 +96,15 @@ namespace JSim.Av.Controls
                 isHighlightedCheckBox.IsEnabled = true;
                 isHighlightedCheckBox.IsChecked = geometry.IsHighlighted;
                 MaterialControl = new MaterialControl() { Material = geometry.Material };
+
+                if (isLocalSelected)
+                {
+                    transformControl.Transform = geometry.LocalFrame;
+                }
+                else
+                {
+                    transformControl.Transform = geometry.WorldFrame;
+                }
             }
             else
             {
@@ -102,6 +113,7 @@ namespace JSim.Av.Controls
                 isHighlightedCheckBox.IsChecked = false;
                 isHighlightedCheckBox.IsEnabled = false;
                 MaterialControl = null;
+                transformControl.Transform = null;
             }
 
             RaisePropertyChanged(GeometryNameProperty, Optional<string?>.Empty, BindingValue<string?>.DoNothing);
@@ -133,7 +145,33 @@ namespace JSim.Av.Controls
             }
         }
 
+        private void OnTransformUpdated(object sender, TransformUpdatedEventArgs e)
+        {
+            if (e.Transform != null &&
+                Geometry != null)
+            {
+                if (isLocalSelected)
+                {
+                    Geometry.LocalFrame = e.Transform;
+                }
+                else
+                {
+                    Geometry.WorldFrame = e.Transform;
+                }
+            }
+        }
+
+        private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (e.Property.Name == nameof(RadioButton.IsChecked))
+            {
+                isLocalSelected = localRadioButton.IsChecked.Value;
+                UpdateDisplayedValues();
+            }
+        }
+
         private IGeometry? geometry;
         private MaterialControl? materialControl;
+        private bool isLocalSelected;
     }
 }

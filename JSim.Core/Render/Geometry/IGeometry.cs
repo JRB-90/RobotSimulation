@@ -14,7 +14,7 @@ namespace JSim.Core.Render
     /// This could include, for example, an OpenGL implementation storing
     /// opengl handles for gpu resources.
     /// </summary>
-    public interface IGeometry
+    public interface IGeometry : IEnumerable<IGeometry>
     {
         /// <summary>
         /// Unique id of this geometry instance.
@@ -146,5 +146,10 @@ namespace JSim.Core.Render
         /// <param name="name">Name to assign the geometry object. Must be unique to tree.</param>
         /// <returns>Newly instantiated geometry object.</returns>
         IGeometry CreateChildGeometry(string name);
+
+        /// <summary>
+        /// Forces the geometry to recalculate it's world position from it's parent.
+        /// </summary>
+        void RecalculateWorldPosition(Transform3D parentWorldPosition);
     }
 }

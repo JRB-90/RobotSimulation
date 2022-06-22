@@ -8,9 +8,14 @@ namespace JSim.Core.Render
     public interface IGeometryContainer
     {
         /// <summary>
-        /// Gets the root of the geometry tree.
+        /// Gets the top level node of the geometry tree.
         /// </summary>
         IGeometry Root { get; }
+
+        /// <summary>
+        /// Event fired when a node in the geometry tree has been modified.
+        /// </summary>
+        event GeometryTreeModifiedEventHandler? GeometryTreeModified;
 
         /// <summary>
         /// Updates the geometry container with the world position of the entity it belongs to.

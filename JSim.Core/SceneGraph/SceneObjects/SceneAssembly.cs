@@ -74,7 +74,6 @@ namespace JSim.Core.SceneGraph
             ISceneAssembly assembly = creator.CreateSceneAssembly(this);
             children.Add(assembly);
             RaiseSceneObjectChangedEvent();
-            collator.Publish(new SceneStructureChanged(this));
 
             return assembly;
         }
@@ -85,7 +84,6 @@ namespace JSim.Core.SceneGraph
             assembly.Name = name;
             children.Add(assembly);
             RaiseSceneObjectChangedEvent();
-            collator.Publish(new SceneStructureChanged(this));
 
             return assembly;
         }
@@ -95,7 +93,6 @@ namespace JSim.Core.SceneGraph
             ISceneEntity entity = creator.CreateSceneEntity(this);
             children.Add(entity);
             RaiseSceneObjectChangedEvent();
-            collator.Publish(new SceneStructureChanged(this));
 
             return entity;
         }
@@ -106,7 +103,6 @@ namespace JSim.Core.SceneGraph
             entity.Name = name;
             children.Add(entity);
             RaiseSceneObjectChangedEvent();
-            collator.Publish(new SceneStructureChanged(this));
 
             return entity;
         }
@@ -121,7 +117,6 @@ namespace JSim.Core.SceneGraph
             {
                 children.Add(sceneObject);
                 RaiseSceneObjectChangedEvent();
-                collator.Publish(new SceneStructureChanged(this));
 
                 return true;
             }
@@ -133,7 +128,6 @@ namespace JSim.Core.SceneGraph
             {
                 children.Remove(sceneObject);
                 RaiseSceneObjectChangedEvent();
-                collator.Publish(new SceneStructureChanged(this));
 
                 return true;
             }

@@ -8,14 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Windsor" Version="5.1.1" />
-    <PackageReference Include="MessageBox.Avalonia" Version="2.0.0" />
+    <PackageReference Include="Castle.Windsor" Version="5.1.2" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JSim.BasicBootstrapper\JSim.BasicBootstrapper.csproj" />
     <ProjectReference Include="..\JSim.Logging\JSim.Logging.csproj" />
-    <ProjectReference Include="..\JSim.OpenTK\JSim.OpenTK.csproj" />
   </ItemGroup>
 
 </Project>

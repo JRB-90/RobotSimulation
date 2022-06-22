@@ -22,7 +22,8 @@ namespace JSim.Core.SceneGraph
                 nameRoot)
         {
             GeometryContainer = geometryContainer;
-            SceneObjectMoved += SceneEntity_SceneObjectMoved;
+            GeometryContainer.GeometryTreeModified += OnGeometryTreeModified;
+            this.SceneObjectModified += OnEntityModified;
         }
 
         public SceneEntity(
@@ -41,11 +42,18 @@ namespace JSim.Core.SceneGraph
                 parentAssembly)
         {
             GeometryContainer = geometryContainer;
+            GeometryContainer.GeometryTreeModified += OnGeometryTreeModified;
+            this.SceneObjectModified += OnEntityModified;
         }
 
         public IGeometryContainer GeometryContainer { get; }
 
-        private void SceneEntity_SceneObjectMoved(object sender, SceneObjectMovedEventArgs e)
+        private void OnGeometryTreeModified(object sender, GeometryTreeModifiedEventArgs e)
+        {
+            RaiseSceneObjectChangedEvent();
+        }
+
+        private void OnEntityModified(object sender, SceneObjectModifiedEventArgs e)
         {
             GeometryContainer.UpdateWorldPosition(WorldFrame);
         }

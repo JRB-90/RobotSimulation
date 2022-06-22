@@ -1,0 +1,119 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:JSim.Av.Controls;assembly=JSim.Av"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
+             x:Class="JSim.Av.Controls.SceneObjectControl"
+			 DataContext="{Binding $self}">
+	<Grid
+		ColumnDefinitions="65, Auto"
+		RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="0"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="Location"/>
+		<StackPanel
+			Grid.Column="1"
+			Grid.Row="0"
+			Margin="5"
+			Width="250">
+			<StackPanel
+				Orientation="Horizontal">
+				<RadioButton
+					x:Name="LocalRadioButton"
+					Padding="5"
+					GroupName="G2"
+					Content="Local"
+					Margin="0, 0, 5, 0"
+					FontSize="12"
+					IsDefault="True"
+					IsChecked="True"/>
+				<RadioButton
+					x:Name="WorldRadioButton"
+					Padding="5"
+					GroupName="G2"
+					Content="World"
+					Margin="0, 0, 5, 0"
+					FontSize="12"
+					IsDefault="False"
+					IsChecked="False"/>
+			</StackPanel>
+
+			<controls:TransformControl
+				x:Name="TransformControl"/>
+		</StackPanel>
+
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="1"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="Name"/>
+		<TextBlock
+			Grid.Column="1"
+			Grid.Row="1"
+			Grid.ColumnSpan="2"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Left"
+			FontWeight="Bold"
+			Text="{Binding SceneObjectName}"/>
+
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="2"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="ID"/>
+		<TextBlock
+			Grid.Column="1"
+			Grid.Row="2"
+			Grid.ColumnSpan="2"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Left"
+			IsEnabled="False"
+			FontStyle="Italic"
+			FontWeight="Thin"
+			FontSize="12"
+			Text="{Binding SceneObjectID}"/>
+		
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="3"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="Visible"/>
+		<CheckBox
+			x:Name="IsVisibleCheckBox"
+			Grid.Column="1"
+			Grid.Row="3"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Left"/>
+
+		<TextBlock
+			Grid.Column="0"
+			Grid.Row="4"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Text="Highlight"/>
+		<CheckBox
+			x:Name="IsHighlightedCheckBox"
+			Grid.Column="1"
+			Grid.Row="4"
+			Margin="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Left"/>
+
+	</Grid>
+</UserControl>

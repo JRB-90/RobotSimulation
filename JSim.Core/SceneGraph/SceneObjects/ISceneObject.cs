@@ -46,11 +46,6 @@ namespace JSim.Core.SceneGraph
         event SceneObjectModifiedEventHandler? SceneObjectModified;
 
         /// <summary>
-        /// Event fired when this scene object has moved.
-        /// </summary>
-        event SceneObjectMovedEventHandler? SceneObjectMoved;
-
-        /// <summary>
         /// Event fired when the selection state of this object has changed.
         /// </summary>
         event SelectionStateChangedEventHandler? SelectionStateChanged;

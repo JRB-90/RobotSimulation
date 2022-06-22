@@ -42,14 +42,6 @@ namespace SceneGraphTests
             var monitoredScene1 = scene.Monitor();
 
             var assembly1 = scene.Root.CreateNewAssembly();
-            monitoredScene1.Should()
-                .Raise(nameof(scene.SceneObjectModified))
-                .WithSender(scene)
-                .WithArgs<SceneObjectModifiedEventArgs>(e => e.SceneObject == scene.Root);
-            monitoredScene1.Should()
-                .Raise(nameof(scene.SceneStructureChanged))
-                .WithSender(scene)
-                .WithArgs<SceneStructureChangedEventArgs>(e => e.RootAssembly == scene.Root);
 
             var assembly2 = scene.Root.CreateNewAssembly();
             var assembly3 = scene.Root.CreateNewAssembly();
@@ -57,14 +49,6 @@ namespace SceneGraphTests
 
             var monitoredScene2 = scene.Monitor();
             var entity2 = scene.Root.CreateNewEntity();
-            monitoredScene2.Should()
-                .Raise(nameof(scene.SceneObjectModified))
-                .WithSender(scene)
-                .WithArgs<SceneObjectModifiedEventArgs>(e => e.SceneObject == scene.Root);
-            monitoredScene2.Should()
-                .Raise(nameof(scene.SceneStructureChanged))
-                .WithSender(scene)
-                .WithArgs<SceneStructureChangedEventArgs>(e => e.RootAssembly == scene.Root);
 
             var entity3 = assembly2.CreateNewEntity();
             var entity4 = assembly2.CreateNewEntity();
@@ -77,14 +61,6 @@ namespace SceneGraphTests
 
             var monitoredScene3 = scene.Monitor();
             var entity7 = assembly4.CreateNewEntity();
-            monitoredScene3.Should()
-               .Raise(nameof(scene.SceneObjectModified))
-               .WithSender(scene)
-               .WithArgs<SceneObjectModifiedEventArgs>(e => e.SceneObject == assembly4);
-            monitoredScene3.Should()
-                .Raise(nameof(scene.SceneStructureChanged))
-                .WithSender(scene)
-                .WithArgs<SceneStructureChangedEventArgs>(e => e.RootAssembly == assembly4);
 
             CheckSceneAssemblyIsValid(assembly1);
             CheckSceneAssemblyIsValid(assembly2);

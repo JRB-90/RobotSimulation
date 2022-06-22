@@ -9,6 +9,7 @@ namespace JSim.Core.Render
     {
         IGeometry CreateGeometry(
             INameRepository nameRepository,
+            IMessageCollator messageCollator,
             IGeometryCreator creator,
             IGeometry? parentGeometry
         );

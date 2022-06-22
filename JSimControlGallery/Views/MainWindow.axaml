@@ -1,0 +1,92 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:JSimControlGallery.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:JSim.Av.Controls;assembly=JSim.Av"
+		xmlns:gl="clr-namespace:JSim.Av.GL;assembly=JSim.Av"
+		xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="600"
+		Width="1200" Height="600"
+        x:Class="JSimControlGallery.Views.MainWindow"
+		x:Name="w"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="JSim Control Gallery"
+		TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+		ExtendClientAreaToDecorationsHint="True">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.65"/>
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Grid
+			RowDefinitions="30, *">
+
+			<StackPanel
+				Grid.Row="0"
+				Orientation="Horizontal"
+				VerticalAlignment="Center"
+				IsHitTestVisible="False">
+
+				<i:Icon
+					Margin="10, 4, 5, 5"
+					Value="fa-light fa-robot"/>
+				<TextBlock
+					Margin="5"
+					VerticalAlignment="Center"
+					FontWeight="Bold"
+					Text="{Binding Title, ElementName=w}"/>
+			</StackPanel>
+
+			<Grid
+				Grid.Row="1"
+				ColumnDefinitions="350, *, 350">
+
+				<TabControl
+					Grid.Column="0"
+					SelectedIndex="{Binding SelectedTab}">
+					<TabItem
+						Header="Scene"
+						VerticalContentAlignment="Center">
+						<ContentControl
+							Grid.Column="0"
+							Margin="5"
+							Content="{Binding SceneTree}"/>
+					</TabItem>
+					<TabItem
+						Header="Geometry"
+						VerticalContentAlignment="Center">
+						<ContentControl
+							Grid.Column="0"
+							Margin="5"
+							Content="{Binding GeometryTree}"/>
+					</TabItem>
+				</TabControl>
+
+				<ContentControl
+					Grid.Column="1"
+					Content="{Binding OpenGLControl}"/>
+				
+				<Grid
+					Grid.Column="2">
+					<ContentControl
+						Grid.Column="1"
+						Margin="5"
+						Content="{Binding DisplayedObjectControl}"/>
+				</Grid>
+			</Grid>
+		</Grid>
+	</Panel>
+</Window>

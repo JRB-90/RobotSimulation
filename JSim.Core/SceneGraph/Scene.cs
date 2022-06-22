@@ -6,7 +6,10 @@ namespace JSim.Core.SceneGraph
     /// <summary>
     /// Standard implementation of a scene.
     /// </summary>
-    public class Scene : IScene
+    public class Scene 
+      : 
+        IScene,
+        IMessageHandler<SceneObjectModified>
     {
         readonly ILogger logger;
         readonly ISceneObjectCreator creator;
@@ -44,9 +47,7 @@ namespace JSim.Core.SceneGraph
 
         public event SceneNameChangedEventHandler? NameChanged;
 
-        public event SceneObjectModifiedEventHandler? SceneObjectModified;
-
-        public event SceneStructureChangedEventHandler? SceneStructureChanged;
+        public event SceneTreeModifiedEventHandler? SceneTreeModified;
 
         public void Dispose()
         {
@@ -87,14 +88,8 @@ namespace JSim.Core.SceneGraph
 
         public void Handle(SceneObjectModified message)
         {
-            logger.Log($"Object modified: {message.SceneObject.Name}", LogLevel.Debug);
-            SceneObjectModified?.Invoke(this, new SceneObjectModifiedEventArgs(message.SceneObject));
-        }
-
-        public void Handle(SceneStructureChanged message)
-        {
-            logger.Log($"Scene structure changed at: {message.RootAssembly.Name}", LogLevel.Debug);
-            SceneStructureChanged?.Invoke(this, new SceneStructureChangedEventArgs(message.RootAssembly));
+            logger.Log($"Scene tree modified: {message.SceneObject.Name}", LogLevel.Debug);
+            SceneTreeModified?.Invoke(this, new SceneTreeModifiedEventArgs());
         }
 
         private string name;

@@ -10,14 +10,17 @@ namespace JSim.Core.Render
         readonly ILogger logger;
         readonly INameRepository nameRepository;
         readonly IGeometryFactory geometryFactory;
+        readonly IMessageCollator messageCollator;
 
         public GeometryCreator(
             ILogger logger,
             INameRepositoryFactory nameRepositoryFactory,
-            IGeometryFactory geometryFactory)
+            IGeometryFactory geometryFactory,
+            IMessageCollator messageCollator)
         {
             this.logger = logger;
             this.geometryFactory = geometryFactory;
+            this.messageCollator = messageCollator;
             nameRepository = nameRepositoryFactory.CreateNameRepository();
             logger.Log("GeometryCreator initialised", LogLevel.Debug);
         }
@@ -37,6 +40,7 @@ namespace JSim.Core.Render
             return
                 geometryFactory.CreateGeometry(
                     nameRepository,
+                    messageCollator,
                     this,
                     parentGeometry
                 );

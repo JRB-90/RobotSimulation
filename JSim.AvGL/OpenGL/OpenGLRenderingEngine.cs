@@ -135,6 +135,11 @@ namespace JSim.AvGL
             OpenGLControl surface,
             ISceneAssembly assembly)
         {
+            if (!assembly.IsVisible)
+            {
+                return;
+            }
+
             foreach (ISceneAssembly childAssembly in assembly.OfType<ISceneAssembly>())
             {
                 RenderSceneAssembly(
@@ -156,6 +161,11 @@ namespace JSim.AvGL
             OpenGLControl surface,
             ISceneEntity entity)
         {
+            if (!entity.IsVisible)
+            {
+                return;
+            }
+
             RenderGeometryRecursive(
                 surface,
                 entity.GeometryContainer.Root

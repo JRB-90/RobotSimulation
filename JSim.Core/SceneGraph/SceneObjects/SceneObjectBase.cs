@@ -22,6 +22,8 @@ namespace JSim.Core.SceneGraph
             parentAssembly = null;
             worldFrame = new Transform3D();
             localFrame = new Transform3D();
+            isVisible = true;
+            isHighlighted = false;
             isSelected = false;
         }
 
@@ -48,6 +50,8 @@ namespace JSim.Core.SceneGraph
                 worldFrame = Transform3D.Identity;
             }
 
+            isVisible = true;
+            isHighlighted = false;
             isSelected = false;
         }
 
@@ -81,6 +85,8 @@ namespace JSim.Core.SceneGraph
                 worldFrame = Transform3D.Identity;
             }
 
+            isVisible = true;
+            isHighlighted = false;
             isSelected = false;
         }
 
@@ -184,6 +190,32 @@ namespace JSim.Core.SceneGraph
         }
 
         /// <summary>
+        /// Flag to indicate if the scene object should not be rendered.
+        /// </summary>
+        public bool IsVisible
+        {
+            get => isVisible;
+            set
+            {
+                isVisible = value;
+                RaiseSceneObjectChangedEvent();
+            }
+        }
+
+        /// <summary>
+        /// Flag to indicate if the scene object should be highlighted.
+        /// </summary>
+        public bool IsHighlighted
+        {
+            get => isHighlighted;
+            set
+            {
+                isHighlighted = value;
+                RaiseSceneObjectChangedEvent();
+            }
+        }
+
+        /// <summary>
         /// Tracks the selection state of the scene object.
         /// </summary>
         public bool IsSelected
@@ -261,6 +293,8 @@ namespace JSim.Core.SceneGraph
         private ISceneAssembly? parentAssembly;
         private Transform3D worldFrame;
         private Transform3D localFrame;
+        private bool isVisible;
+        private bool isHighlighted;
         private bool isSelected;
     }
 }

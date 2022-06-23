@@ -76,9 +76,9 @@ namespace JSim.Av.Controls
             if (sceneObject != null)
             {
                 isVisibleCheckBox.IsEnabled = true;
-                //isVisibleCheckBox.IsChecked = sceneObject.IsVisible; TODO
+                isVisibleCheckBox.IsChecked = sceneObject.IsVisible;
                 isHighlightedCheckBox.IsEnabled = true;
-                //isHighlightedCheckBox.IsChecked = sceneObject.IsSelected; TODO
+                isHighlightedCheckBox.IsChecked = sceneObject.IsHighlighted;
 
                 if (isLocalSelected)
                 {
@@ -109,8 +109,7 @@ namespace JSim.Av.Controls
                 if (SceneObject != null &&
                     isVisibleCheckBox.IsChecked != null)
                 {
-                    // TODO
-                    //SceneObject.IsVisible = isVisibleCheckBox.IsChecked.Value;
+                    SceneObject.IsVisible = isVisibleCheckBox.IsChecked.Value;
                 }
             }
         }
@@ -122,8 +121,7 @@ namespace JSim.Av.Controls
                 if (SceneObject != null &&
                     isHighlightedCheckBox.IsChecked != null)
                 {
-                    // TODO
-                    //SceneObject.IsHighlighted = isHighlightedCheckBox.IsChecked.Value;
+                    SceneObject.IsHighlighted = isHighlightedCheckBox.IsChecked.Value;
                 }
             }
         }

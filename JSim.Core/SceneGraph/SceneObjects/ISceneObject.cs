@@ -36,6 +36,16 @@ namespace JSim.Core.SceneGraph
         Transform3D LocalFrame { get; set; }
 
         /// <summary>
+        /// Flag to indicate if the scene object should not be rendered.
+        /// </summary>
+        bool IsVisible { get; set; }
+
+        /// <summary>
+        /// Flag to indicate if the scene object should be highlighted.
+        /// </summary>
+        bool IsHighlighted { get; set; }
+
+        /// <summary>
         /// Tracks the selection state of the scene object.
         /// </summary>
         bool IsSelected { get; set; }

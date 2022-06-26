@@ -37,11 +37,6 @@ namespace JSim.Core.Render
         bool IsHighlighted { get; set; }
 
         /// <summary>
-        /// Flag to indicate if the geometry is selectable through mouse clicks.
-        /// </summary>
-        bool IsSelectable { get; set; }
-
-        /// <summary>
         /// Tracks the selection state of the geometry.
         /// </summary>
         bool IsSelected { get; set; }

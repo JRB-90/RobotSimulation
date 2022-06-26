@@ -26,7 +26,6 @@ namespace JSim.Core.Render
             ID = Guid.NewGuid();
             isVisible = true;
             isHighlighted = false;
-            isSelectable = true;
             isSelected = false;
             parentGeometry = null;
             worldFrame = new Transform3D();
@@ -54,7 +53,6 @@ namespace JSim.Core.Render
             ID = Guid.NewGuid();
             isVisible = true;
             isHighlighted = false;
-            isSelectable = true;
             isSelected = false;
             children = new List<IGeometry>();
             localFrame = Transform3D.Identity;
@@ -103,7 +101,6 @@ namespace JSim.Core.Render
             this.name = name;
             this.isVisible = isVisible;
             this.isHighlighted = isHighlighted;
-            this.isSelectable = isSelectable;
             this.worldFrame = worldFrame;
             this.localFrame = localFrame;
             this.vertices = vertices;
@@ -160,34 +157,12 @@ namespace JSim.Core.Render
             }
         }
 
-        public bool IsSelectable
-        {
-            get => isSelectable;
-            set
-            {
-                isSelectable = value;
-                FireGeometryModifiedEvent();
-
-                if (!isSelectable)
-                {
-                    IsSelected = false;
-                }
-            }
-        }
-
         public bool IsSelected
         {
             get => isSelected;
             set
             {
-                if (isSelectable)
-                {
-                    isSelected = value;
-                }
-                else
-                {
-                    isSelected = false;
-                }
+                isSelected = false;
                 FireSelectionStateChangedEvent();
             }
         }
@@ -469,7 +444,6 @@ namespace JSim.Core.Render
         private string name;
         private bool isVisible;
         private bool isHighlighted;
-        private bool isSelectable;
         private bool isSelected;
         private IGeometry? parentGeometry;
         private Transform3D worldFrame;

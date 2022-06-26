@@ -1,0 +1,19 @@
+TODO and Ideas...
+
+== Scene Graph ==
+
+- Solve root and hierachy stuff
+- Add linkages
+- Add component capability
+- Save/Load of full scene
+- Fix event firing
+- Unit tests complete
+
+== Rendering ==
+
+- Add highlighting shader
+- Add picking
+
+== Robotics ==
+
+- Add Robot controller component

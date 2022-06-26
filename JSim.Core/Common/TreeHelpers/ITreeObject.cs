@@ -18,7 +18,7 @@
         /// <summary>
         /// Parent of this object.
         /// </summary>
-        IHierarchicalTreeObject<ITreeObject> Parent { get; }
+        IHierarchicalTreeObject<ITreeObject>? Parent { get; }
 
         /// <summary>
         /// Event fired when the objects properties have been modified.

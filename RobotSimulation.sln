@@ -27,7 +27,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSimControlGallery", "JSimC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.AvGL", "JSim.AvGL\JSim.AvGL.csproj", "{71AC029A-BE6D-4244-A5C8-497C469496D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSim.Av", "JSim.Av\JSim.Av.csproj", "{F3F3F72C-DF68-4691-BC52-E1B4991DF90A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSim.Av", "JSim.Av\JSim.Av.csproj", "{F3F3F72C-DF68-4691-BC52-E1B4991DF90A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3929E2C-4D0F-4F52-8573-0D06E9274058}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.txt = TODO.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

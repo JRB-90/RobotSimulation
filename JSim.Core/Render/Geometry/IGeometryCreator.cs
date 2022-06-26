@@ -1,7 +1,7 @@
 ﻿namespace JSim.Core.Render
 {
     /// <summary>
-    /// Interface defining the behaviour of all scene object creators.
+    /// Interface defining the behaviour of all geometry creators.
     /// </summary>
     public interface IGeometryCreator : IDisposable
     {

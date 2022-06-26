@@ -1,4 +1,5 @@
-﻿using JSim.Core.Render;
+﻿using JSim.Core.Linkages;
+using JSim.Core.Render;
 
 namespace JSim.Core.SceneGraph
 {
@@ -18,5 +19,11 @@ namespace JSim.Core.SceneGraph
         /// entities geometry tree.
         /// </summary>
         IGeometryContainer GeometryContainer { get; }
+
+        /// <summary>
+        /// Gets the linkage container for this entity, which is responsible
+        /// for holdign and managing the kinematic linkage tree for this entity.
+        /// </summary>
+        ILinkageContainer LinkageContainer { get; }
     }
 }

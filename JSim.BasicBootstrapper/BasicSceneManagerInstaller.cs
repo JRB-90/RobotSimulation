@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using JSim.Core.Importer;
+using JSim.Core.Linkages;
 using JSim.Core.SceneGraph;
 using JSim.Importers;
 
@@ -27,6 +28,35 @@ namespace JSim.BasicBootstrapper
                 .Named("SelectionManager")
                 .ImplementedBy<SelectionManager>()
                 .LifestyleTransient()
+            );
+
+            container.Register(
+                Component.For<ILinkage>()
+                .Named("Linkage")
+                .ImplementedBy<Linkage>()
+                .LifestyleTransient()
+            );
+            container.Register(
+                Component.For<ILinkageFactory>()
+                .AsFactory()
+            );
+
+            container.Register(
+                Component.For<ILinkageContainer>()
+                .Named("LinkageContainer")
+                .ImplementedBy<LinkageContainer>()
+                .LifestyleTransient()
+            );
+
+            container.Register(
+                Component.For<ILinkageCreator>()
+                .Named("LinkageCreator")
+                .ImplementedBy<LinkageCreator>()
+                .LifestyleTransient()
+            );
+            container.Register(
+                Component.For<ILinkageCreatorFactory>()
+                .AsFactory()
             );
 
             container.Register(

@@ -18,6 +18,6 @@
         /// <summary>
         /// Container for the child nodes of this object.
         /// </summary>
-        IChildContainer<T> Children { get; }
+        IReadOnlyCollection<T> Children { get; }
     }
 }

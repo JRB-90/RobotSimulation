@@ -1,4 +1,5 @@
 ﻿using JSim.Core.Common;
+using JSim.Core.Linkages;
 using JSim.Core.Render;
 
 namespace JSim.Core.SceneGraph
@@ -12,6 +13,7 @@ namespace JSim.Core.SceneGraph
             INameRepository nameRepository,
             IMessageCollator collator,
             IGeometryContainer geometryContainer,
+            ILinkageContainer linkageContainer,
             ISceneAssembly parentAssembly,
             string nameRoot = "Entity")
           :
@@ -23,6 +25,7 @@ namespace JSim.Core.SceneGraph
         {
             GeometryContainer = geometryContainer;
             GeometryContainer.GeometryTreeModified += OnGeometryTreeModified;
+            LinkageContainer = linkageContainer;
             this.SceneObjectModified += OnEntityModified;
         }
 
@@ -30,6 +33,7 @@ namespace JSim.Core.SceneGraph
             INameRepository nameRepository,
             IMessageCollator collator,
             IGeometryContainer geometryContainer,
+            ILinkageContainer linkageContainer,
             Guid id,
             string name,
             ISceneAssembly parentAssembly)
@@ -43,10 +47,13 @@ namespace JSim.Core.SceneGraph
         {
             GeometryContainer = geometryContainer;
             GeometryContainer.GeometryTreeModified += OnGeometryTreeModified;
+            LinkageContainer = linkageContainer;
             this.SceneObjectModified += OnEntityModified;
         }
 
         public IGeometryContainer GeometryContainer { get; }
+
+        public ILinkageContainer LinkageContainer { get; }
 
         private void OnGeometryTreeModified(object sender, GeometryTreeModifiedEventArgs e)
         {

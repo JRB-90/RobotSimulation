@@ -281,7 +281,7 @@ namespace JSim.Core.Render
 
         public event GeometryModifiedEventHandler? GeometryModified;
 
-        public event SelectionStateChangedEventHandler? SelectionStateChanged;
+        public event JSim.Core.SceneGraph.SelectionStateChangedEventHandler? SelectionStateChanged;
 
         public void SetDrawingData(
             IReadOnlyList<Vertex> vertices,
@@ -397,7 +397,7 @@ namespace JSim.Core.Render
 
         protected void FireSelectionStateChangedEvent()
         {
-            SelectionStateChanged?.Invoke(this, new SelectionStateChangedEventArgs(isSelected));
+            SelectionStateChanged?.Invoke(this, new JSim.Core.SceneGraph.SelectionStateChangedEventArgs(isSelected));
         }
 
         /// <summary>

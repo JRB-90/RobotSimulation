@@ -15,7 +15,7 @@ namespace JSim.Core.Linkages
             name = "Link";
             id = Guid.NewGuid();
             parent = null;
-            children = new List<ITreeObject>();
+            childContainer = new ChildContainer<ILinkage>();
             GeometryContainer = geometryContainer;
             worldFrame = Transform3D.Identity;
             localFrame = Transform3D.Identity;
@@ -33,7 +33,7 @@ namespace JSim.Core.Linkages
 
         public IHierarchicalTreeObject<ITreeObject>? Parent => parent;
 
-        public IChildContainer<ILinkage> Children => Children;
+        public IReadOnlyCollection<ILinkage> Children => childContainer.Children;
 
         public IGeometryContainer GeometryContainer { get; }
 
@@ -87,7 +87,7 @@ namespace JSim.Core.Linkages
         private string name;
         private Guid id;
         private IHierarchicalTreeObject<ITreeObject>? parent;
-        private List<ITreeObject> children;
+        private IChildContainer<ILinkage> childContainer;
         private Transform3D worldFrame;
         private Transform3D localFrame;
     }

@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using JSim.BasicBootstrapper;
 using JSim.Core;
+using JSim.Core.Linkages;
 using JSim.Core.Maths;
 using JSim.Core.SceneGraph;
 using JSim.Logging;
@@ -12,19 +13,15 @@ namespace JSim.TestApp
     {
         static void Main(string[] args)
         {
-            //IWindsorContainer container = BootstrapContainer();
-            //ISimApplication app = container.Resolve<ISimApplication>();
-            //ISceneManager sceneManager = app.SceneManager;
-            //IScene scene = sceneManager.CurrentScene;
+            IWindsorContainer container = BootstrapContainer();
+            ISimApplication app = container.Resolve<ISimApplication>();
+            ISceneManager sceneManager = app.SceneManager;
+            IScene scene = sceneManager.CurrentScene;
 
-            //ISceneEntity entity1 = scene.Root.CreateNewEntity();
-            //ISceneEntity entity2 = scene.Root.CreateNewEntity();
-            //ISceneEntity entity3 = scene.Root.CreateNewEntity();
+            ISceneEntity entity1 = scene.Root.CreateNewEntity();
+            ILinkageContainer linkages = entity1.LinkageContainer;
 
-            //app.Dispose();
-
-
-            var q = Quaternion.RotationAboutAxis(Vector3D.UnitX, 10.0);
+            app.Dispose();
 
             Console.Read();
         }

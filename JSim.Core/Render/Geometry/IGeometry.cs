@@ -96,7 +96,7 @@ namespace JSim.Core.Render
         /// <summary>
         /// Event fired when the selection state of this object has changed.
         /// </summary>
-        event SelectionStateChangedEventHandler? SelectionStateChanged;
+        event JSim.Core.SceneGraph.SelectionStateChangedEventHandler? SelectionStateChanged;
 
         /// <summary>
         /// Sets the vertices and indices of the geometry.

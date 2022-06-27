@@ -1,10 +1,5 @@
 ﻿using JSim.Core.Common;
 using JSim.Core.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JSim.Core.Linkages
 {
@@ -14,5 +9,11 @@ namespace JSim.Core.Linkages
     public interface ILinkage : IHierarchicalTreeObject<ILinkage>, IPositionable
     {
         IGeometryContainer GeometryContainer { get; }
+
+        /// <summary>
+        /// Creates a new linkage attached to this one.
+        /// </summary>
+        /// <returns>Newly created linkage object.</returns>
+        ILinkage CreateNewLinkage();
     }
 }

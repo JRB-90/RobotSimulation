@@ -1,7 +1,8 @@
 ﻿namespace JSim.Core.Common
 {
     /// <summary>
-    /// Represents a container 
+    /// Represents a container that can store a list of children.
+    /// Controls access to the children and modifing the list.
     /// </summary>
     public interface IChildContainer<T> : IEnumerable<T>
     {

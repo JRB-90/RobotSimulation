@@ -26,10 +26,10 @@
         event TreeObjectModifiedEventHandler? ObjectModified;
 
         /// <summary>
-        /// Moves the tree object to a new container.
+        /// Moves the tree object to a new node.
         /// </summary>
-        /// <param name="newAssembly">New container to attach this tree object to.</param>
+        /// <param name="newObject">New tree object to attach this node to.</param>
         /// <returns>True if move was successful.</returns>
-        bool MoveContainer(IHierarchicalTreeObject<ITreeObject> newAssembly);
+        bool Move(IHierarchicalTreeObject<ITreeObject> newObject);
     }
 }

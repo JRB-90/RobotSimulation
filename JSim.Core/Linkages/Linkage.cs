@@ -9,10 +9,21 @@ namespace JSim.Core.Linkages
     /// </summary>
     public class Linkage : ILinkage
     {
+        readonly INameRepository nameRepository;
+        readonly IMessageCollator messageCollator;
+        readonly ILinkageCreator linkageCreator;
+
         public Linkage(
+            INameRepository nameRepository,
+            IMessageCollator messageCollator,
+            ILinkageCreator linkageCreator,
             IGeometryContainer geometryContainer)
         {
-            name = "Link";
+            this.nameRepository = nameRepository;
+            this.messageCollator = messageCollator;
+            this.linkageCreator = linkageCreator;
+
+            name = nameRepository.GenerateUniqueName("Link");
             id = Guid.NewGuid();
             parent = null;
             childContainer = new ChildContainer<ILinkage>();
@@ -24,7 +35,14 @@ namespace JSim.Core.Linkages
         public string Name
         {
             get => name;
-            set => name = value;
+            set
+            {
+                if (nameRepository.IsUniqueName(value))
+                {
+                    name = value;
+                    RaiseObjectModified();
+                }
+            }
         }
 
         public Guid ID => id;
@@ -52,7 +70,26 @@ namespace JSim.Core.Linkages
 
         public event TreeObjectModifiedEventHandler? ObjectModified;
 
-        public bool MoveContainer(IHierarchicalTreeObject<ITreeObject> newContainer)
+        /// <summary>
+        /// Creates a new linkage attached to this one.
+        /// </summary>
+        /// <returns>Newly created linkage object.</returns>
+        public ILinkage CreateNewLinkage()
+        {
+            var linkage = linkageCreator.CreateLinkage(this);
+            if (childContainer.AttachChild(linkage))
+            {
+                RaiseObjectModified();
+
+                return linkage;
+            }
+            else
+            {
+                throw new InvalidOperationException("Failed to create a child linkage");
+            }
+        }
+
+        public bool Move(IHierarchicalTreeObject<ITreeObject> newContainer)
         {
             if (IsTreeRoot)
             {

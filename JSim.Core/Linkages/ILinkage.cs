@@ -6,8 +6,11 @@ namespace JSim.Core.Linkages
     /// <summary>
     /// Represents a mechanical linkage, used to build kinematic objects.
     /// </summary>
-    public interface ILinkage : IHierarchicalTreeObject<ILinkage>, IPositionable
+    public interface ILinkage : IHierarchicalTreeObject<ILinkage, ILinkage>, IPositionable
     {
+        /// <summary>
+        /// Container for the geometry attached to this link.
+        /// </summary>
         IGeometryContainer GeometryContainer { get; }
 
         /// <summary>

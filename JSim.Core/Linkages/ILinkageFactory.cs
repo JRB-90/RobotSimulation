@@ -17,9 +17,9 @@ namespace JSim.Core.Linkages
            INameRepository nameRepository,
            IMessageCollator messageCollator,
            ILinkageCreator creator,
-           ILinkage parentGeometry
+           ILinkage parentLinkage
         );
 
-        void Destroy(ILinkage geometry);
+        void Destroy(ILinkage linkage);
     }
 }

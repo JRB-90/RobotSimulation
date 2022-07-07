@@ -30,8 +30,32 @@ namespace JSim.Core.Linkages
             GeometryContainer = geometryContainer;
             worldFrame = Transform3D.Identity;
             localFrame = Transform3D.Identity;
+
+            childContainer.ChildContainerModified += OnChildrenChanged;
         }
-        
+
+        public Linkage(
+            INameRepository nameRepository,
+            IMessageCollator messageCollator,
+            ILinkageCreator linkageCreator,
+            ILinkage parentLinkage,
+            IGeometryContainer geometryContainer)
+        {
+            this.nameRepository = nameRepository;
+            this.messageCollator = messageCollator;
+            this.linkageCreator = linkageCreator;
+
+            name = nameRepository.GenerateUniqueName("Link");
+            id = Guid.NewGuid();
+            parent = parentLinkage;
+            childContainer = new ChildContainer<ILinkage>();
+            GeometryContainer = geometryContainer;
+            worldFrame = Transform3D.Identity;
+            localFrame = Transform3D.Identity;
+
+            childContainer.ChildContainerModified += OnChildrenChanged;
+        }
+
         public string Name
         {
             get => name;
@@ -49,7 +73,7 @@ namespace JSim.Core.Linkages
 
         public bool IsTreeRoot => Parent == null;
 
-        public IHierarchicalTreeObject<ITreeObject>? Parent => parent;
+        public ILinkage? Parent => parent;
 
         public IReadOnlyCollection<ILinkage> Children => childContainer.Children;
 
@@ -60,15 +84,115 @@ namespace JSim.Core.Linkages
             get => worldFrame;
             set => worldFrame = value;
         }
+
         Transform3D IPositionable.LocalFrame
         {
             get => localFrame;
             set => localFrame = value;
         }
 
+        /// <summary>
+        /// Event fired when the position of the linakge has been modified.
+        /// </summary>
         public event PositionModifiedEventHandler? PositionModified;
 
+        /// <summary>
+        /// Event fired when the properties of the linkage has been modified.
+        /// </summary>
         public event TreeObjectModifiedEventHandler? ObjectModified;
+
+        /// <summary>
+        /// Attaches the linkage to another linakage node.
+        /// </summary>
+        /// <param name="newParent">New parent linkage to attach this node to.</param>
+        /// <returns>True if move was successful.</returns>
+        public bool AttachTo(ILinkage? newParent)
+        {
+            if (newParent == null)
+            {
+                if (parent == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    parent.DetachChild(this);
+                    parent = null;
+
+                    return true;
+                }
+            }
+            else
+            {
+                if (newParent.Children.Contains(this))
+                {
+                    return false;
+                }
+                else
+                {
+                    newParent.DetachChild(this);
+                    //newParent.AttachChild(this);
+                    parent = newParent;
+
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes the linkage from it's parent.
+        /// </summary>
+        /// <returns>True if successful.</returns>
+        public bool Detach()
+        {
+            if (parent == null)
+            {
+                return false;
+            }
+            else
+            {
+                return AttachTo(null);
+            }
+        }
+
+        /// <summary>
+        /// Attaches a given linkage node to this object.
+        /// </summary>
+        /// <param name="child">Child node to attach.</param>
+        /// <returns>True if successful. False if child is already attached.</returns>
+        public bool AttachChild(ILinkage child)
+        {
+            if (!Children.Contains(this))
+            {
+                var res = 
+                    child.AttachTo(this) && 
+                    childContainer.AttachChild(child);
+
+                return res;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Detaches a given linkage from this objects children.
+        /// </summary>
+        /// <param name="child">Child to be detached.</param>
+        /// <returns>True if successful, False if child cannot be found.</returns>
+        public bool DetachChild(ILinkage child)
+        {
+            if (childContainer.DetachChild(child) &&
+                child.AttachTo(null))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Creates a new linkage attached to this one.
@@ -89,41 +213,19 @@ namespace JSim.Core.Linkages
             }
         }
 
-        public bool Move(IHierarchicalTreeObject<ITreeObject> newContainer)
-        {
-            if (IsTreeRoot)
-            {
-                return false;
-            }
-
-            //if (!Parent.DetachGeometry(this))
-            //{
-            //    return false;
-            //}
-
-            //if (newContainer.AttachGeometry(this))
-            //{
-            //    parent = newContainer;
-            //    FireGeometryModifiedEvent();
-
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-
-            return false;
-        }
-
         private void RaiseObjectModified()
         {
             ObjectModified?.Invoke(this, new TreeObjectModifiedEventArgs(this));
         }
 
+        private void OnChildrenChanged(object sender, ChildContainerModifiedEventArgs e)
+        {
+            RaiseObjectModified();
+        }
+
         private string name;
         private Guid id;
-        private IHierarchicalTreeObject<ITreeObject>? parent;
+        private ILinkage? parent;
         private IChildContainer<ILinkage> childContainer;
         private Transform3D worldFrame;
         private Transform3D localFrame;

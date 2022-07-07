@@ -16,20 +16,32 @@
         string Name { get; set; }
 
         /// <summary>
-        /// Parent of this object.
-        /// </summary>
-        IHierarchicalTreeObject<ITreeObject>? Parent { get; }
-
-        /// <summary>
         /// Event fired when the objects properties have been modified.
         /// </summary>
         event TreeObjectModifiedEventHandler? ObjectModified;
+    }
+
+    /// <summary>
+    /// Represents an object that resides in a tree structure.
+    /// </summary>
+    public interface ITreeObject<TParent> : ITreeObject
+    {
+        /// <summary>
+        /// Parent of this object.
+        /// </summary>
+        TParent? Parent { get; }
 
         /// <summary>
-        /// Moves the tree object to a new node.
+        /// Attaches the tree object to a new node.
         /// </summary>
-        /// <param name="newObject">New tree object to attach this node to.</param>
+        /// <param name="newParent">New parent to attach this node to.</param>
         /// <returns>True if move was successful.</returns>
-        bool Move(IHierarchicalTreeObject<ITreeObject> newObject);
+        bool AttachTo(TParent? newParent);
+
+        /// <summary>
+        /// Removes the object from it's parent.
+        /// </summary>
+        /// <returns>True if successful.</returns>
+        bool Detach();
     }
 }

@@ -1,6 +1,4 @@
-﻿using JSim.Core.Maths;
-
-namespace JSim.Core.Common
+﻿namespace JSim.Core.Common
 {
     /// <summary>
     /// Represents an object that is positionable inside the 3D world.
@@ -10,13 +8,13 @@ namespace JSim.Core.Common
         /// <summary>
         /// The position of the object in world coordinates.
         /// </summary>
-        Transform3D WorldFrame { get; set; }
+        ObservableTransform WorldFrame { get; }
 
         /// <summary>
         /// The position of the object in local coordinates, i.e. relative
         /// to it's parent.
         /// </summary>
-        Transform3D LocalFrame { get; set; }
+        ObservableTransform LocalFrame { get; }
 
         /// <summary>
         /// Event fired when the positionable object has moved.

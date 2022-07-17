@@ -29,7 +29,7 @@
         /// <summary>
         /// Parent of this object.
         /// </summary>
-        TParent? Parent { get; }
+        TParent? Parent { get; set; }
 
         /// <summary>
         /// Attaches the tree object to a new node.

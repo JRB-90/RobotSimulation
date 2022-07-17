@@ -21,6 +21,12 @@ namespace JSim.TestApp
             ISceneEntity entity1 = scene.Root.CreateNewEntity();
             ILinkageContainer linkages = entity1.LinkageContainer;
 
+            var t1 = new Transform3D(1, 2, 3, 4, 5, 6);
+            var t2 = new Transform3D(-10, -20, -30, -1, -2, -3);
+
+            linkages.BaseLinkage.WorldFrame.SetTransform(t1);
+            linkages.BaseLinkage.LocalFrame.SetTransform(t2);
+
             app.Dispose();
 
             Console.Read();

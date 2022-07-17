@@ -28,10 +28,12 @@ namespace JSim.Core.Linkages
             parent = null;
             childContainer = new ChildContainer<ILinkage>();
             GeometryContainer = geometryContainer;
-            worldFrame = Transform3D.Identity;
-            localFrame = Transform3D.Identity;
+            WorldFrame = new ObservableTransform(Transform3D.Identity);
+            LocalFrame = new ObservableTransform(Transform3D.Identity);
 
             childContainer.ChildContainerModified += OnChildrenChanged;
+            WorldFrame.TransformModified += OnWorldFrameModified;
+            LocalFrame.TransformModified += OnLocalFrameModified;
         }
 
         public Linkage(
@@ -50,10 +52,12 @@ namespace JSim.Core.Linkages
             parent = parentLinkage;
             childContainer = new ChildContainer<ILinkage>();
             GeometryContainer = geometryContainer;
-            worldFrame = Transform3D.Identity;
-            localFrame = Transform3D.Identity;
+            WorldFrame = new ObservableTransform(Transform3D.Identity);
+            LocalFrame = new ObservableTransform(Transform3D.Identity);
 
             childContainer.ChildContainerModified += OnChildrenChanged;
+            WorldFrame.TransformModified += OnWorldFrameModified;
+            LocalFrame.TransformModified += OnLocalFrameModified;
         }
 
         public string Name
@@ -63,6 +67,8 @@ namespace JSim.Core.Linkages
             {
                 if (nameRepository.IsUniqueName(value))
                 {
+                    nameRepository.AddName(value);
+                    nameRepository.RemoveName(name);
                     name = value;
                     RaiseObjectModified();
                 }
@@ -73,23 +79,23 @@ namespace JSim.Core.Linkages
 
         public bool IsTreeRoot => Parent == null;
 
-        public ILinkage? Parent => parent;
+        public ILinkage? Parent
+        {
+            get => parent;
+            set
+            {
+                parent = value;
+                RaiseObjectModified();
+            }
+        }
 
         public IReadOnlyCollection<ILinkage> Children => childContainer.Children;
 
         public IGeometryContainer GeometryContainer { get; }
 
-        Transform3D IPositionable.WorldFrame
-        {
-            get => worldFrame;
-            set => worldFrame = value;
-        }
+        public ObservableTransform WorldFrame { get; }
 
-        Transform3D IPositionable.LocalFrame
-        {
-            get => localFrame;
-            set => localFrame = value;
-        }
+        public ObservableTransform LocalFrame { get; }
 
         /// <summary>
         /// Event fired when the position of the linakge has been modified.
@@ -118,6 +124,7 @@ namespace JSim.Core.Linkages
                 {
                     parent.DetachChild(this);
                     parent = null;
+                    RaiseObjectModified();
 
                     return true;
                 }
@@ -131,8 +138,9 @@ namespace JSim.Core.Linkages
                 else
                 {
                     newParent.DetachChild(this);
-                    //newParent.AttachChild(this);
+                    newParent.AttachChild(this);
                     parent = newParent;
+                    RaiseObjectModified();
 
                     return true;
                 }
@@ -162,13 +170,11 @@ namespace JSim.Core.Linkages
         /// <returns>True if successful. False if child is already attached.</returns>
         public bool AttachChild(ILinkage child)
         {
-            if (!Children.Contains(this))
+            if (childContainer.AttachChild(child))
             {
-                var res = 
-                    child.AttachTo(this) && 
-                    childContainer.AttachChild(child);
+                child.Parent = this;
 
-                return res;
+                return true;
             }
             else
             {
@@ -218,16 +224,71 @@ namespace JSim.Core.Linkages
             ObjectModified?.Invoke(this, new TreeObjectModifiedEventArgs(this));
         }
 
+        private void RaisePositionModified()
+        {
+            PositionModified?.Invoke(this, new PositionModifiedEventArgs(this));
+            RaiseObjectModified();
+        }
+
         private void OnChildrenChanged(object sender, ChildContainerModifiedEventArgs e)
         {
             RaiseObjectModified();
+        }
+
+        private void OnWorldFrameModified(object sender, TransformModifiedEventArgs e)
+        {
+            if (!isUpdatingFrames)
+            {
+                isUpdatingFrames = true;
+
+                if (parent != null)
+                {
+                    LocalFrame.SetTransform(
+                        Transform3D.RelativeTransform(
+                            parent.WorldFrame.GetTransformCopy(),
+                            WorldFrame.GetTransformCopy()
+                        )
+                    );
+                }
+                else
+                {
+                    LocalFrame.SetTransform(WorldFrame.GetTransformCopy());
+                }
+
+                isUpdatingFrames = false;
+            }
+
+            RaisePositionModified();
+        }
+
+        private void OnLocalFrameModified(object sender, TransformModifiedEventArgs e)
+        {
+            if (!isUpdatingFrames)
+            {
+                isUpdatingFrames = true;
+
+                if (parent != null)
+                {
+                    WorldFrame.SetTransform(
+                        parent.WorldFrame.GetTransformCopy() *
+                        LocalFrame.GetTransformCopy()
+                    );
+                }
+                else
+                {
+                    WorldFrame.SetTransform(LocalFrame.GetTransformCopy());
+                }
+
+                isUpdatingFrames = false;
+            }
+
+            RaisePositionModified();
         }
 
         private string name;
         private Guid id;
         private ILinkage? parent;
         private IChildContainer<ILinkage> childContainer;
-        private Transform3D worldFrame;
-        private Transform3D localFrame;
+        private bool isUpdatingFrames;
     }
 }
